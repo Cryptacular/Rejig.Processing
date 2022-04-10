@@ -1,5 +1,5 @@
 {
-  "name": "rejig.processing",
+  "name": "@Cryptacular/rejig.processing",
   "version": "1.0.0",
   "description": "Library for processing workflows with Rejig",
   "main": "lib/index.js",
@@ -7,10 +7,13 @@
   "files": [
     "lib/**/*"
   ],
+  "publishConfig": {
+    "@Cryptacular:registry": "https://npm.pkg.github.com"
+  },
   "scripts": {
     "prepare": "npm run build",
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "exit 0"
   },
   "repository": {
     "type": "git",
