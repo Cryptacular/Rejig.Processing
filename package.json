@@ -1,0 +1,31 @@
+{
+  "name": "rejig.processing",
+  "version": "1.0.0",
+  "description": "Library for processing workflows with Rejig",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib/**/*"
+  ],
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cryptacular/Rejig.Processing.git"
+  },
+  "author": "Nick Mertens",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cryptacular/Rejig.Processing/issues"
+  },
+  "homepage": "https://github.com/Cryptacular/Rejig.Processing#readme",
+  "devDependencies": {
+    "typescript": "^4.6.3"
+  },
+  "dependencies": {
+    "jimp": "^0.16.1"
+  }
+}
