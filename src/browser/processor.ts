@@ -102,3 +102,32 @@ export const processWorkflow = async (
 
   return await output.getBase64Async(output.getMIME());
 };
+
+export const resizeByLongestSide = async (
+  image: string,
+  maxLengthOfLongestSide: number
+): Promise<string> => {
+  const buffer = Buffer.from(image.split(",")[1], "base64");
+  const output = await Jimp.read(buffer);
+
+  const width = output.getWidth();
+  const height = output.getHeight();
+
+  if (width < maxLengthOfLongestSide && height < maxLengthOfLongestSide) {
+    return image;
+  }
+
+  if (width > height) {
+    output.resize(
+      maxLengthOfLongestSide,
+      height * (maxLengthOfLongestSide / width)
+    );
+  } else {
+    output.resize(
+      width * (maxLengthOfLongestSide / height),
+      maxLengthOfLongestSide
+    );
+  }
+
+  return await output.getBase64Async(output.getMIME());
+};
