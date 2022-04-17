@@ -1,12 +1,19 @@
-import Jimp from "jimp/browser/lib/jimp";
-import { EditWorkflow } from "../models/EditWorkflow";
-import { Workflow } from "../models/Workflow";
-import { imageCache } from "./cache";
+import { EditWorkflow } from "./models/EditWorkflow";
+import { Workflow } from "./models/Workflow";
+import { getCache } from "./cache";
 
 export const processWorkflow = async (
-  workflow: Workflow | EditWorkflow
+  workflow: Workflow | EditWorkflow,
+  environment: "node" | "browser" = "node"
 ): Promise<string> => {
-  const output = await Jimp.create(workflow.size.width, workflow.size.height);
+  const jimp =
+    environment === "browser"
+      ? require("jimp/browser/lib/jimp")
+      : require("jimp");
+  type Jimp = typeof jimp;
+
+  const imageCache = getCache<Jimp>();
+  const output = await jimp.create(workflow.size.width, workflow.size.height);
 
   const layers =
     workflow.layers && workflow.layers.length
@@ -22,9 +29,9 @@ export const processWorkflow = async (
       let image: Jimp;
 
       if (imageCache[layer.content.location]) {
-        image = await Jimp.read(imageCache[layer.content.location]);
+        image = await jimp.read(imageCache[layer.content.location]);
       } else {
-        image = await Jimp.read(layer.content.location);
+        image = await jimp.read(layer.content.location);
         image.clone((_err: any, clone: Jimp) => {
           if (layer.content.location)
             imageCache[layer.content.location] = clone;
@@ -105,10 +112,16 @@ export const processWorkflow = async (
 
 export const resizeByLongestSide = async (
   image: string,
-  maxLengthOfLongestSide: number
+  maxLengthOfLongestSide: number,
+  environment: "node" | "browser" = "node"
 ): Promise<string> => {
+  const jimp =
+    environment === "browser"
+      ? require("jimp/browser/lib/jimp")
+      : require("jimp");
+
   const buffer = Buffer.from(image.split(",")[1], "base64");
-  const output = await Jimp.read(buffer);
+  const output = await jimp.read(buffer);
 
   const width = output.getWidth();
   const height = output.getHeight();
