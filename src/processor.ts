@@ -4,12 +4,8 @@ import { getCache } from "./cache";
 
 export const processWorkflow = async (
   workflow: Workflow | EditWorkflow,
-  environment: "node" | "browser" = "node"
+  jimp: any
 ): Promise<string> => {
-  const jimp =
-    environment === "browser"
-      ? import("jimp/browser/lib/jimp")
-      : require("jimp");
   type Jimp = typeof jimp;
 
   const imageCache = getCache<Jimp>();

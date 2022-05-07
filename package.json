@@ -1,6 +1,6 @@
 {
   "name": "@Cryptacular/rejig.processing",
-  "version": "1.2.0-alpha2",
+  "version": "1.2.0-alpha3",
   "description": "Library for processing workflows with Rejig",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -13,7 +13,8 @@
   "scripts": {
     "prepare": "npm run build",
     "build": "tsc",
-    "test": "exit 0"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "repository": {
     "type": "git",
@@ -26,11 +27,14 @@
   },
   "homepage": "https://github.com/Cryptacular/Rejig.Processing#readme",
   "devDependencies": {
+    "@types/jest": "^27.5.0",
+    "jest": "^28.1.0",
+    "jimp": "^0.16.1",
+    "ts-jest": "^28.0.1",
     "typescript": "^4.6.3"
   },
   "dependencies": {
     "@types/uuid": "^8.3.4",
-    "jimp": "^0.16.1",
     "uuid": "^8.3.2"
   }
 }
