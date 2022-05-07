@@ -1,5 +1,5 @@
 import Jimp from "jimp";
-import { processWorkflow } from "../lib/processor";
+import { processWorkflow } from "./processor";
 import { getDefaultWorkflow } from "./models/EditWorkflow";
 
 describe("Processor", () => {
