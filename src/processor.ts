@@ -109,13 +109,8 @@ export const processWorkflow = async (
 export const resizeByLongestSide = async (
   image: string,
   maxLengthOfLongestSide: number,
-  environment: "node" | "browser" = "node"
+  jimp: any
 ): Promise<string> => {
-  const jimp =
-    environment === "browser"
-      ? require("jimp/browser/lib/jimp")
-      : require("jimp");
-
   const buffer = Buffer.from(image.split(",")[1], "base64");
   const output = await jimp.read(buffer);
 
