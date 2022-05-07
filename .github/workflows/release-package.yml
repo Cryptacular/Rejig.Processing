@@ -5,7 +5,7 @@ on:
     types: [created]
 
 jobs:
-  build-and-test:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -17,7 +17,7 @@ jobs:
       - run: npm run test
 
   publish-gpr:
-    needs: build-and-test
+    needs: test
     runs-on: ubuntu-latest
     permissions:
       packages: write
