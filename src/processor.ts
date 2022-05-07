@@ -8,7 +8,7 @@ export const processWorkflow = async (
 ): Promise<string> => {
   const jimp =
     environment === "browser"
-      ? require("jimp/browser/lib/jimp")
+      ? import("jimp/browser/lib/jimp")
       : require("jimp");
   type Jimp = typeof jimp;
 

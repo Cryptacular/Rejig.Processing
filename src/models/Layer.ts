@@ -1,7 +1,8 @@
-import { LayerContent } from "./LayerContent";
-import { Origin } from "./Origin";
-import { Position } from "./Position";
-import { Scale } from "./Scale";
+import { getDefaultLayerContent, LayerContent } from "./LayerContent";
+import { getDefaultOrigin, Origin } from "./Origin";
+import { getDefaultPosition, Position } from "./Position";
+import { getDefaultScale, Scale } from "./Scale";
+import { v4 as uuidv4 } from "uuid";
 
 export interface Layer {
   id: string;
@@ -10,6 +11,19 @@ export interface Layer {
   position: Position;
   origin: Origin;
   alignment: Origin;
+  placement: "custom" | "cover" | "fit" | "stretch";
   scale: Scale;
   opacity: number;
 }
+
+export const getDefaultLayer = (properties?: Partial<Layer>): Layer => ({
+  id: properties?.id ?? uuidv4(),
+  name: properties?.name ?? properties?.content?.type ?? "layer",
+  content: getDefaultLayerContent(properties?.content),
+  position: getDefaultPosition(properties?.position),
+  origin: getDefaultOrigin(properties?.origin),
+  placement: properties?.placement ?? "custom",
+  alignment: getDefaultOrigin(properties?.alignment),
+  scale: getDefaultScale(properties?.scale),
+  opacity: properties?.opacity ?? 100,
+});

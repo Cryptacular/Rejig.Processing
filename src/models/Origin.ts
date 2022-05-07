@@ -11,3 +11,7 @@ export interface Origin {
     | "bottom center"
     | "bottom right";
 }
+
+export const getDefaultOrigin = (properties?: Partial<Origin>): Origin => ({
+  descriptor: properties?.descriptor ?? "top left",
+});

@@ -1,11 +1,20 @@
-import { Dimensions } from "./Dimensions";
-import { Layer } from "./Layer";
+import { getDefaultDimensions } from "./Dimensions";
+import { getDefaultLayer } from "./Layer";
+import { Workflow } from "./Workflow";
 
-export interface EditWorkflow {
+export interface EditWorkflow
+  extends Omit<Workflow, "id" | "authorId" | "created" | "modified"> {
   id: string | null;
   authorId?: string;
-  size: Dimensions;
-  name: string;
-  layers: Layer[];
-  remixedFrom: string | null;
 }
+
+export const getDefaultWorkflow = (
+  properties?: Partial<EditWorkflow>
+): EditWorkflow => ({
+  id: properties?.id ?? null,
+  authorId: properties?.authorId,
+  size: getDefaultDimensions(properties?.size),
+  name: properties?.name ?? "Untitled",
+  layers: properties?.layers?.map((l) => getDefaultLayer(l)) ?? [],
+  remixedFrom: properties?.remixedFrom ?? null,
+});
