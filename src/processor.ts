@@ -54,10 +54,10 @@ export const processWorkflow = async (
       if (layer.placement === "cover") {
         if (isImageWiderThanOutput) {
           height = workflow.size.height;
-          width = (imageHeight / workflow.size.height) * imageWidth;
+          width = (workflow.size.height / imageHeight) * imageWidth;
         } else {
           width = workflow.size.width;
-          height = (imageWidth / workflow.size.width) * imageHeight;
+          height = (workflow.size.width / imageWidth) * imageHeight;
         }
       } else if (layer.placement === "fit") {
         if (isImageWiderThanOutput) {
