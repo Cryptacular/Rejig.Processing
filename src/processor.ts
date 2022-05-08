@@ -34,24 +34,45 @@ export const processWorkflow = async (
         });
       }
 
-      const width = Math.round(image.getWidth() * layer.scale.x);
-      const height = Math.round(image.getHeight() * layer.scale.y);
+      let width: number,
+        height: number,
+        x = 0,
+        y = 0;
+
+      const imageWidth = image.getWidth();
+      const imageHeight = image.getHeight();
 
       const [originVertical, originHorizontal] =
         layer.origin.descriptor.split(" ");
+      const [alignmentVertical, alignmentHorizontal] =
+        layer.alignment.descriptor.split(" ");
 
-      let x: number, y: number;
+      const imageRatio = imageWidth / imageHeight;
+      const outputRatio = workflow.size.width / workflow.size.height;
+      const isImageWiderThanOutput = imageRatio > outputRatio;
 
-      if (originVertical === "top") {
-        y = layer.position.y;
-      } else if (originVertical === "center") {
-        y = layer.position.y - Math.round(height / 2);
-      } else if (originVertical === "bottom") {
-        y = layer.position.y - height;
+      if (layer.placement === "cover") {
+        if (isImageWiderThanOutput) {
+          height = workflow.size.height;
+          width = (imageHeight / workflow.size.height) * imageWidth;
+        } else {
+          width = workflow.size.width;
+          height = (imageWidth / workflow.size.width) * imageHeight;
+        }
+      } else if (layer.placement === "fit") {
+        if (isImageWiderThanOutput) {
+          width = workflow.size.width;
+          height = (workflow.size.width / imageWidth) * imageHeight;
+        } else {
+          height = workflow.size.height;
+          width = (workflow.size.height / imageHeight) * imageWidth;
+        }
+      } else if (layer.placement === "stretch") {
+        width = workflow.size.width;
+        height = workflow.size.height;
       } else {
-        throw new Error(
-          `Layer origin descriptor is not valid: ${layer.origin.descriptor}`
-        );
+        width = Math.round(imageWidth * layer.scale.x);
+        height = Math.round(imageHeight * layer.scale.y);
       }
 
       if (originHorizontal === "left") {
@@ -66,15 +87,12 @@ export const processWorkflow = async (
         );
       }
 
-      const [alignmentVertical, alignmentHorizontal] =
-        layer.alignment.descriptor.split(" ");
-
-      if (alignmentVertical === "top") {
-        // Nothing
-      } else if (alignmentVertical === "center") {
-        y += output.getHeight() / 2;
-      } else if (alignmentVertical === "bottom") {
-        y += output.getHeight() - y;
+      if (originVertical === "top") {
+        y = layer.position.y;
+      } else if (originVertical === "center") {
+        y = layer.position.y - Math.round(height / 2);
+      } else if (originVertical === "bottom") {
+        y = layer.position.y - height;
       } else {
         throw new Error(
           `Layer origin descriptor is not valid: ${layer.origin.descriptor}`
@@ -87,6 +105,18 @@ export const processWorkflow = async (
         x += output.getWidth() / 2;
       } else if (alignmentHorizontal === "right") {
         x += output.getWidth();
+      } else {
+        throw new Error(
+          `Layer origin descriptor is not valid: ${layer.alignment.descriptor}`
+        );
+      }
+
+      if (alignmentVertical === "top") {
+        // Nothing
+      } else if (alignmentVertical === "center") {
+        y += output.getHeight() / 2;
+      } else if (alignmentVertical === "bottom") {
+        y += output.getHeight() - y;
       } else {
         throw new Error(
           `Layer origin descriptor is not valid: ${layer.origin.descriptor}`

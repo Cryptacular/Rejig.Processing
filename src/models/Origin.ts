@@ -1,6 +1,5 @@
 export interface Origin {
   descriptor:
-    | "center"
     | "top left"
     | "top center"
     | "top right"
