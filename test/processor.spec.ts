@@ -54,9 +54,9 @@ describe("Processor", () => {
     const actual = await Jimp.read(
       path.resolve(`./test/artifacts/${filename}`)
     );
-    expect(await actual.getBase64Async(expected.getMIME())).toBe(
-      await expected.getBase64Async(expected.getMIME())
-    );
+    const diff = Jimp.diff(expected, actual);
+
+    expect(diff.percent).toBe(0);
   });
 
   it("correctly places image when using 'cover' with portrait output", async () => {
@@ -87,9 +87,9 @@ describe("Processor", () => {
     const actual = await Jimp.read(
       path.resolve(`./test/artifacts/${filename}`)
     );
-    expect(await actual.getBase64Async(expected.getMIME())).toBe(
-      await expected.getBase64Async(expected.getMIME())
-    );
+    const diff = Jimp.diff(expected, actual);
+
+    expect(diff.percent).toBe(0);
   });
 
   it("correctly places image when using 'fit' with landscape output", async () => {
@@ -120,9 +120,9 @@ describe("Processor", () => {
     const actual = await Jimp.read(
       path.resolve(`./test/artifacts/${filename}`)
     );
-    expect(await actual.getBase64Async(expected.getMIME())).toBe(
-      await expected.getBase64Async(expected.getMIME())
-    );
+    const diff = Jimp.diff(expected, actual);
+
+    expect(diff.percent).toBe(0);
   });
 
   it("correctly places image when using 'fit' with portrait output", async () => {
@@ -153,9 +153,9 @@ describe("Processor", () => {
     const actual = await Jimp.read(
       path.resolve(`./test/artifacts/${filename}`)
     );
-    expect(await actual.getBase64Async(expected.getMIME())).toBe(
-      await expected.getBase64Async(expected.getMIME())
-    );
+    const diff = Jimp.diff(expected, actual);
+
+    expect(diff.percent).toBe(0);
   });
 
   it("correctly places image when using 'stretch' with landscape output", async () => {
@@ -186,9 +186,9 @@ describe("Processor", () => {
     const actual = await Jimp.read(
       path.resolve(`./test/artifacts/${filename}`)
     );
-    expect(await actual.getBase64Async(expected.getMIME())).toBe(
-      await expected.getBase64Async(expected.getMIME())
-    );
+    const diff = Jimp.diff(expected, actual);
+
+    expect(diff.percent).toBe(0);
   });
 
   it("correctly places image when using 'stretch' with portrait output", async () => {
@@ -219,8 +219,8 @@ describe("Processor", () => {
     const actual = await Jimp.read(
       path.resolve(`./test/artifacts/${filename}`)
     );
-    expect(await actual.getBase64Async(expected.getMIME())).toBe(
-      await expected.getBase64Async(expected.getMIME())
-    );
+    const diff = Jimp.diff(expected, actual);
+
+    expect(diff.percent).toBe(0);
   });
 });
