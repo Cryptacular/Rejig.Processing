@@ -1,13 +1,15 @@
-import { getDefaultLayerContent, LayerContent } from "./LayerContent";
+import { getDefaultLayerContent } from "./LayerContent";
+import { ImageLayerContent } from "./ImageLayerContent";
 import { getDefaultOrigin, Origin } from "./Origin";
 import { getDefaultPosition, Position } from "./Position";
 import { getDefaultScale, Scale } from "./Scale";
 import { v4 as uuidv4 } from "uuid";
+import { SolidLayerContent } from "./SolidLayerContent";
 
 export interface Layer {
   id: string;
   name: string;
-  content: LayerContent;
+  content: ImageLayerContent | SolidLayerContent;
   position: Position;
   origin: Origin;
   alignment: Origin;

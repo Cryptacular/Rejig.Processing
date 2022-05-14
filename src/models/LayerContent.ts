@@ -1,11 +1,36 @@
+import { Color } from "./Color";
+import {
+  getDefaultImageLayerContent,
+  ImageLayerContent,
+} from "./ImageLayerContent";
+import {
+  getDefaultSolidLayerContent,
+  SolidLayerContent,
+} from "./SolidLayerContent";
+
 export interface LayerContent {
-  type: "image";
+  type: "image" | "solid";
   location?: string;
+  color?: Color;
 }
 
 export const getDefaultLayerContent = (
   properties?: Partial<LayerContent>
-): LayerContent => ({
-  type: properties?.type ?? "image",
-  location: properties?.location,
-});
+): LayerContent => {
+  switch (properties?.type) {
+    case "image":
+      return getDefaultImageLayerContent(
+        properties as Partial<ImageLayerContent>
+      );
+
+    case "solid":
+      return getDefaultSolidLayerContent(
+        properties as Partial<SolidLayerContent>
+      );
+
+    default:
+      return {
+        type: properties?.type ?? "image",
+      };
+  }
+};
