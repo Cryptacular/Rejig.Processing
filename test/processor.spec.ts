@@ -171,7 +171,7 @@ describe("Processor", () => {
       layers: [
         getDefaultLayer({
           content: getDefaultSolidLayerContent({
-            color: { r: 255, g: 0, b: 0, a: 255 },
+            color: { r: 255, g: 0, b: 0, a: 1 },
           }),
         }),
       ],
@@ -190,7 +190,7 @@ describe("Processor", () => {
       layers: [
         getDefaultLayer({
           content: getDefaultSolidLayerContent({
-            color: { r: 0, g: 255, b: 0, a: 255 },
+            color: { r: 0, g: 255, b: 0, a: 1 },
           }),
         }),
       ],
@@ -209,7 +209,7 @@ describe("Processor", () => {
       layers: [
         getDefaultLayer({
           content: getDefaultSolidLayerContent({
-            color: { r: 0, g: 0, b: 255, a: 255 },
+            color: { r: 0, g: 0, b: 255, a: 1 },
           }),
         }),
       ],
@@ -228,7 +228,7 @@ describe("Processor", () => {
       layers: [
         getDefaultLayer({
           content: getDefaultSolidLayerContent({
-            color: { r: 127, g: 127, b: 127, a: 127 },
+            color: { r: 127, g: 127, b: 127, a: 0.5 },
           }),
         }),
       ],
@@ -247,7 +247,7 @@ describe("Processor", () => {
       layers: [
         getDefaultLayer({
           content: getDefaultSolidLayerContent({
-            color: { r: 255, g: 0, b: 0, a: 255 },
+            color: { r: 255, g: 0, b: 0, a: 1 },
             size: { width: 100, height: 20 },
           }),
         }),
@@ -269,7 +269,7 @@ describe("Processor", () => {
           origin: { descriptor: "center center" },
           alignment: { descriptor: "center center" },
           content: getDefaultSolidLayerContent({
-            color: { r: 255, g: 0, b: 0, a: 255 },
+            color: { r: 255, g: 0, b: 0, a: 1 },
             size: { width: 100, height: 20 },
           }),
         }),
@@ -291,7 +291,7 @@ describe("Processor", () => {
           origin: { descriptor: "center center" },
           alignment: { descriptor: "center center" },
           content: getDefaultSolidLayerContent({
-            color: { r: 255, g: 0, b: 0, a: 100 },
+            color: { r: 255, g: 0, b: 0, a: 0.39 },
             size: { width: 50, height: 25 },
           }),
         }),

@@ -181,7 +181,7 @@ const getSolidLayerContent = async (
     { apply: "green", params: [layerContent.color.g] },
     { apply: "blue", params: [layerContent.color.b] },
   ]);
-  image.opacity(layerContent.color.a / 255);
+  image.opacity(layerContent.color.a);
   image.resize(size.width, size.height);
 
   return image;
