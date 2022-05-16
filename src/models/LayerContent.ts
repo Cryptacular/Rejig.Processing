@@ -1,4 +1,3 @@
-import { Color } from "./Color";
 import {
   getDefaultImageLayerContent,
   ImageLayerContent,
@@ -10,8 +9,6 @@ import {
 
 export interface LayerContent {
   type: "image" | "solid";
-  location?: string;
-  color?: Color;
 }
 
 export const getDefaultLayerContent = (

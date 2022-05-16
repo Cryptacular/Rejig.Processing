@@ -3,7 +3,6 @@ import { Workflow } from "./models/Workflow";
 import { getCache } from "./cache";
 import { ImageLayerContent } from "./models/ImageLayerContent";
 import { SolidLayerContent } from "./models/SolidLayerContent";
-import { Dimensions } from "./models/Dimensions";
 
 export const processWorkflow = async (
   workflow: Workflow | EditWorkflow,
@@ -171,9 +170,6 @@ const getSolidLayerContent = async (
     return;
   }
 
-  type Jimp = typeof jimp;
-  const size: Dimensions = layerContent.size ?? workflow.size;
-
   const image = await jimp.create(1, 1);
   image.opaque();
   image.color([
@@ -182,7 +178,7 @@ const getSolidLayerContent = async (
     { apply: "blue", params: [layerContent.color.b] },
   ]);
   image.opacity(layerContent.color.a);
-  image.resize(size.width, size.height);
+  image.resize(workflow.size.width, workflow.size.height);
 
   return image;
 };

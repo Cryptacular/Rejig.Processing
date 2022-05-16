@@ -1,12 +1,17 @@
 import Jimp from "jimp";
 import path from "path";
+import fs from "fs";
 import { processWorkflow } from "../src/processor";
 import { getDefaultWorkflow } from "../src/models/EditWorkflow";
 import { getDefaultLayer } from "../src/models/Layer";
-import { getDefaultLayerContent } from "../src/models/LayerContent";
 import { getDefaultSolidLayerContent } from "../src/models/SolidLayerContent";
+import { getDefaultImageLayerContent } from "../src/models/ImageLayerContent";
 
 describe("Processor", () => {
+  beforeAll(() => {
+    deleteArtifacts();
+  });
+
   it("returns a BASE64 string of type PNG when given a default workflow", async () => {
     const workflow = getDefaultWorkflow();
 
@@ -35,8 +40,7 @@ describe("Processor", () => {
           placement: "cover",
           origin: { descriptor: "center center" },
           alignment: { descriptor: "center center" },
-          content: getDefaultLayerContent({
-            type: "image",
+          content: getDefaultImageLayerContent({
             location: path.resolve("./test/images/400x400.jpeg"),
           }),
         }),
@@ -58,8 +62,7 @@ describe("Processor", () => {
           placement: "cover",
           origin: { descriptor: "center center" },
           alignment: { descriptor: "center center" },
-          content: getDefaultLayerContent({
-            type: "image",
+          content: getDefaultImageLayerContent({
             location: path.resolve("./test/images/400x400.jpeg"),
           }),
         }),
@@ -81,8 +84,7 @@ describe("Processor", () => {
           placement: "fit",
           origin: { descriptor: "center center" },
           alignment: { descriptor: "center center" },
-          content: getDefaultLayerContent({
-            type: "image",
+          content: getDefaultImageLayerContent({
             location: path.resolve("./test/images/400x400.jpeg"),
           }),
         }),
@@ -104,8 +106,7 @@ describe("Processor", () => {
           placement: "fit",
           origin: { descriptor: "center center" },
           alignment: { descriptor: "center center" },
-          content: getDefaultLayerContent({
-            type: "image",
+          content: getDefaultImageLayerContent({
             location: path.resolve("./test/images/400x400.jpeg"),
           }),
         }),
@@ -127,8 +128,7 @@ describe("Processor", () => {
           placement: "stretch",
           origin: { descriptor: "center center" },
           alignment: { descriptor: "center center" },
-          content: getDefaultLayerContent({
-            type: "image",
+          content: getDefaultImageLayerContent({
             location: path.resolve("./test/images/400x400.jpeg"),
           }),
         }),
@@ -150,8 +150,7 @@ describe("Processor", () => {
           placement: "stretch",
           origin: { descriptor: "center center" },
           alignment: { descriptor: "center center" },
-          content: getDefaultLayerContent({
-            type: "image",
+          content: getDefaultImageLayerContent({
             location: path.resolve("./test/images/400x400.jpeg"),
           }),
         }),
@@ -241,48 +240,6 @@ describe("Processor", () => {
     expect(await diffPercentage(filename)).toBe(0);
   });
 
-  it("creates image with red fill of certain size when using 'solid' layer content", async () => {
-    const workflow = getDefaultWorkflow({
-      size: { width: 200, height: 100 },
-      layers: [
-        getDefaultLayer({
-          content: getDefaultSolidLayerContent({
-            color: { r: 255, g: 0, b: 0, a: 1 },
-            size: { width: 100, height: 20 },
-          }),
-        }),
-      ],
-    });
-
-    const image = await processWorkflow(workflow, Jimp);
-    const filename = "solid-red-partial-top-left";
-    await saveArtifact(image, filename);
-
-    expect(await diffPercentage(filename)).toBe(0);
-  });
-
-  it("creates image with red fill of certain size and origin/alignment when using 'solid' layer content", async () => {
-    const workflow = getDefaultWorkflow({
-      size: { width: 200, height: 100 },
-      layers: [
-        getDefaultLayer({
-          origin: { descriptor: "center center" },
-          alignment: { descriptor: "center center" },
-          content: getDefaultSolidLayerContent({
-            color: { r: 255, g: 0, b: 0, a: 1 },
-            size: { width: 100, height: 20 },
-          }),
-        }),
-      ],
-    });
-
-    const image = await processWorkflow(workflow, Jimp);
-    const filename = "solid-red-partial-center";
-    await saveArtifact(image, filename);
-
-    expect(await diffPercentage(filename)).toBe(0);
-  });
-
   it("correctly overlays solid layer type over image layer type", async () => {
     const workflow = getDefaultWorkflow({
       size: { width: 200, height: 100 },
@@ -292,15 +249,13 @@ describe("Processor", () => {
           alignment: { descriptor: "center center" },
           content: getDefaultSolidLayerContent({
             color: { r: 255, g: 0, b: 0, a: 0.39 },
-            size: { width: 50, height: 25 },
           }),
         }),
         getDefaultLayer({
           placement: "cover",
           origin: { descriptor: "center center" },
           alignment: { descriptor: "center center" },
-          content: getDefaultLayerContent({
-            type: "image",
+          content: getDefaultImageLayerContent({
             location: path.resolve("./test/images/400x400.jpeg"),
           }),
         }),
@@ -314,6 +269,16 @@ describe("Processor", () => {
     expect(await diffPercentage(filename)).toBe(0);
   });
 });
+
+const deleteArtifacts = () => {
+  try {
+    fs.readdirSync(path.resolve("./test/artifacts"));
+  } catch {
+    return;
+  }
+
+  fs.rmSync(path.resolve("./test/artifacts"), { recursive: true });
+};
 
 const saveArtifact = async (image: any, name: string) => {
   const buffer = Buffer.from(image.split(",")[1], "base64");
