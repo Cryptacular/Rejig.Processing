@@ -6,6 +6,7 @@ import { getDefaultWorkflow } from "../src/models/EditWorkflow";
 import { getDefaultLayer } from "../src/models/Layer";
 import { getDefaultSolidLayerContent } from "../src/models/SolidLayerContent";
 import { getDefaultImageLayerContent } from "../src/models/ImageLayerContent";
+import { Origin } from "../src/models/Origin";
 
 describe("Processor", () => {
   beforeAll(() => {
@@ -32,241 +33,284 @@ describe("Processor", () => {
     expect(imageAsJimp.getHeight()).toBe(20);
   });
 
-  it("correctly places image when using 'cover' with landscape output", async () => {
-    const workflow = getDefaultWorkflow({
-      size: { width: 200, height: 100 },
-      layers: [
-        getDefaultLayer({
-          placement: "cover",
-          origin: { descriptor: "center center" },
-          alignment: { descriptor: "center center" },
-          content: getDefaultImageLayerContent({
-            location: path.resolve("./test/images/400x400.jpeg"),
+  describe("[placement]", () => {
+    it("correctly places image when using 'cover' with landscape output", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 200, height: 100 },
+        layers: [
+          getDefaultLayer({
+            placement: "cover",
+            origin: { descriptor: "center center" },
+            alignment: { descriptor: "center center" },
+            content: getDefaultImageLayerContent({
+              location: path.resolve("./test/images/400x400.jpeg"),
+            }),
           }),
-        }),
-      ],
+        ],
+      });
+
+      const image = await processWorkflow(workflow, Jimp);
+      const filename = "cover-landscape-center-center";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
     });
 
-    const image = await processWorkflow(workflow, Jimp);
-    const filename = "cover-landscape-center-center";
-    await saveArtifact(image, filename);
+    it("correctly places image when using 'cover' with portrait output", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 100, height: 200 },
+        layers: [
+          getDefaultLayer({
+            placement: "cover",
+            origin: { descriptor: "center center" },
+            alignment: { descriptor: "center center" },
+            content: getDefaultImageLayerContent({
+              location: path.resolve("./test/images/400x400.jpeg"),
+            }),
+          }),
+        ],
+      });
 
-    expect(await diffPercentage(filename)).toBe(0);
+      const image = await processWorkflow(workflow, Jimp);
+      const filename = "cover-portrait-center-center";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("correctly places image when using 'fit' with landscape output", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 200, height: 100 },
+        layers: [
+          getDefaultLayer({
+            placement: "fit",
+            origin: { descriptor: "center center" },
+            alignment: { descriptor: "center center" },
+            content: getDefaultImageLayerContent({
+              location: path.resolve("./test/images/400x400.jpeg"),
+            }),
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow, Jimp);
+      const filename = "fit-landscape-center-center";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("correctly places image when using 'fit' with portrait output", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 100, height: 200 },
+        layers: [
+          getDefaultLayer({
+            placement: "fit",
+            origin: { descriptor: "center center" },
+            alignment: { descriptor: "center center" },
+            content: getDefaultImageLayerContent({
+              location: path.resolve("./test/images/400x400.jpeg"),
+            }),
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow, Jimp);
+      const filename = "fit-portrait-center-center";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("correctly places image when using 'stretch' with landscape output", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 200, height: 100 },
+        layers: [
+          getDefaultLayer({
+            placement: "stretch",
+            origin: { descriptor: "center center" },
+            alignment: { descriptor: "center center" },
+            content: getDefaultImageLayerContent({
+              location: path.resolve("./test/images/400x400.jpeg"),
+            }),
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow, Jimp);
+      const filename = "stretch-landscape-center-center";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("correctly places image when using 'stretch' with portrait output", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 100, height: 200 },
+        layers: [
+          getDefaultLayer({
+            placement: "stretch",
+            origin: { descriptor: "center center" },
+            alignment: { descriptor: "center center" },
+            content: getDefaultImageLayerContent({
+              location: path.resolve("./test/images/400x400.jpeg"),
+            }),
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow, Jimp);
+      const filename = "stretch-portrait-center-center";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
   });
 
-  it("correctly places image when using 'cover' with portrait output", async () => {
-    const workflow = getDefaultWorkflow({
-      size: { width: 100, height: 200 },
-      layers: [
-        getDefaultLayer({
-          placement: "cover",
-          origin: { descriptor: "center center" },
-          alignment: { descriptor: "center center" },
-          content: getDefaultImageLayerContent({
-            location: path.resolve("./test/images/400x400.jpeg"),
+  describe("[solid]", () => {
+    it("creates image with solid red fill when using 'solid' layer content", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 200, height: 100 },
+        layers: [
+          getDefaultLayer({
+            content: getDefaultSolidLayerContent({
+              color: { r: 255, g: 0, b: 0, a: 1 },
+            }),
           }),
-        }),
-      ],
+        ],
+      });
+
+      const image = await processWorkflow(workflow, Jimp);
+      const filename = "solid-red-full";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
     });
 
-    const image = await processWorkflow(workflow, Jimp);
-    const filename = "cover-portrait-center-center";
-    await saveArtifact(image, filename);
+    it("creates image with solid green fill when using 'solid' layer content", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 200, height: 100 },
+        layers: [
+          getDefaultLayer({
+            content: getDefaultSolidLayerContent({
+              color: { r: 0, g: 255, b: 0, a: 1 },
+            }),
+          }),
+        ],
+      });
 
-    expect(await diffPercentage(filename)).toBe(0);
+      const image = await processWorkflow(workflow, Jimp);
+      const filename = "solid-green-full";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("creates image with solid blue fill when using 'solid' layer content", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 200, height: 100 },
+        layers: [
+          getDefaultLayer({
+            content: getDefaultSolidLayerContent({
+              color: { r: 0, g: 0, b: 255, a: 1 },
+            }),
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow, Jimp);
+      const filename = "solid-blue-full";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("creates image with semi-transparent fill of grey color when using 'solid' layer content", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 200, height: 100 },
+        layers: [
+          getDefaultLayer({
+            content: getDefaultSolidLayerContent({
+              color: { r: 127, g: 127, b: 127, a: 0.5 },
+            }),
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow, Jimp);
+      const filename = "solid-grey-semi-transparent";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("correctly overlays solid layer type over image layer type", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 200, height: 100 },
+        layers: [
+          getDefaultLayer({
+            origin: { descriptor: "center center" },
+            alignment: { descriptor: "center center" },
+            content: getDefaultSolidLayerContent({
+              color: { r: 255, g: 0, b: 0, a: 0.39 },
+            }),
+          }),
+          getDefaultLayer({
+            placement: "cover",
+            origin: { descriptor: "center center" },
+            alignment: { descriptor: "center center" },
+            content: getDefaultImageLayerContent({
+              location: path.resolve("./test/images/400x400.jpeg"),
+            }),
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow, Jimp);
+      const filename = "image-and-solid";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
   });
 
-  it("correctly places image when using 'fit' with landscape output", async () => {
-    const workflow = getDefaultWorkflow({
-      size: { width: 200, height: 100 },
-      layers: [
-        getDefaultLayer({
-          placement: "fit",
-          origin: { descriptor: "center center" },
-          alignment: { descriptor: "center center" },
-          content: getDefaultImageLayerContent({
-            location: path.resolve("./test/images/400x400.jpeg"),
-          }),
-        }),
-      ],
-    });
+  describe("[origin] and [alignment]", () => {
+    const allDescriptors: Origin["descriptor"][] = [
+      "top left",
+      "top center",
+      "top right",
+      "center left",
+      "center center",
+      "center right",
+      "bottom left",
+      "bottom center",
+      "bottom right",
+    ];
 
-    const image = await processWorkflow(workflow, Jimp);
-    const filename = "fit-landscape-center-center";
-    await saveArtifact(image, filename);
+    for (let origin of allDescriptors) {
+      for (let alignment of allDescriptors) {
+        it(`correctly places image with origin of '${origin}' and alignment of '${alignment}'`, async () => {
+          const workflow = getDefaultWorkflow({
+            size: { width: 100, height: 100 },
+            layers: [
+              getDefaultLayer({
+                origin: { descriptor: origin },
+                alignment: { descriptor: alignment },
+                content: getDefaultImageLayerContent({
+                  location: path.resolve("./test/images/50x50.jpeg"),
+                }),
+              }),
+            ],
+          });
 
-    expect(await diffPercentage(filename)).toBe(0);
-  });
+          const image = await processWorkflow(workflow, Jimp);
+          const filename = `origin-alignment/origin[${origin}]-alignment[${alignment}]`;
+          await saveArtifact(image, filename);
 
-  it("correctly places image when using 'fit' with portrait output", async () => {
-    const workflow = getDefaultWorkflow({
-      size: { width: 100, height: 200 },
-      layers: [
-        getDefaultLayer({
-          placement: "fit",
-          origin: { descriptor: "center center" },
-          alignment: { descriptor: "center center" },
-          content: getDefaultImageLayerContent({
-            location: path.resolve("./test/images/400x400.jpeg"),
-          }),
-        }),
-      ],
-    });
-
-    const image = await processWorkflow(workflow, Jimp);
-    const filename = "fit-portrait-center-center";
-    await saveArtifact(image, filename);
-
-    expect(await diffPercentage(filename)).toBe(0);
-  });
-
-  it("correctly places image when using 'stretch' with landscape output", async () => {
-    const workflow = getDefaultWorkflow({
-      size: { width: 200, height: 100 },
-      layers: [
-        getDefaultLayer({
-          placement: "stretch",
-          origin: { descriptor: "center center" },
-          alignment: { descriptor: "center center" },
-          content: getDefaultImageLayerContent({
-            location: path.resolve("./test/images/400x400.jpeg"),
-          }),
-        }),
-      ],
-    });
-
-    const image = await processWorkflow(workflow, Jimp);
-    const filename = "stretch-landscape-center-center";
-    await saveArtifact(image, filename);
-
-    expect(await diffPercentage(filename)).toBe(0);
-  });
-
-  it("correctly places image when using 'stretch' with portrait output", async () => {
-    const workflow = getDefaultWorkflow({
-      size: { width: 100, height: 200 },
-      layers: [
-        getDefaultLayer({
-          placement: "stretch",
-          origin: { descriptor: "center center" },
-          alignment: { descriptor: "center center" },
-          content: getDefaultImageLayerContent({
-            location: path.resolve("./test/images/400x400.jpeg"),
-          }),
-        }),
-      ],
-    });
-
-    const image = await processWorkflow(workflow, Jimp);
-    const filename = "stretch-portrait-center-center";
-    await saveArtifact(image, filename);
-
-    expect(await diffPercentage(filename)).toBe(0);
-  });
-
-  it("creates image with solid red fill when using 'solid' layer content", async () => {
-    const workflow = getDefaultWorkflow({
-      size: { width: 200, height: 100 },
-      layers: [
-        getDefaultLayer({
-          content: getDefaultSolidLayerContent({
-            color: { r: 255, g: 0, b: 0, a: 1 },
-          }),
-        }),
-      ],
-    });
-
-    const image = await processWorkflow(workflow, Jimp);
-    const filename = "solid-red-full";
-    await saveArtifact(image, filename);
-
-    expect(await diffPercentage(filename)).toBe(0);
-  });
-
-  it("creates image with solid green fill when using 'solid' layer content", async () => {
-    const workflow = getDefaultWorkflow({
-      size: { width: 200, height: 100 },
-      layers: [
-        getDefaultLayer({
-          content: getDefaultSolidLayerContent({
-            color: { r: 0, g: 255, b: 0, a: 1 },
-          }),
-        }),
-      ],
-    });
-
-    const image = await processWorkflow(workflow, Jimp);
-    const filename = "solid-green-full";
-    await saveArtifact(image, filename);
-
-    expect(await diffPercentage(filename)).toBe(0);
-  });
-
-  it("creates image with solid blue fill when using 'solid' layer content", async () => {
-    const workflow = getDefaultWorkflow({
-      size: { width: 200, height: 100 },
-      layers: [
-        getDefaultLayer({
-          content: getDefaultSolidLayerContent({
-            color: { r: 0, g: 0, b: 255, a: 1 },
-          }),
-        }),
-      ],
-    });
-
-    const image = await processWorkflow(workflow, Jimp);
-    const filename = "solid-blue-full";
-    await saveArtifact(image, filename);
-
-    expect(await diffPercentage(filename)).toBe(0);
-  });
-
-  it("creates image with semi-transparent fill of grey color when using 'solid' layer content", async () => {
-    const workflow = getDefaultWorkflow({
-      size: { width: 200, height: 100 },
-      layers: [
-        getDefaultLayer({
-          content: getDefaultSolidLayerContent({
-            color: { r: 127, g: 127, b: 127, a: 0.5 },
-          }),
-        }),
-      ],
-    });
-
-    const image = await processWorkflow(workflow, Jimp);
-    const filename = "solid-grey-semi-transparent";
-    await saveArtifact(image, filename);
-
-    expect(await diffPercentage(filename)).toBe(0);
-  });
-
-  it("correctly overlays solid layer type over image layer type", async () => {
-    const workflow = getDefaultWorkflow({
-      size: { width: 200, height: 100 },
-      layers: [
-        getDefaultLayer({
-          origin: { descriptor: "center center" },
-          alignment: { descriptor: "center center" },
-          content: getDefaultSolidLayerContent({
-            color: { r: 255, g: 0, b: 0, a: 0.39 },
-          }),
-        }),
-        getDefaultLayer({
-          placement: "cover",
-          origin: { descriptor: "center center" },
-          alignment: { descriptor: "center center" },
-          content: getDefaultImageLayerContent({
-            location: path.resolve("./test/images/400x400.jpeg"),
-          }),
-        }),
-      ],
-    });
-
-    const image = await processWorkflow(workflow, Jimp);
-    const filename = "image-and-solid";
-    await saveArtifact(image, filename);
-
-    expect(await diffPercentage(filename)).toBe(0);
+          expect(await diffPercentage(filename)).toBe(0);
+        });
+      }
+    }
   });
 });
 

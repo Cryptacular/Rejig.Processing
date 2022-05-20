@@ -104,9 +104,9 @@ export const processWorkflow = async (
     if (alignmentHorizontal === "left") {
       // Nothing
     } else if (alignmentHorizontal === "center") {
-      x += output.getWidth() / 2;
+      x += workflow.size.width / 2;
     } else if (alignmentHorizontal === "right") {
-      x += output.getWidth();
+      x += workflow.size.width;
     } else {
       throw new Error(
         `Layer origin descriptor is not valid: ${layer.alignment.descriptor}`
@@ -116,9 +116,9 @@ export const processWorkflow = async (
     if (alignmentVertical === "top") {
       // Nothing
     } else if (alignmentVertical === "center") {
-      y += output.getHeight() / 2;
+      y += workflow.size.height / 2;
     } else if (alignmentVertical === "bottom") {
-      y += output.getHeight() - y;
+      y += workflow.size.height;
     } else {
       throw new Error(
         `Layer origin descriptor is not valid: ${layer.origin.descriptor}`
