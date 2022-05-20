@@ -312,6 +312,71 @@ describe("Processor", () => {
       }
     }
   });
+
+  describe("[scale]", () => {
+    it("correctly places image when scaling down", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 50, height: 50 },
+        layers: [
+          getDefaultLayer({
+            scale: { x: 0.5, y: 0.5 },
+            content: getDefaultImageLayerContent({
+              location: path.resolve("./test/images/50x50.jpeg"),
+            }),
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow, Jimp);
+      const filename = "scaled-down-50-percent";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("correctly places image when scaling down and specifying origin/alignment", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 50, height: 50 },
+        layers: [
+          getDefaultLayer({
+            origin: { descriptor: "bottom right" },
+            alignment: { descriptor: "bottom right" },
+            scale: { x: 0.5, y: 0.5 },
+            content: getDefaultImageLayerContent({
+              location: path.resolve("./test/images/50x50.jpeg"),
+            }),
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow, Jimp);
+      const filename = "scaled-down-50-percent-origin-alignment";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("correctly places image when scaling down and specifying position", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 50, height: 50 },
+        layers: [
+          getDefaultLayer({
+            position: { x: 25, y: 10 },
+            scale: { x: 0.5, y: 0.5 },
+            content: getDefaultImageLayerContent({
+              location: path.resolve("./test/images/50x50.jpeg"),
+            }),
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow, Jimp);
+      const filename = "scaled-down-50-percent-position";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+  });
 });
 
 const deleteArtifacts = () => {
