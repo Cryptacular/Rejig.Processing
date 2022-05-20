@@ -16,5 +16,6 @@ export const getDefaultWorkflow = (
   size: getDefaultDimensions(properties?.size),
   name: properties?.name ?? "Untitled",
   layers: properties?.layers?.map((l) => getDefaultLayer(l)) ?? [],
+  parameters: properties?.parameters ?? [],
   remixedFrom: properties?.remixedFrom ?? null,
 });
