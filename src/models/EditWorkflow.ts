@@ -1,5 +1,6 @@
 import { getDefaultDimensions } from "./Dimensions";
 import { getDefaultLayer } from "./Layer";
+import { getDefaultParameter } from "./Parameter";
 import { Workflow } from "./Workflow";
 
 export interface EditWorkflow
@@ -16,6 +17,6 @@ export const getDefaultWorkflow = (
   size: getDefaultDimensions(properties?.size),
   name: properties?.name ?? "Untitled",
   layers: properties?.layers?.map((l) => getDefaultLayer(l)) ?? [],
-  parameters: properties?.parameters ?? [],
+  parameters: properties?.parameters?.map((p) => getDefaultParameter(p)) ?? [],
   remixedFrom: properties?.remixedFrom ?? null,
 });

@@ -1,6 +1,6 @@
 {
   "name": "@Cryptacular/rejig.processing",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Library for processing workflows with Rejig",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
