@@ -30,6 +30,7 @@ describe("ApplyParameters", () => {
       parameters: [
         {
           id: "abc",
+          name: "abc",
           targetLayer: "layer-1",
           targetProperty: "opacity",
           value: "0.5",
@@ -50,6 +51,7 @@ describe("ApplyParameters", () => {
       parameters: [
         {
           id: "abc",
+          name: "abc",
           targetLayer: "layer-1",
           targetProperty: "content.location",
           value: "http://site.com/location-of-image.jpeg",
@@ -78,6 +80,7 @@ describe("ApplyParameters", () => {
       parameters: [
         {
           id: "abc",
+          name: "abc",
           targetLayer: "layer-1",
           targetProperty: "content.location",
           value: "http://site.com/location-of-image.jpeg",
@@ -110,6 +113,7 @@ describe("ApplyParameters", () => {
       parameters: [
         {
           id: "abc",
+          name: "abc",
           targetProperty: "content.location",
           value: "http://site.com/location-of-image.jpeg",
         },
@@ -141,6 +145,7 @@ describe("ApplyParameters", () => {
       parameters: [
         {
           id: "abc",
+          name: "abc",
           targetLayer: "layer-1",
           value: "http://site.com/location-of-image.jpeg",
         },
@@ -172,6 +177,7 @@ describe("ApplyParameters", () => {
       parameters: [
         {
           id: "abc",
+          name: "abc",
           targetLayer: "layer-1",
           targetProperty: "content.location",
         },
@@ -203,12 +209,14 @@ describe("ApplyParameters", () => {
       parameters: [
         {
           id: "abc",
+          name: "abc",
           targetLayer: "layer-1",
           targetProperty: "scale.x",
           value: "1.5",
         },
         {
           id: "def",
+          name: "def",
           targetLayer: "layer-1",
           targetProperty: "scale.y",
           value: "8",
