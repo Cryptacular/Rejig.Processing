@@ -9,7 +9,7 @@ export const applyParameters = (
   }
 
   const workflowWithAppliedParameters: typeof workflow = {
-    ...workflow,
+    ...(JSON.parse(JSON.stringify(workflow)) as Workflow),
     parameters: [],
   };
 

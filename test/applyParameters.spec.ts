@@ -244,4 +244,35 @@ describe("ApplyParameters", () => {
 
     expect(workflowWithAppliedParameters).toEqual(expected);
   });
+
+  it("does not alter the original object when applying parameters", () => {
+    const workflow = getDefaultWorkflow({
+      parameters: [
+        {
+          id: "abc",
+          name: "abc",
+          targetLayer: "layer-1",
+          targetProperty: "content.location",
+          value: "http://site.com/location-of-image.jpeg",
+        },
+      ],
+      layers: [
+        getDefaultLayer({
+          id: "layer-1",
+          content: getDefaultImageLayerContent(),
+        }),
+      ],
+    });
+    const workflowBeforeApplyingChanges = JSON.stringify(workflow);
+
+    const workflowWithAppliedParameters = applyParameters(workflow);
+    const workflowAfterApplyingChanges = JSON.stringify(
+      workflowWithAppliedParameters
+    );
+
+    expect(workflowAfterApplyingChanges).not.toEqual(
+      workflowBeforeApplyingChanges
+    );
+    expect(JSON.stringify(workflow)).toEqual(workflowBeforeApplyingChanges);
+  });
 });
