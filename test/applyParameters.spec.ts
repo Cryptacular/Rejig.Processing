@@ -211,15 +211,8 @@ describe("ApplyParameters", () => {
           id: "abc",
           name: "abc",
           targetLayer: "layer-1",
-          targetProperty: "scale.x",
-          value: "1.5",
-        },
-        {
-          id: "def",
-          name: "def",
-          targetLayer: "layer-1",
-          targetProperty: "scale.y",
-          value: "8",
+          targetProperty: "scale",
+          value: `{ "x": 1.5, "y": 8 }`,
         },
       ],
       layers: [

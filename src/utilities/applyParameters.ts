@@ -28,37 +28,41 @@ export const applyParameters = (
     ) as any;
 
     const targetProperty = parameter.targetProperty.split(".");
-    let tempProperty: any = layer;
+    let tempLayer: any = layer;
 
     targetProperty.forEach((p, i, arr) => {
-      if (!tempProperty || !parameter.value) {
+      if (!tempLayer || !parameter.value) {
         return;
       }
 
       if (i === arr.length - 1) {
-        const propertyType = typeof tempProperty[p];
+        const propertyType = typeof tempLayer[p];
 
         switch (propertyType) {
           case "number":
           case "bigint":
-            tempProperty[p] =
+            tempLayer[p] =
               parameter.value.indexOf(".") < 0
                 ? parseInt(parameter.value)
                 : parseFloat(parameter.value);
             break;
 
           case "boolean":
-            tempProperty[p] = parameter.value !== "false";
+            tempLayer[p] = parameter.value !== "false";
+            break;
+
+          case "object":
+            tempLayer[p] = JSON.parse(parameter.value);
             break;
 
           default:
-            tempProperty[p] = parameter.value;
+            tempLayer[p] = parameter.value;
         }
 
         return;
       }
 
-      tempProperty = tempProperty[p];
+      tempLayer = tempLayer[p];
     });
   }
 
