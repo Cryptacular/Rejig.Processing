@@ -6,6 +6,7 @@ import { Parameter, parameterSchema } from "./Parameter";
 
 export interface Workflow {
   id?: string;
+  authorId?: string;
   size: Dimensions;
   name?: string;
   layers?: Layer[];
@@ -17,6 +18,7 @@ export interface Workflow {
 
 export const workflowSchema: yup.ObjectSchema<Workflow> = yup.object({
   id: yup.string().default(() => uuidv4()),
+  authorId: yup.string(),
   size: dimensionsSchema.required(),
   name: yup.string().min(1),
   layers: yup.array().of(layerSchema).default([]),
