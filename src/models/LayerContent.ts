@@ -1,3 +1,4 @@
+import * as yup from "yup";
 import {
   getDefaultImageLayerContent,
   ImageLayerContent,
@@ -10,6 +11,10 @@ import {
 export interface LayerContent {
   type: "image" | "solid";
 }
+
+export const layerContentSchema = yup.object({
+  type: yup.string().oneOf(["image", "solid"]).default("solid").required(),
+});
 
 export const getDefaultLayerContent = (
   properties?: Partial<LayerContent>

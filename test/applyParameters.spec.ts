@@ -1,4 +1,4 @@
-import { getDefaultWorkflow } from "../src/models/EditWorkflow";
+import { getDefaultWorkflow } from "../src/models/Workflow";
 import {
   getDefaultImageLayerContent,
   ImageLayerContent,
@@ -6,26 +6,28 @@ import {
 import { getDefaultLayer } from "../src/models/Layer";
 import { applyParameters } from "../src/utilities/applyParameters";
 
+jest.mock("uuid");
+
 describe("ApplyParameters", () => {
-  it("returns workflow without changes if 'parameters' property is undefined", () => {
+  it("returns workflow without changes if 'parameters' property is undefined", async () => {
     const workflow = getDefaultWorkflow();
     workflow.parameters = undefined;
 
-    const workflowWithAppliedParameters = applyParameters(workflow);
+    const workflowWithAppliedParameters = await applyParameters(workflow);
 
     expect(workflowWithAppliedParameters).toEqual(workflow);
   });
 
-  it("returns workflow without changes if 'parameters' property is an empty array", () => {
+  it("returns workflow without changes if 'parameters' property is an empty array", async () => {
     const workflow = getDefaultWorkflow({ parameters: [] });
     const expected = getDefaultWorkflow({ parameters: [] });
 
-    const workflowWithAppliedParameters = applyParameters(workflow);
+    const workflowWithAppliedParameters = await applyParameters(workflow);
 
     expect(workflowWithAppliedParameters).toEqual(expected);
   });
 
-  it("returns workflow with changes on a layer property that exist (one level deep)", () => {
+  it("returns workflow with changes on a layer property that exist (one level deep)", async () => {
     const workflow = getDefaultWorkflow({
       parameters: [
         {
@@ -39,14 +41,14 @@ describe("ApplyParameters", () => {
       layers: [getDefaultLayer({ id: "layer-1" })],
     });
 
-    const workflowWithAppliedParameters = applyParameters(workflow);
+    const workflowWithAppliedParameters = await applyParameters(workflow);
 
     expect(workflowWithAppliedParameters).not.toEqual(workflow);
     expect(workflowWithAppliedParameters.parameters).toHaveLength(0);
-    expect(workflowWithAppliedParameters.layers[0].opacity).toBe(0.5);
+    expect(workflowWithAppliedParameters.layers![0].opacity).toBe(0.5);
   });
 
-  it("returns workflow with changes on a layer property that exist (two levels deep)", () => {
+  it("returns workflow with changes on a layer property that exist (two levels deep)", async () => {
     const workflow = getDefaultWorkflow({
       parameters: [
         {
@@ -65,17 +67,17 @@ describe("ApplyParameters", () => {
       ],
     });
 
-    const workflowWithAppliedParameters = applyParameters(workflow);
+    const workflowWithAppliedParameters = await applyParameters(workflow);
 
     expect(workflowWithAppliedParameters).not.toEqual(workflow);
     expect(workflowWithAppliedParameters.parameters).toHaveLength(0);
     expect(
-      (workflowWithAppliedParameters.layers[0].content as ImageLayerContent)
+      (workflowWithAppliedParameters.layers![0].content as ImageLayerContent)
         .location
     ).toBe("http://site.com/location-of-image.jpeg");
   });
 
-  it("returns workflow without changes if target layer doesn't exist", () => {
+  it("returns workflow without changes if target layer doesn't exist", async () => {
     const workflow = getDefaultWorkflow({
       parameters: [
         {
@@ -103,12 +105,12 @@ describe("ApplyParameters", () => {
       ],
     });
 
-    const workflowWithAppliedParameters = applyParameters(workflow);
+    const workflowWithAppliedParameters = await applyParameters(workflow);
 
     expect(workflowWithAppliedParameters).toEqual(expected);
   });
 
-  it("returns workflow without changes if targetLayer is not defined", () => {
+  it("returns workflow without changes if targetLayer is not defined", async () => {
     const workflow = getDefaultWorkflow({
       parameters: [
         {
@@ -135,12 +137,12 @@ describe("ApplyParameters", () => {
       ],
     });
 
-    const workflowWithAppliedParameters = applyParameters(workflow);
+    const workflowWithAppliedParameters = await applyParameters(workflow);
 
     expect(workflowWithAppliedParameters).toEqual(expected);
   });
 
-  it("returns workflow without changes if targetProperty is not defined", () => {
+  it("returns workflow without changes if targetProperty is not defined", async () => {
     const workflow = getDefaultWorkflow({
       parameters: [
         {
@@ -167,12 +169,12 @@ describe("ApplyParameters", () => {
       ],
     });
 
-    const workflowWithAppliedParameters = applyParameters(workflow);
+    const workflowWithAppliedParameters = await applyParameters(workflow);
 
     expect(workflowWithAppliedParameters).toEqual(expected);
   });
 
-  it("returns workflow without changes if value is not defined", () => {
+  it("returns workflow without changes if value is not defined", async () => {
     const workflow = getDefaultWorkflow({
       parameters: [
         {
@@ -199,12 +201,12 @@ describe("ApplyParameters", () => {
       ],
     });
 
-    const workflowWithAppliedParameters = applyParameters(workflow);
+    const workflowWithAppliedParameters = await applyParameters(workflow);
 
     expect(workflowWithAppliedParameters).toEqual(expected);
   });
 
-  it("returns workflow without changes if types don't match but can be converted", () => {
+  it("returns workflow without changes if types don't match but can be converted", async () => {
     const workflow = getDefaultWorkflow({
       parameters: [
         {
@@ -233,12 +235,12 @@ describe("ApplyParameters", () => {
       ],
     });
 
-    const workflowWithAppliedParameters = applyParameters(workflow);
+    const workflowWithAppliedParameters = await applyParameters(workflow);
 
     expect(workflowWithAppliedParameters).toEqual(expected);
   });
 
-  it("does not alter the original object when applying parameters", () => {
+  it("does not alter the original object when applying parameters", async () => {
     const workflow = getDefaultWorkflow({
       parameters: [
         {
@@ -258,7 +260,7 @@ describe("ApplyParameters", () => {
     });
     const workflowBeforeApplyingChanges = JSON.stringify(workflow);
 
-    const workflowWithAppliedParameters = applyParameters(workflow);
+    const workflowWithAppliedParameters = await applyParameters(workflow);
     const workflowAfterApplyingChanges = JSON.stringify(
       workflowWithAppliedParameters
     );

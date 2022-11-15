@@ -1,4 +1,5 @@
-import { Color } from "./Color";
+import * as yup from "yup";
+import { Color, colorSchema } from "./Color";
 import { LayerContent } from "./LayerContent";
 
 export interface SolidLayerContent extends LayerContent {
@@ -6,9 +7,12 @@ export interface SolidLayerContent extends LayerContent {
   color?: Color;
 }
 
+export const solidLayerContentSchema: yup.ObjectSchema<SolidLayerContent> =
+  yup.object({
+    type: yup.string().oneOf(["solid"]).default("solid").required(),
+    color: colorSchema,
+  });
+
 export const getDefaultSolidLayerContent = (
   properties?: Partial<SolidLayerContent>
-): SolidLayerContent => ({
-  type: "solid",
-  color: properties?.color,
-});
+): SolidLayerContent => solidLayerContentSchema.cast(properties);

@@ -2,7 +2,7 @@ import Jimp from "jimp";
 import path from "path";
 import fs from "fs";
 import { processWorkflow } from "../src/processor";
-import { getDefaultWorkflow } from "../src/models/EditWorkflow";
+import { getDefaultWorkflow } from "../src/models/Workflow";
 import { getDefaultLayer } from "../src/models/Layer";
 import { getDefaultSolidLayerContent } from "../src/models/SolidLayerContent";
 import { getDefaultImageLayerContent } from "../src/models/ImageLayerContent";
@@ -11,6 +11,19 @@ import { Origin } from "../src/models/Origin";
 describe("Processor", () => {
   beforeAll(() => {
     deleteArtifacts();
+  });
+
+  it("throws when processing an empty workflow", async () => {
+    const workflow = {};
+    let error = null;
+
+    try {
+      await processWorkflow(workflow as any, Jimp);
+    } catch (e) {
+      error = e;
+    }
+
+    expect(error).not.toBeNull();
   });
 
   it("returns a BASE64 string of type PNG when given a default workflow", async () => {

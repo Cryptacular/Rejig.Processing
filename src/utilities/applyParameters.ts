@@ -1,17 +1,18 @@
-import { EditWorkflow } from "../models/EditWorkflow";
-import { Workflow } from "../models/Workflow";
+import { Workflow, getDefaultWorkflow, validate } from "../models/Workflow";
 
-export const applyParameters = (
-  workflow: Workflow | EditWorkflow
-): Workflow | EditWorkflow => {
+export const applyParameters = async (
+  workflow: Workflow
+): Promise<Workflow> => {
   if (!workflow.parameters || workflow.parameters.length === 0) {
     return workflow;
   }
 
-  const workflowWithAppliedParameters: typeof workflow = {
+  const workflowWithAppliedParameters: typeof workflow = getDefaultWorkflow({
     ...(JSON.parse(JSON.stringify(workflow)) as Workflow),
     parameters: [],
-  };
+  });
+
+  await validate(workflowWithAppliedParameters);
 
   for (let parameter of workflow.parameters) {
     if (
@@ -23,7 +24,7 @@ export const applyParameters = (
     }
 
     const layerId = parameter.targetLayer;
-    const layer = workflowWithAppliedParameters.layers.find(
+    const layer = workflowWithAppliedParameters.layers?.find(
       (x) => x.id === layerId
     ) as any;
 

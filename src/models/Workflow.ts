@@ -1,15 +1,36 @@
-import { Dimensions } from "./Dimensions";
-import { Layer } from "./Layer";
-import { Parameter } from "./Parameter";
+import { Dimensions, dimensionsSchema } from "./Dimensions";
+import * as yup from "yup";
+import { v4 as uuidv4 } from "uuid";
+import { Layer, layerSchema } from "./Layer";
+import { Parameter, parameterSchema } from "./Parameter";
 
 export interface Workflow {
-  id: string;
+  id?: string;
   size: Dimensions;
-  name: string;
-  authorId: string;
-  layers: Layer[];
+  name?: string;
+  layers?: Layer[];
   parameters?: Parameter[];
-  remixedFrom: string | null;
-  created: Date;
-  modified: Date;
+  remixedFrom?: string | null;
+  created?: Date;
+  modified?: Date;
 }
+
+export const workflowSchema: yup.ObjectSchema<Workflow> = yup.object({
+  id: yup.string().default(() => uuidv4()),
+  size: dimensionsSchema.required(),
+  name: yup.string().min(1),
+  layers: yup.array().of(layerSchema).default([]),
+  parameters: yup.array().of(parameterSchema).default([]),
+  remixedFrom: yup.string().nullable(),
+  created: yup.date().default(new Date()),
+  modified: yup.date().default(new Date()),
+});
+
+export const getDefaultWorkflow = (properties?: Partial<Workflow>): Workflow =>
+  workflowSchema.cast(properties);
+
+export const validate = async (workflow: any) =>
+  await workflowSchema.validate(workflow, { strict: true });
+
+export const isValid = async (workflow: any) =>
+  await workflowSchema.isValid(workflow, { strict: true });
