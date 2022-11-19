@@ -1,5 +1,5 @@
 {
-  "name": "@Cryptacular/rejig.processing",
+  "name": "rejig-processing",
   "version": "1.5.1",
   "description": "Library for processing workflows with Rejig",
   "main": "lib/index.js",
@@ -7,9 +7,6 @@
   "files": [
     "lib/**/*"
   ],
-  "publishConfig": {
-    "@Cryptacular:registry": "https://npm.pkg.github.com"
-  },
   "scripts": {
     "prepare": "npm run build",
     "prebuild": "ts-node ./scripts/generateDocs.ts",
