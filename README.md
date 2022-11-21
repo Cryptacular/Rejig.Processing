@@ -10,43 +10,76 @@ Some examples of valid workflows:
 
 ### Minimal workflow
 
+#### Output
+
+![Minimal workflow output image](https://github.com/Cryptacular/Rejig.Processing/blob/master/images/sample-workflow-minimal.png)
+
 <!-- start-minimal-workflow -->
 
-JSON:
+#### JSON
 
 ```json
 {
+  "name": "sample-workflow-minimal",
   "size": {
-    "width": 1920,
-    "height": 1080
-  }
+    "width": 75,
+    "height": 50
+  },
+  "layers": [
+    {
+      "content": {
+        "type": "solid",
+        "color": {
+          "r": 122,
+          "g": 0,
+          "b": 122,
+          "a": 1
+        }
+      }
+    }
+  ]
 }
 ```
 
-YAML:
+#### YAML
 
 ```yaml
+name: sample-workflow-minimal
 size:
-  width: 1920
-  height: 1080
+  width: 75
+  height: 50
+layers:
+  - content:
+      type: solid
+      color:
+        r: 122
+        g: 0
+        b: 122
+        a: 1
 ```
 
 <!-- end-minimal-workflow -->
 
 ### Complex workflow
 
+#### Output
+
+![Complex workflow output image](https://github.com/Cryptacular/Rejig.Processing/blob/master/images/sample-workflow-complex.png)
+
+(Photo by [Karim MANJRA](https://unsplash.com/@karim_manjra?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/s/photos/twist?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText))
+
 <!-- start-complex-workflow -->
 
-JSON:
+#### JSON
 
 ```json
 {
   "id": "43c2f6b1-b975-4010-81c2-de7e28192cd1",
-  "name": "my-custom-workflow",
+  "name": "sample-workflow-complex",
   "authorId": "user123",
   "size": {
-    "width": 1920,
-    "height": 1080
+    "width": 150,
+    "height": 150
   },
   "layers": [
     {
@@ -58,7 +91,7 @@ JSON:
           "r": 122,
           "g": 122,
           "b": 255,
-          "a": 255
+          "a": 1
         }
       },
       "position": {
@@ -73,17 +106,22 @@ JSON:
       },
       "placement": "cover",
       "scale": {
-        "x": 100,
-        "y": 100
+        "x": 1,
+        "y": 1
       },
       "opacity": 15
     },
     {
-      "id": "layer-with-image",
-      "name": "Background image",
+      "id": "layer-with-solid-color",
+      "name": "Overlay",
       "content": {
-        "type": "image",
-        "location": "https://url/to/an/image.jpg"
+        "type": "solid",
+        "color": {
+          "r": 255,
+          "g": 122,
+          "b": 122,
+          "a": 1
+        }
       },
       "position": {
         "x": 0,
@@ -93,12 +131,94 @@ JSON:
         "descriptor": "center center"
       },
       "alignment": {
-        "descriptor": "bottom right"
+        "descriptor": "top left"
       },
       "placement": "cover",
       "scale": {
-        "x": 100,
-        "y": 100
+        "x": 1,
+        "y": 1
+      },
+      "opacity": 15
+    },
+    {
+      "id": "layer-with-solid-color",
+      "name": "Overlay",
+      "content": {
+        "type": "solid",
+        "color": {
+          "r": 255,
+          "g": 122,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "origin": {
+        "descriptor": "center center"
+      },
+      "alignment": {
+        "descriptor": "top right"
+      },
+      "placement": "cover",
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "opacity": 15
+    },
+    {
+      "id": "layer-with-solid-color",
+      "name": "Overlay",
+      "content": {
+        "type": "solid",
+        "color": {
+          "r": 122,
+          "g": 255,
+          "b": 122,
+          "a": 1
+        }
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "origin": {
+        "descriptor": "center center"
+      },
+      "alignment": {
+        "descriptor": "bottom left"
+      },
+      "placement": "cover",
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "opacity": 15
+    },
+    {
+      "id": "layer-with-image",
+      "name": "Background image",
+      "content": {
+        "type": "image",
+        "location": "https://images.unsplash.com/photo-1541513161836-e2049e89afaa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fHR3aXN0fGVufDB8MHwwfHw%3D&auto=format&fit=crop&w=800&q=60"
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "origin": {
+        "descriptor": "center center"
+      },
+      "alignment": {
+        "descriptor": "center center"
+      },
+      "placement": "cover",
+      "scale": {
+        "x": 1,
+        "y": 1
       },
       "opacity": 100
     }
@@ -117,15 +237,15 @@ JSON:
 }
 ```
 
-YAML:
+#### YAML
 
 ```yaml
 id: 43c2f6b1-b975-4010-81c2-de7e28192cd1
-name: my-custom-workflow
+name: sample-workflow-complex
 authorId: user123
 size:
-  width: 1920
-  height: 1080
+  width: 150
+  height: 150
 layers:
   - id: layer-with-solid-color
     name: Overlay
@@ -135,35 +255,99 @@ layers:
         r: 122
         g: 122
         b: 255
-        a: 255
+        a: 1
     position:
       x: 0
-      'y': 0
+      "y": 0
     origin:
       descriptor: center center
     alignment:
       descriptor: bottom right
     placement: cover
     scale:
-      x: 100
-      'y': 100
+      x: 1
+      "y": 1
+    opacity: 15
+  - id: layer-with-solid-color
+    name: Overlay
+    content:
+      type: solid
+      color:
+        r: 255
+        g: 122
+        b: 122
+        a: 1
+    position:
+      x: 0
+      "y": 0
+    origin:
+      descriptor: center center
+    alignment:
+      descriptor: top left
+    placement: cover
+    scale:
+      x: 1
+      "y": 1
+    opacity: 15
+  - id: layer-with-solid-color
+    name: Overlay
+    content:
+      type: solid
+      color:
+        r: 255
+        g: 122
+        b: 255
+        a: 1
+    position:
+      x: 0
+      "y": 0
+    origin:
+      descriptor: center center
+    alignment:
+      descriptor: top right
+    placement: cover
+    scale:
+      x: 1
+      "y": 1
+    opacity: 15
+  - id: layer-with-solid-color
+    name: Overlay
+    content:
+      type: solid
+      color:
+        r: 122
+        g: 255
+        b: 122
+        a: 1
+    position:
+      x: 0
+      "y": 0
+    origin:
+      descriptor: center center
+    alignment:
+      descriptor: bottom left
+    placement: cover
+    scale:
+      x: 1
+      "y": 1
     opacity: 15
   - id: layer-with-image
     name: Background image
     content:
       type: image
-      location: https://url/to/an/image.jpg
+      location: >-
+        https://images.unsplash.com/photo-1541513161836-e2049e89afaa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fHR3aXN0fGVufDB8MHwwfHw%3D&auto=format&fit=crop&w=800&q=60
     position:
       x: 0
-      'y': 0
+      "y": 0
     origin:
       descriptor: center center
     alignment:
-      descriptor: bottom right
+      descriptor: center center
     placement: cover
     scale:
-      x: 100
-      'y': 100
+      x: 1
+      "y": 1
     opacity: 100
 parameters:
   - id: background
