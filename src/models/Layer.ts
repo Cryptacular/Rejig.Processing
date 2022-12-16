@@ -6,11 +6,12 @@ import { Scale, scaleSchema } from "./Scale";
 import { v4 as uuidv4 } from "uuid";
 import { SolidLayerContent } from "./SolidLayerContent";
 import { layerContentSchema } from "./LayerContent";
+import { GradientLayerContent } from "./GradientLayerContent";
 
 export interface Layer {
   id?: string;
   name?: string;
-  content?: ImageLayerContent | SolidLayerContent;
+  content?: ImageLayerContent | SolidLayerContent | GradientLayerContent;
   position?: Position;
   origin?: Origin;
   alignment?: Origin;
@@ -23,7 +24,7 @@ export const layerSchema: yup.ObjectSchema<Layer> = yup.object({
   id: yup.string().default(() => uuidv4()),
   name: yup.string(),
   content: layerContentSchema,
-  position: positionSchema,
+  position: positionSchema.default({ x: 0, y: 0 }),
   origin: originSchema,
   alignment: originSchema,
   placement: yup

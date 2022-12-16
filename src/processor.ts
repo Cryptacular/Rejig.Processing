@@ -2,6 +2,8 @@ import { Workflow, validate } from "./models/Workflow";
 import { getCache } from "./cache";
 import { ImageLayerContent } from "./models/ImageLayerContent";
 import { SolidLayerContent } from "./models/SolidLayerContent";
+import { GradientLayerContent } from "./models/GradientLayerContent";
+import { Position } from "./models/Position";
 
 export const processWorkflow = async (
   workflow: Workflow,
@@ -31,6 +33,13 @@ export const processWorkflow = async (
           workflow
         );
         break;
+
+      case "gradient":
+        layerContent = await getGradientLayerContent(
+          jimp,
+          layer.content,
+          workflow
+        );
     }
 
     if (!layerContent) {
@@ -79,11 +88,11 @@ export const processWorkflow = async (
     }
 
     if (originHorizontal === "left") {
-      x = layer.position!.x;
+      x = layer.position!.x!;
     } else if (originHorizontal === "center") {
-      x = layer.position!.x - Math.round(width / 2);
+      x = layer.position!.x! - Math.round(width / 2);
     } else if (originHorizontal === "right") {
-      x = layer.position!.x - width;
+      x = layer.position!.x! - width;
     } else {
       throw new Error(
         `Layer origin descriptor is not valid: ${layer.origin!.descriptor}`
@@ -91,11 +100,11 @@ export const processWorkflow = async (
     }
 
     if (originVertical === "top") {
-      y = layer.position!.y;
+      y = layer.position!.y!;
     } else if (originVertical === "center") {
-      y = layer.position!.y - Math.round(height / 2);
+      y = layer.position!.y! - Math.round(height / 2);
     } else if (originVertical === "bottom") {
-      y = layer.position!.y - height;
+      y = layer.position!.y! - height;
     } else {
       throw new Error(
         `Layer origin descriptor is not valid: ${layer.origin!.descriptor}`
@@ -179,6 +188,59 @@ const getSolidLayerContent = async (
     { apply: "blue", params: [layerContent.color.b] },
   ]);
   image.opacity(layerContent.color.a);
+  image.resize(workflow.size.width, workflow.size.height);
+
+  return image;
+};
+
+const getGradientLayerContent = async (
+  jimp: any,
+  layerContent: GradientLayerContent,
+  workflow: Workflow
+): Promise<any> => {
+  if (!layerContent.color?.from || !layerContent.color?.to) {
+    return;
+  }
+
+  const image = await jimp.create(1, workflow.size.height);
+  image.opaque();
+
+  const gradientStart = {
+    x: layerContent.pos?.from?.x ?? 0,
+    y: layerContent.pos?.from?.y ?? 0,
+  };
+  const gradientEnd = {
+    x: layerContent.pos?.to?.x ?? workflow.size.width,
+    y: layerContent.pos?.to?.y ?? workflow.size.height,
+  };
+
+  const fromColor = layerContent.color!.from!;
+  const toColor = layerContent.color!.to!;
+
+  for (let y = 0; y < workflow.size.height; y++) {
+    let percentageOfImageCovered = null;
+
+    if (y < gradientStart.y) {
+      percentageOfImageCovered = 0;
+    } else if (y >= gradientEnd.y) {
+      percentageOfImageCovered = 1;
+    } else {
+      percentageOfImageCovered =
+        (y - gradientStart.y) / (gradientEnd.y - gradientStart.y);
+    }
+
+    const r =
+      fromColor.r + (toColor.r - fromColor.r) * percentageOfImageCovered;
+    const g =
+      fromColor.g + (toColor.g - fromColor.g) * percentageOfImageCovered;
+    const b =
+      fromColor.b + (toColor.b - fromColor.b) * percentageOfImageCovered;
+    const a =
+      255 * fromColor.a + (toColor.a - fromColor.a) * percentageOfImageCovered;
+
+    image.setPixelColor(jimp.rgbaToInt(r, g, b, a), 0, y);
+  }
+
   image.resize(workflow.size.width, workflow.size.height);
 
   return image;

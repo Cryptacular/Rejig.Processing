@@ -6,6 +6,10 @@ import { getDefaultWorkflow } from "../src/models/Workflow";
 import { getDefaultLayer } from "../src/models/Layer";
 import { getDefaultSolidLayerContent } from "../src/models/SolidLayerContent";
 import { getDefaultImageLayerContent } from "../src/models/ImageLayerContent";
+import {
+  getDefaultGradientLayerContent,
+  GradientLayerContent,
+} from "../src/models/GradientLayerContent";
 import { Origin } from "../src/models/Origin";
 
 describe("Processor", () => {
@@ -281,6 +285,47 @@ describe("Processor", () => {
 
       const image = await processWorkflow(workflow, Jimp);
       const filename = "image-and-solid";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+  });
+
+  describe("[gradient]", () => {
+    it("creates image with default gradient", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 200, height: 100 },
+        layers: [
+          getDefaultLayer({
+            content: getDefaultGradientLayerContent(),
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow, Jimp);
+      const filename = "gradient-default";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("creates image with a linear gradient using specified position (vertical)", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 200, height: 100 },
+        layers: [
+          getDefaultLayer({
+            content: getDefaultGradientLayerContent({
+              pos: {
+                from: { x: 0, y: 40 },
+                to: { x: 0, y: 80 },
+              },
+            }),
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow, Jimp);
+      const filename = "gradient-y-40-80";
       await saveArtifact(image, filename);
 
       expect(await diffPercentage(filename)).toBe(0);

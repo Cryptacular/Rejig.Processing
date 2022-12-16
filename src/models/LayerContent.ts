@@ -9,11 +9,15 @@ import {
 } from "./SolidLayerContent";
 
 export interface LayerContent {
-  type: "image" | "solid";
+  type: "image" | "solid" | "gradient";
 }
 
 export const layerContentSchema = yup.object({
-  type: yup.string().oneOf(["image", "solid"]).default("solid").required(),
+  type: yup
+    .string()
+    .oneOf(["image", "solid", "gradient"])
+    .default("solid")
+    .required(),
 });
 
 export const getDefaultLayerContent = (
