@@ -3,15 +3,12 @@ import { getCache } from "./cache";
 import { ImageLayerContent } from "./models/ImageLayerContent";
 import { SolidLayerContent } from "./models/SolidLayerContent";
 import { GradientLayerContent } from "./models/GradientLayerContent";
-import { Position } from "./models/Position";
+import Jimp from "jimp";
 
-export const processWorkflow = async (
-  workflow: Workflow,
-  jimp: any
-): Promise<string> => {
+export const processWorkflow = async (workflow: Workflow): Promise<string> => {
   await validate(workflow);
 
-  const output = await jimp.create(workflow.size.width, workflow.size.height);
+  const output = await Jimp.create(workflow.size.width, workflow.size.height);
 
   const layers =
     workflow.layers && workflow.layers.length
@@ -23,23 +20,15 @@ export const processWorkflow = async (
 
     switch (layer.content?.type) {
       case "image":
-        layerContent = await getImageLayerContent(jimp, layer.content);
+        layerContent = await getImageLayerContent(layer.content);
         break;
 
       case "solid":
-        layerContent = await getSolidLayerContent(
-          jimp,
-          layer.content,
-          workflow
-        );
+        layerContent = await getSolidLayerContent(layer.content, workflow);
         break;
 
       case "gradient":
-        layerContent = await getGradientLayerContent(
-          jimp,
-          layer.content,
-          workflow
-        );
+        layerContent = await getGradientLayerContent(layer.content, workflow);
     }
 
     if (!layerContent) {
@@ -148,21 +137,19 @@ export const processWorkflow = async (
 };
 
 const getImageLayerContent = async (
-  jimp: any,
   layerContent: ImageLayerContent
 ): Promise<any> => {
   if (!layerContent.location) {
     return;
   }
 
-  type Jimp = typeof jimp;
   let image: Jimp;
   const imageCache = getCache<Jimp>();
 
   if (imageCache[layerContent.location]) {
-    image = await jimp.read(imageCache[layerContent.location]);
+    image = await Jimp.read(imageCache[layerContent.location]);
   } else {
-    image = await jimp.read(layerContent.location);
+    image = await Jimp.read(layerContent.location);
     image.clone((_err: any, clone: Jimp) => {
       if (layerContent.location) imageCache[layerContent.location] = clone;
     });
@@ -172,7 +159,6 @@ const getImageLayerContent = async (
 };
 
 const getSolidLayerContent = async (
-  jimp: any,
   layerContent: SolidLayerContent,
   workflow: Workflow
 ): Promise<any> => {
@@ -180,7 +166,7 @@ const getSolidLayerContent = async (
     return;
   }
 
-  const image = await jimp.create(1, 1);
+  const image = await Jimp.create(1, 1);
   image.opaque();
   image.color([
     { apply: "red", params: [layerContent.color.r] },
@@ -194,7 +180,6 @@ const getSolidLayerContent = async (
 };
 
 const getGradientLayerContent = async (
-  jimp: any,
   layerContent: GradientLayerContent,
   workflow: Workflow
 ): Promise<any> => {
@@ -202,7 +187,7 @@ const getGradientLayerContent = async (
     return;
   }
 
-  const image = await jimp.create(1, workflow.size.height);
+  const image = await Jimp.create(1, workflow.size.height);
 
   const gradientStart = {
     x: layerContent.pos?.from?.x ?? 0,
@@ -238,7 +223,7 @@ const getGradientLayerContent = async (
       255 *
       (fromColor.a + (toColor.a - fromColor.a) * percentageOfImageCovered);
 
-    image.setPixelColor(jimp.rgbaToInt(r, g, b, a), 0, y);
+    image.setPixelColor(Jimp.rgbaToInt(r, g, b, a), 0, y);
   }
 
   image.resize(workflow.size.width, workflow.size.height);

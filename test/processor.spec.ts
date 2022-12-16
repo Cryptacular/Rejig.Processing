@@ -22,7 +22,7 @@ describe("Processor", () => {
     let error = null;
 
     try {
-      await processWorkflow(workflow as any, Jimp);
+      await processWorkflow(workflow as any);
     } catch (e) {
       error = e;
     }
@@ -33,7 +33,7 @@ describe("Processor", () => {
   it("returns a BASE64 string of type PNG when given a default workflow", async () => {
     const workflow = getDefaultWorkflow();
 
-    const image = await processWorkflow(workflow, Jimp);
+    const image = await processWorkflow(workflow);
 
     expect(image).not.toBeNull();
     expect(image).toContain("data:image/png;base64");
@@ -42,7 +42,7 @@ describe("Processor", () => {
   it("returns an image of the right size when given a valid workflow", async () => {
     const workflow = getDefaultWorkflow({ size: { width: 10, height: 20 } });
 
-    const image = await processWorkflow(workflow, Jimp);
+    const image = await processWorkflow(workflow);
 
     const buffer = Buffer.from(image.split(",")[1], "base64");
     const imageAsJimp = await Jimp.read(buffer);
@@ -66,7 +66,7 @@ describe("Processor", () => {
         ],
       });
 
-      const image = await processWorkflow(workflow, Jimp);
+      const image = await processWorkflow(workflow);
       const filename = "cover-landscape-center-center";
       await saveArtifact(image, filename);
 
@@ -88,7 +88,7 @@ describe("Processor", () => {
         ],
       });
 
-      const image = await processWorkflow(workflow, Jimp);
+      const image = await processWorkflow(workflow);
       const filename = "cover-portrait-center-center";
       await saveArtifact(image, filename);
 
@@ -110,7 +110,7 @@ describe("Processor", () => {
         ],
       });
 
-      const image = await processWorkflow(workflow, Jimp);
+      const image = await processWorkflow(workflow);
       const filename = "fit-landscape-center-center";
       await saveArtifact(image, filename);
 
@@ -132,7 +132,7 @@ describe("Processor", () => {
         ],
       });
 
-      const image = await processWorkflow(workflow, Jimp);
+      const image = await processWorkflow(workflow);
       const filename = "fit-portrait-center-center";
       await saveArtifact(image, filename);
 
@@ -154,7 +154,7 @@ describe("Processor", () => {
         ],
       });
 
-      const image = await processWorkflow(workflow, Jimp);
+      const image = await processWorkflow(workflow);
       const filename = "stretch-landscape-center-center";
       await saveArtifact(image, filename);
 
@@ -176,7 +176,7 @@ describe("Processor", () => {
         ],
       });
 
-      const image = await processWorkflow(workflow, Jimp);
+      const image = await processWorkflow(workflow);
       const filename = "stretch-portrait-center-center";
       await saveArtifact(image, filename);
 
@@ -197,7 +197,7 @@ describe("Processor", () => {
         ],
       });
 
-      const image = await processWorkflow(workflow, Jimp);
+      const image = await processWorkflow(workflow);
       const filename = "solid-red-full";
       await saveArtifact(image, filename);
 
@@ -216,7 +216,7 @@ describe("Processor", () => {
         ],
       });
 
-      const image = await processWorkflow(workflow, Jimp);
+      const image = await processWorkflow(workflow);
       const filename = "solid-green-full";
       await saveArtifact(image, filename);
 
@@ -235,7 +235,7 @@ describe("Processor", () => {
         ],
       });
 
-      const image = await processWorkflow(workflow, Jimp);
+      const image = await processWorkflow(workflow);
       const filename = "solid-blue-full";
       await saveArtifact(image, filename);
 
@@ -254,7 +254,7 @@ describe("Processor", () => {
         ],
       });
 
-      const image = await processWorkflow(workflow, Jimp);
+      const image = await processWorkflow(workflow);
       const filename = "solid-grey-semi-transparent";
       await saveArtifact(image, filename);
 
@@ -283,7 +283,7 @@ describe("Processor", () => {
         ],
       });
 
-      const image = await processWorkflow(workflow, Jimp);
+      const image = await processWorkflow(workflow);
       const filename = "image-and-solid";
       await saveArtifact(image, filename);
 
@@ -302,7 +302,7 @@ describe("Processor", () => {
         ],
       });
 
-      const image = await processWorkflow(workflow, Jimp);
+      const image = await processWorkflow(workflow);
       const filename = "gradient-default";
       await saveArtifact(image, filename);
 
@@ -324,7 +324,7 @@ describe("Processor", () => {
         ],
       });
 
-      const image = await processWorkflow(workflow, Jimp);
+      const image = await processWorkflow(workflow);
       const filename = "gradient-blue-orange";
       await saveArtifact(image, filename);
 
@@ -346,7 +346,7 @@ describe("Processor", () => {
         ],
       });
 
-      const image = await processWorkflow(workflow, Jimp);
+      const image = await processWorkflow(workflow);
       const filename = "gradient-blue-orange-alpha";
       await saveArtifact(image, filename);
 
@@ -368,7 +368,7 @@ describe("Processor", () => {
         ],
       });
 
-      const image = await processWorkflow(workflow, Jimp);
+      const image = await processWorkflow(workflow);
       const filename = "gradient-y-40-80";
       await saveArtifact(image, filename);
 
@@ -405,7 +405,7 @@ describe("Processor", () => {
             ],
           });
 
-          const image = await processWorkflow(workflow, Jimp);
+          const image = await processWorkflow(workflow);
           const filename = `origin-alignment/origin[${origin}]-alignment[${alignment}]`;
           await saveArtifact(image, filename);
 
@@ -429,7 +429,7 @@ describe("Processor", () => {
         ],
       });
 
-      const image = await processWorkflow(workflow, Jimp);
+      const image = await processWorkflow(workflow);
       const filename = "scaled-down-50-percent";
       await saveArtifact(image, filename);
 
@@ -451,7 +451,7 @@ describe("Processor", () => {
         ],
       });
 
-      const image = await processWorkflow(workflow, Jimp);
+      const image = await processWorkflow(workflow);
       const filename = "scaled-down-50-percent-origin-alignment";
       await saveArtifact(image, filename);
 
@@ -472,7 +472,7 @@ describe("Processor", () => {
         ],
       });
 
-      const image = await processWorkflow(workflow, Jimp);
+      const image = await processWorkflow(workflow);
       const filename = "scaled-down-50-percent-position";
       await saveArtifact(image, filename);
 
