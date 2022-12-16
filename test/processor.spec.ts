@@ -309,6 +309,50 @@ describe("Processor", () => {
       expect(await diffPercentage(filename)).toBe(0);
     });
 
+    it("creates image with gradient of specified colours", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 200, height: 100 },
+        layers: [
+          getDefaultLayer({
+            content: getDefaultGradientLayerContent({
+              color: {
+                from: { r: 0, g: 0, b: 255, a: 1 },
+                to: { r: 255, g: 122, b: 0, a: 1 },
+              },
+            }),
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow, Jimp);
+      const filename = "gradient-blue-orange";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("creates image with gradient of specified colours with alpha", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 200, height: 100 },
+        layers: [
+          getDefaultLayer({
+            content: getDefaultGradientLayerContent({
+              color: {
+                from: { r: 0, g: 0, b: 255, a: 0.7 },
+                to: { r: 255, g: 122, b: 0, a: 0.1 },
+              },
+            }),
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow, Jimp);
+      const filename = "gradient-blue-orange-alpha";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
     it("creates image with a linear gradient using specified position (vertical)", async () => {
       const workflow = getDefaultWorkflow({
         size: { width: 200, height: 100 },

@@ -203,7 +203,6 @@ const getGradientLayerContent = async (
   }
 
   const image = await jimp.create(1, workflow.size.height);
-  image.opaque();
 
   const gradientStart = {
     x: layerContent.pos?.from?.x ?? 0,
@@ -236,7 +235,8 @@ const getGradientLayerContent = async (
     const b =
       fromColor.b + (toColor.b - fromColor.b) * percentageOfImageCovered;
     const a =
-      255 * fromColor.a + (toColor.a - fromColor.a) * percentageOfImageCovered;
+      255 *
+      (fromColor.a + (toColor.a - fromColor.a) * percentageOfImageCovered);
 
     image.setPixelColor(jimp.rgbaToInt(r, g, b, a), 0, y);
   }
