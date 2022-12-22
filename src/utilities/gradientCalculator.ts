@@ -3,7 +3,7 @@ import { Position } from "../models/Position";
 /**
  * Represents the equation for a line in the format 'y = mx + b'
  */
-interface LineEquation {
+export interface LineEquation {
   m: number;
   b: number;
   direction:
@@ -18,14 +18,23 @@ interface LineEquation {
 }
 
 /**
- * Represents the a vertical line where 'x' is the horizontal position of the line
+ * Represents a horizontal line
  */
-interface VerticalLineEquation extends LineEquation {
-  direction: "up" | "down";
-  x: number;
-  }
+export interface HorizontalLineEquation extends LineEquation {
+  m: 0;
+  direction: "left" | "right";
+}
 
-interface Point {
+/**
+ * Represents a vertical line where 'x' is the horizontal position of the line
+ */
+export interface VerticalLineEquation extends LineEquation {
+  b: 0;
+  x: number;
+  direction: "up" | "down";
+}
+
+export interface Point {
   x: number;
   y: number;
 }
@@ -33,7 +42,7 @@ interface Point {
 export const equationOfLineFromPoints = (
   p1: Point,
   p2: Point
-): LineEquation | VerticalLineEquation => {
+): LineEquation | HorizontalLineEquation | VerticalLineEquation => {
   const isHorizontal = p1.y === p2.y;
   const isVertical = p1.x === p2.x;
 
@@ -60,9 +69,49 @@ export const equationOfLineFromPoints = (
   return { m: slope, b: offset, direction };
 };
 
-// Calculate slope of line
+export const equationOfPerpendicularLine = (
+  line: LineEquation | HorizontalLineEquation | VerticalLineEquation,
+  point: Point
+): LineEquation | HorizontalLineEquation | VerticalLineEquation => {
+  const isHorizontal = line.direction === "left" || line.direction === "right";
+  const isVertical = line.direction === "up" || line.direction === "down";
 
-// Calculate perpendicular slope
+  if (isHorizontal) {
+    if (point.y !== line.b) throw new Error("Point is not along line");
+
+    return {
+      m: Infinity,
+      b: 0,
+      x: point.x,
+      direction: "down",
+    } as VerticalLineEquation;
+  }
+
+  if (isVertical) {
+    const verticalLine = line as VerticalLineEquation;
+    if (point.x !== verticalLine.x) throw new Error("Point is not along line");
+
+    return {
+      m: 0,
+      b: point.y,
+      direction: "right",
+    } as HorizontalLineEquation;
+  }
+
+  if (Math.abs(solveEquation(line, point.x) - point.y) > 0.01) {
+    throw new Error("Point is not along line");
+  }
+
+  const slope = -1 / line.m;
+  const offset = point.y - slope * point.x;
+  const direction = slope > 0 ? "up-right" : "down-right";
+
+  return { m: slope, b: offset, direction };
+};
+
+export const solveEquation = (equation: LineEquation, x: number): number => {
+  return equation.m * x + equation.b;
+};
 
 // Find equation of line of a given slope through a point
 

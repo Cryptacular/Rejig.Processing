@@ -1,4 +1,11 @@
-import { equationOfLineFromPoints } from "../../src/utilities/gradientCalculator";
+import {
+  equationOfLineFromPoints,
+  equationOfPerpendicularLine,
+  HorizontalLineEquation,
+  LineEquation,
+  Point,
+  VerticalLineEquation,
+} from "../../src/utilities/gradientCalculator";
 
 describe("gradientCalculator", () => {
   describe("> equationOfLineFromPoints", () => {
@@ -73,6 +80,78 @@ describe("gradientCalculator", () => {
       expect(equation.m).toBeCloseTo(0.727272727273);
       expect(equation.b).toBeCloseTo(92.727272727273);
       expect(equation.direction).toBe("down-left");
+    });
+  });
+
+  describe("> equationOfPerpendicularLine", () => {
+    it("should throw error if point does not intersect line", () => {
+      const p1 = { x: 10, y: -80 };
+      const p2 = { x: 120, y: -200 };
+      const equation = equationOfLineFromPoints(p1, p2);
+
+      expect(() =>
+        equationOfPerpendicularLine(equation, { x: 0, y: 8000 })
+      ).toThrow();
+    });
+
+    it("should return horizontal line through specified point when given a vertical line", () => {
+      const line: VerticalLineEquation = {
+        m: Infinity,
+        b: 0,
+        x: 8,
+        direction: "down",
+      };
+      const point: Point = { x: 8, y: 12 };
+
+      const perpendicular = equationOfPerpendicularLine(line, point);
+
+      expect(perpendicular).toEqual({ m: 0, b: 12, direction: "right" });
+    });
+
+    it("should return vertical line through specified point when given a horizontal line", () => {
+      const line: HorizontalLineEquation = {
+        m: 0,
+        b: 8,
+        direction: "right",
+      };
+      const point: Point = { x: 4, y: 8 };
+
+      const perpendicular = equationOfPerpendicularLine(line, point);
+
+      expect(perpendicular).toEqual({
+        m: Infinity,
+        b: 0,
+        x: 4,
+        direction: "down",
+      });
+    });
+
+    it("should return perpendicular line through specified point when given a line with positive slope and offset above zero", () => {
+      const p1 = { x: 80, y: 100 };
+      const p2 = { x: 120, y: 180 };
+      const equation = equationOfLineFromPoints(p1, p2);
+
+      const perpendicular = equationOfPerpendicularLine(equation, p1);
+
+      expect(perpendicular).toEqual({
+        m: -0.5,
+        b: 140,
+        direction: "down-right",
+      });
+    });
+
+    it("should return perpendicular line through specified point when given a line with negative slope and offset above zero", () => {
+      const p1 = { x: 80, y: 180 };
+      const p2 = { x: 120, y: 100 };
+      const equation = equationOfLineFromPoints(p1, p2);
+
+      const perpendicular = equationOfPerpendicularLine(equation, p1);
+
+      expect(perpendicular).toEqual({
+        m: 0.5,
+        b: 140,
+        direction: "up-right",
+      });
     });
   });
 });
