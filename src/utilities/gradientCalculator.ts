@@ -77,8 +77,6 @@ export const equationOfPerpendicularLine = (
   const isVertical = line.direction === "up" || line.direction === "down";
 
   if (isHorizontal) {
-    if (point.y !== line.b) throw new Error("Point is not along line");
-
     return {
       m: Infinity,
       b: 0,
@@ -88,18 +86,11 @@ export const equationOfPerpendicularLine = (
   }
 
   if (isVertical) {
-    const verticalLine = line as VerticalLineEquation;
-    if (point.x !== verticalLine.x) throw new Error("Point is not along line");
-
     return {
       m: 0,
       b: point.y,
       direction: "right",
     } as HorizontalLineEquation;
-  }
-
-  if (Math.abs(solveEquation(line, point.x) - point.y) > 0.01) {
-    throw new Error("Point is not along line");
   }
 
   const slope = -1 / line.m;

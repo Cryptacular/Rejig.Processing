@@ -84,16 +84,6 @@ describe("gradientCalculator", () => {
   });
 
   describe("> equationOfPerpendicularLine", () => {
-    it("should throw error if point does not intersect line", () => {
-      const p1 = { x: 10, y: -80 };
-      const p2 = { x: 120, y: -200 };
-      const equation = equationOfLineFromPoints(p1, p2);
-
-      expect(() =>
-        equationOfPerpendicularLine(equation, { x: 0, y: 8000 })
-      ).toThrow();
-    });
-
     it("should return horizontal line through specified point when given a vertical line", () => {
       const line: VerticalLineEquation = {
         m: Infinity,
