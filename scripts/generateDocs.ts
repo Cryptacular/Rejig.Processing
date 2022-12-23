@@ -1,7 +1,6 @@
 import fs from "fs";
 import path from "path";
 import yaml from "js-yaml";
-import Jimp from "jimp";
 import { getDefaultWorkflow, validate, Workflow } from "../src/models/Workflow";
 import { processWorkflow } from "../src/processor";
 
@@ -81,9 +80,24 @@ const run = async () => {
         position: { x: 0, y: 0 },
         origin: { descriptor: "center center" },
         alignment: { descriptor: "center center" },
-        placement: "cover",
+        placement: "fit",
         scale: { x: 1, y: 1 },
         opacity: 100,
+      },
+      {
+        id: "layer-with-gradient",
+        name: "Linear gradient",
+        content: {
+          type: "gradient",
+          color: {
+            from: { r: 255, g: 255, b: 255, a: 1 },
+            to: { r: 20, g: 0, b: 0, a: 1 },
+          },
+          pos: {
+            from: { x: 150, y: 150 },
+            to: { x: 0, y: 0 },
+          },
+        },
       },
     ],
     parameters: [
@@ -133,7 +147,7 @@ const run = async () => {
 };
 
 async function createImage(workflow: Workflow) {
-  const image = await processWorkflow(getDefaultWorkflow(workflow), Jimp);
+  const image = await processWorkflow(getDefaultWorkflow(workflow));
 
   const outputFolder = path.resolve("./images");
   if (!fs.existsSync(outputFolder)) {

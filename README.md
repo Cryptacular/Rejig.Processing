@@ -215,12 +215,43 @@ layers:
       "alignment": {
         "descriptor": "center center"
       },
-      "placement": "cover",
+      "placement": "fit",
       "scale": {
         "x": 1,
         "y": 1
       },
       "opacity": 100
+    },
+    {
+      "id": "layer-with-gradient",
+      "name": "Linear gradient",
+      "content": {
+        "type": "gradient",
+        "color": {
+          "from": {
+            "r": 255,
+            "g": 255,
+            "b": 255,
+            "a": 1
+          },
+          "to": {
+            "r": 20,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          }
+        },
+        "pos": {
+          "from": {
+            "x": 150,
+            "y": 150
+          },
+          "to": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      }
     }
   ],
   "parameters": [
@@ -258,7 +289,7 @@ layers:
         a: 1
     position:
       x: 0
-      "y": 0
+      'y': 0
     origin:
       descriptor: center center
     alignment:
@@ -266,7 +297,7 @@ layers:
     placement: cover
     scale:
       x: 1
-      "y": 1
+      'y': 1
     opacity: 15
   - id: layer-with-solid-color
     name: Overlay
@@ -279,7 +310,7 @@ layers:
         a: 1
     position:
       x: 0
-      "y": 0
+      'y': 0
     origin:
       descriptor: center center
     alignment:
@@ -287,7 +318,7 @@ layers:
     placement: cover
     scale:
       x: 1
-      "y": 1
+      'y': 1
     opacity: 15
   - id: layer-with-solid-color
     name: Overlay
@@ -300,7 +331,7 @@ layers:
         a: 1
     position:
       x: 0
-      "y": 0
+      'y': 0
     origin:
       descriptor: center center
     alignment:
@@ -308,7 +339,7 @@ layers:
     placement: cover
     scale:
       x: 1
-      "y": 1
+      'y': 1
     opacity: 15
   - id: layer-with-solid-color
     name: Overlay
@@ -321,7 +352,7 @@ layers:
         a: 1
     position:
       x: 0
-      "y": 0
+      'y': 0
     origin:
       descriptor: center center
     alignment:
@@ -329,7 +360,7 @@ layers:
     placement: cover
     scale:
       x: 1
-      "y": 1
+      'y': 1
     opacity: 15
   - id: layer-with-image
     name: Background image
@@ -339,16 +370,38 @@ layers:
         https://images.unsplash.com/photo-1541513161836-e2049e89afaa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fHR3aXN0fGVufDB8MHwwfHw%3D&auto=format&fit=crop&w=800&q=60
     position:
       x: 0
-      "y": 0
+      'y': 0
     origin:
       descriptor: center center
     alignment:
       descriptor: center center
-    placement: cover
+    placement: fit
     scale:
       x: 1
-      "y": 1
+      'y': 1
     opacity: 100
+  - id: layer-with-gradient
+    name: Linear gradient
+    content:
+      type: gradient
+      color:
+        from:
+          r: 255
+          g: 255
+          b: 255
+          a: 1
+        to:
+          r: 20
+          g: 0
+          b: 0
+          a: 1
+      pos:
+        from:
+          x: 150
+          'y': 150
+        to:
+          x: 0
+          'y': 0
 parameters:
   - id: background
     name: Background
