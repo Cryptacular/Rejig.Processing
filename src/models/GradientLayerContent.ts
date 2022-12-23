@@ -10,7 +10,7 @@ export interface GradientLayerContent extends LayerContent {
     to?: Color;
   };
   pos?: { from?: Position; to?: Position };
-  direction?: "linear" | "radial";
+  direction?: "linear";
 }
 
 export const GradientLayerContentSchema: yup.ObjectSchema<GradientLayerContent> =
@@ -24,7 +24,7 @@ export const GradientLayerContentSchema: yup.ObjectSchema<GradientLayerContent> 
       from: positionSchema,
       to: positionSchema,
     }),
-    direction: yup.string().oneOf(["linear", "radial"]).default("linear"),
+    direction: yup.string().oneOf(["linear"]).default("linear"),
   });
 
 export const getDefaultGradientLayerContent = (
