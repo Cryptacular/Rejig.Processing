@@ -1,5 +1,3 @@
-import { Position } from "../models/Position";
-
 /**
  * Represents the equation for a line in the format 'y = mx + b'
  */
