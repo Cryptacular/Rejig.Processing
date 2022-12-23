@@ -1,6 +1,6 @@
 {
   "name": "rejig-processing",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Library for processing workflows with Rejig",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

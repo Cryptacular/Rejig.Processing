@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import { SolidLayerContent } from "./SolidLayerContent";
 import { layerContentSchema } from "./LayerContent";
 import { GradientLayerContent } from "./GradientLayerContent";
-import Jimp from "jimp/*";
+import { LayerMask, layerMaskSchema } from "./LayerMask";
 
 export interface Layer {
   id?: string;
@@ -30,6 +30,7 @@ export interface Layer {
     | "hardlight"
     | "difference"
     | "exclusion";
+  mask?: LayerMask;
 }
 
 export const layerSchema: yup.ObjectSchema<Layer> = yup.object({
@@ -60,6 +61,7 @@ export const layerSchema: yup.ObjectSchema<Layer> = yup.object({
       "exclusion",
     ])
     .default("normal"),
+  mask: layerMaskSchema,
 });
 
 export const getDefaultLayer = (properties?: Partial<Layer>): Layer =>

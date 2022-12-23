@@ -6,10 +6,7 @@ import { getDefaultWorkflow } from "../src/models/Workflow";
 import { getDefaultLayer, Layer } from "../src/models/Layer";
 import { getDefaultSolidLayerContent } from "../src/models/SolidLayerContent";
 import { getDefaultImageLayerContent } from "../src/models/ImageLayerContent";
-import {
-  getDefaultGradientLayerContent,
-  GradientLayerContent,
-} from "../src/models/GradientLayerContent";
+import { getDefaultGradientLayerContent } from "../src/models/GradientLayerContent";
 import { Origin } from "../src/models/Origin";
 
 describe("Processor", () => {
@@ -622,6 +619,66 @@ describe("Processor", () => {
         expect(await diffPercentage(filename)).toBe(0);
       });
     }
+  });
+
+  describe("[mask]", () => {
+    it("should apply black & white mask and hide center square", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 400, height: 400 },
+        layers: [
+          getDefaultLayer({
+            content: {
+              type: "image",
+              location: path.resolve("./test/images/400x400.jpeg"),
+            },
+            mask: {
+              content: {
+                type: "image",
+                location: path.resolve(
+                  "./test/images/black-square-on-white-bg.png"
+                ),
+              },
+              placement: "cover",
+            },
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow);
+      const filename = "mask-square-center-hidden";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("should apply white & transparent mask and hide outside of center square", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 400, height: 400 },
+        layers: [
+          getDefaultLayer({
+            content: {
+              type: "image",
+              location: path.resolve("./test/images/400x400.jpeg"),
+            },
+            mask: {
+              content: {
+                type: "image",
+                location: path.resolve(
+                  "./test/images/white-square-on-transparent-bg.png"
+                ),
+              },
+              placement: "cover",
+            },
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow);
+      const filename = "mask-square-outside-hidden";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
   });
 });
 

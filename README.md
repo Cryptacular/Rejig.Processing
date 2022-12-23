@@ -83,7 +83,44 @@ layers:
   },
   "layers": [
     {
-      "id": "layer-with-solid-color",
+      "id": "layer-with-mask",
+      "content": {
+        "type": "solid",
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 1
+        }
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "origin": {
+        "descriptor": "center center"
+      },
+      "alignment": {
+        "descriptor": "center center"
+      },
+      "placement": "cover",
+      "mask": {
+        "content": {
+          "type": "image",
+          "location": "https://images.unsplash.com/photo-1531979089097-fe46b4e4f235?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2658&q=80"
+        },
+        "placement": "cover",
+        "origin": {
+          "descriptor": "center center"
+        },
+        "alignment": {
+          "descriptor": "center center"
+        }
+      },
+      "blendingMode": "hardlight"
+    },
+    {
+      "id": "layer-with-solid-color-1",
       "name": "Overlay",
       "content": {
         "type": "solid",
@@ -112,7 +149,7 @@ layers:
       "opacity": 15
     },
     {
-      "id": "layer-with-solid-color",
+      "id": "layer-with-solid-color-2",
       "name": "Overlay",
       "content": {
         "type": "solid",
@@ -142,7 +179,7 @@ layers:
       "blendingMode": "overlay"
     },
     {
-      "id": "layer-with-solid-color",
+      "id": "layer-with-solid-color-3",
       "name": "Overlay",
       "content": {
         "type": "solid",
@@ -171,7 +208,7 @@ layers:
       "opacity": 15
     },
     {
-      "id": "layer-with-solid-color",
+      "id": "layer-with-solid-color-4",
       "name": "Overlay",
       "content": {
         "type": "solid",
@@ -279,7 +316,34 @@ size:
   width: 150
   height: 150
 layers:
-  - id: layer-with-solid-color
+  - id: layer-with-mask
+    content:
+      type: solid
+      color:
+        r: 255
+        g: 255
+        b: 255
+        a: 1
+    position:
+      x: 0
+      'y': 0
+    origin:
+      descriptor: center center
+    alignment:
+      descriptor: center center
+    placement: cover
+    mask:
+      content:
+        type: image
+        location: >-
+          https://images.unsplash.com/photo-1531979089097-fe46b4e4f235?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2658&q=80
+      placement: cover
+      origin:
+        descriptor: center center
+      alignment:
+        descriptor: center center
+    blendingMode: hardlight
+  - id: layer-with-solid-color-1
     name: Overlay
     content:
       type: solid
@@ -300,7 +364,7 @@ layers:
       x: 1
       'y': 1
     opacity: 15
-  - id: layer-with-solid-color
+  - id: layer-with-solid-color-2
     name: Overlay
     content:
       type: solid
@@ -322,7 +386,7 @@ layers:
       'y': 1
     opacity: 85
     blendingMode: overlay
-  - id: layer-with-solid-color
+  - id: layer-with-solid-color-3
     name: Overlay
     content:
       type: solid
@@ -343,7 +407,7 @@ layers:
       x: 1
       'y': 1
     opacity: 15
-  - id: layer-with-solid-color
+  - id: layer-with-solid-color-4
     name: Overlay
     content:
       type: solid

@@ -26,7 +26,26 @@ const run = async () => {
     },
     layers: [
       {
-        id: "layer-with-solid-color",
+        id: "layer-with-mask",
+        content: { type: "solid", color: { r: 255, g: 255, b: 255, a: 1 } },
+        position: { x: 0, y: 0 },
+        origin: { descriptor: "center center" },
+        alignment: { descriptor: "center center" },
+        placement: "cover",
+        mask: {
+          content: {
+            type: "image",
+            location:
+              "https://images.unsplash.com/photo-1531979089097-fe46b4e4f235?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2658&q=80",
+          },
+          placement: "cover",
+          origin: { descriptor: "center center" },
+          alignment: { descriptor: "center center" },
+        },
+        blendingMode: "hardlight",
+      },
+      {
+        id: "layer-with-solid-color-1",
         name: "Overlay",
         content: { type: "solid", color: { r: 122, g: 122, b: 255, a: 1 } },
         position: { x: 0, y: 0 },
@@ -37,7 +56,7 @@ const run = async () => {
         opacity: 15,
       },
       {
-        id: "layer-with-solid-color",
+        id: "layer-with-solid-color-2",
         name: "Overlay",
         content: { type: "solid", color: { r: 255, g: 122, b: 122, a: 1 } },
         position: { x: 0, y: 0 },
@@ -49,7 +68,7 @@ const run = async () => {
         blendingMode: "overlay",
       },
       {
-        id: "layer-with-solid-color",
+        id: "layer-with-solid-color-3",
         name: "Overlay",
         content: { type: "solid", color: { r: 255, g: 122, b: 255, a: 1 } },
         position: { x: 0, y: 0 },
@@ -60,7 +79,7 @@ const run = async () => {
         opacity: 15,
       },
       {
-        id: "layer-with-solid-color",
+        id: "layer-with-solid-color-4",
         name: "Overlay",
         content: { type: "solid", color: { r: 122, g: 255, b: 122, a: 1 } },
         position: { x: 0, y: 0 },

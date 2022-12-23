@@ -1,0 +1,21 @@
+name: white-square-on-transparent-bg
+
+size:
+  width: 512
+  height: 512
+
+layers:
+  - content:
+      type: solid
+      color:
+        r: 255
+        g: 255
+        b: 255.
+        a: 1
+    scale:
+      x: 0.5
+      y: 0.5
+    origin:
+      descriptor: center center
+    alignment:
+      descriptor: center center
