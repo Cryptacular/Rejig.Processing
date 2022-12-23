@@ -374,6 +374,50 @@ describe("Processor", () => {
 
       expect(await diffPercentage(filename)).toBe(0);
     });
+
+    it("creates image with a linear gradient using inverted position (bottom to top)", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 200, height: 100 },
+        layers: [
+          getDefaultLayer({
+            content: getDefaultGradientLayerContent({
+              pos: {
+                from: { x: 0, y: 80 },
+                to: { x: 0, y: 40 },
+              },
+            }),
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow);
+      const filename = "gradient-y-80-40";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("creates image with a linear gradient using angled position (bottom-right to top-left)", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 200, height: 100 },
+        layers: [
+          getDefaultLayer({
+            content: getDefaultGradientLayerContent({
+              pos: {
+                from: { x: 160, y: 80 },
+                to: { x: 40, y: 40 },
+              },
+            }),
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow);
+      const filename = "gradient-from-160-80-to-40-40";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
   });
 
   describe("[origin] and [alignment]", () => {

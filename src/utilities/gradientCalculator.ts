@@ -159,6 +159,12 @@ export const getRatioOfPointAlongLine = (
     throw new Error("Line needs to have two points (start and end)");
   }
 
+  const isVertical = line.direction === "up" || line.direction === "down";
+
+  if (isVertical) {
+    return clamp((point.y - line.start.y) / (line.end.y - line.start.y), 0, 1);
+  }
+
   return clamp((point.x - line.start.x) / (line.end.x - line.start.x), 0, 1);
 };
 

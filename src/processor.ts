@@ -4,6 +4,12 @@ import { ImageLayerContent } from "./models/ImageLayerContent";
 import { SolidLayerContent } from "./models/SolidLayerContent";
 import { GradientLayerContent } from "./models/GradientLayerContent";
 import Jimp from "jimp";
+import {
+  equationOfLineFromPoints,
+  equationOfPerpendicularLine,
+  getRatioOfPointAlongLine,
+  intersectionOfTwoLines,
+} from "./utilities/gradientCalculator";
 
 export const processWorkflow = async (workflow: Workflow): Promise<string> => {
   await validate(workflow);
@@ -187,46 +193,38 @@ const getGradientLayerContent = async (
     return;
   }
 
-  const image = await Jimp.create(1, workflow.size.height);
-
-  const gradientStart = {
+  const start = {
     x: layerContent.pos?.from?.x ?? 0,
     y: layerContent.pos?.from?.y ?? 0,
   };
-  const gradientEnd = {
-    x: layerContent.pos?.to?.x ?? workflow.size.width,
+  const end = {
+    x: layerContent.pos?.to?.x ?? 0,
     y: layerContent.pos?.to?.y ?? workflow.size.height,
   };
+  const line = equationOfLineFromPoints(start, end);
 
   const fromColor = layerContent.color!.from!;
   const toColor = layerContent.color!.to!;
 
-  for (let y = 0; y < workflow.size.height; y++) {
-    let percentageOfImageCovered = null;
+  const image = await Jimp.create(workflow.size.width, workflow.size.height);
 
-    if (y < gradientStart.y) {
-      percentageOfImageCovered = 0;
-    } else if (y >= gradientEnd.y) {
-      percentageOfImageCovered = 1;
-    } else {
-      percentageOfImageCovered =
-        (y - gradientStart.y) / (gradientEnd.y - gradientStart.y);
+  for (let x = 0; x < workflow.size.width; x++) {
+    for (let y = 0; y < workflow.size.height; y++) {
+      const perpendicular = equationOfPerpendicularLine(line, {
+        x,
+        y,
+      });
+      const intersection = intersectionOfTwoLines(line, perpendicular);
+      const gradientRatio = getRatioOfPointAlongLine(line, intersection);
+
+      const r = fromColor.r + (toColor.r - fromColor.r) * gradientRatio;
+      const g = fromColor.g + (toColor.g - fromColor.g) * gradientRatio;
+      const b = fromColor.b + (toColor.b - fromColor.b) * gradientRatio;
+      const a = 255 * (fromColor.a + (toColor.a - fromColor.a) * gradientRatio);
+
+      image.setPixelColor(Jimp.rgbaToInt(r, g, b, a), x, y);
     }
-
-    const r =
-      fromColor.r + (toColor.r - fromColor.r) * percentageOfImageCovered;
-    const g =
-      fromColor.g + (toColor.g - fromColor.g) * percentageOfImageCovered;
-    const b =
-      fromColor.b + (toColor.b - fromColor.b) * percentageOfImageCovered;
-    const a =
-      255 *
-      (fromColor.a + (toColor.a - fromColor.a) * percentageOfImageCovered);
-
-    image.setPixelColor(Jimp.rgbaToInt(r, g, b, a), 0, y);
   }
-
-  image.resize(workflow.size.width, workflow.size.height);
 
   return image;
 };
