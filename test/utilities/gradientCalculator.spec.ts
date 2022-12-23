@@ -5,6 +5,9 @@ import {
   intersectionOfTwoLines,
   Point,
   VerticalLineEquation,
+  clamp,
+  LineEquation,
+  getRatioOfPointAlongLine,
 } from "../../src/utilities/gradientCalculator";
 
 describe("gradientCalculator", () => {
@@ -15,7 +18,13 @@ describe("gradientCalculator", () => {
 
       const equation = equationOfLineFromPoints(p1, p2);
 
-      expect(equation).toEqual({ m: 0, b: 1, direction: "right" });
+      expect(equation).toEqual({
+        m: 0,
+        b: 1,
+        direction: "right",
+        start: p1,
+        end: p2,
+      });
     });
 
     it("should return a slope of Inf and 0 offset for a vertical line", () => {
@@ -24,7 +33,14 @@ describe("gradientCalculator", () => {
 
       const equation = equationOfLineFromPoints(p1, p2);
 
-      expect(equation).toEqual({ m: Infinity, b: 0, x: 3, direction: "up" });
+      expect(equation).toEqual({
+        m: Infinity,
+        b: 0,
+        x: 3,
+        direction: "up",
+        start: p1,
+        end: p2,
+      });
     });
 
     it("should return correct slope and offset for a line with a positive slope and offset above zero", () => {
@@ -90,12 +106,18 @@ describe("gradientCalculator", () => {
         b: 0,
         x: 8,
         direction: "down",
+        start: { x: 8, y: 0 },
       };
       const point: Point = { x: 8, y: 12 };
 
       const perpendicular = equationOfPerpendicularLine(line, point);
 
-      expect(perpendicular).toEqual({ m: 0, b: 12, direction: "right" });
+      expect(perpendicular).toEqual({
+        m: 0,
+        b: 12,
+        direction: "right",
+        start: point,
+      });
     });
 
     it("should return vertical line through specified point when given a horizontal line", () => {
@@ -103,6 +125,7 @@ describe("gradientCalculator", () => {
         m: 0,
         b: 8,
         direction: "right",
+        start: { x: 0, y: 8 },
       };
       const point: Point = { x: 4, y: 8 };
 
@@ -113,6 +136,7 @@ describe("gradientCalculator", () => {
         b: 0,
         x: 4,
         direction: "down",
+        start: point,
       });
     });
 
@@ -127,6 +151,7 @@ describe("gradientCalculator", () => {
         m: -0.5,
         b: 140,
         direction: "down-right",
+        start: p1,
       });
     });
 
@@ -141,6 +166,7 @@ describe("gradientCalculator", () => {
         m: 0.5,
         b: 140,
         direction: "up-right",
+        start: p1,
       });
     });
   });
@@ -220,6 +246,78 @@ describe("gradientCalculator", () => {
       const intersection = intersectionOfTwoLines(line1, line2);
 
       expect(intersection).toEqual({ x: 0, y: 100 });
+    });
+  });
+
+  describe("> getRatioOfPointAlongLine", () => {
+    it("should throw and error if the line passed in doesn't have and end point", () => {
+      const line: LineEquation = {
+        m: 0,
+        b: 0,
+        direction: "right",
+        start: { x: 0, y: 0 },
+      };
+      const point: Point = { x: 0, y: 0 };
+
+      expect(() => getRatioOfPointAlongLine(line, point)).toThrow();
+    });
+
+    it("should return 0 if point is the same as start point on line", () => {
+      const p1 = { x: 10, y: 20 };
+      const p2 = { x: 100, y: 200 };
+      const line = equationOfLineFromPoints(p1, p2);
+      const point: Point = { x: 10, y: 20 };
+
+      const ratio = getRatioOfPointAlongLine(line, point);
+
+      expect(ratio).toBe(0);
+    });
+
+    it("should return 1 if point is the same as end point on line", () => {
+      const p1 = { x: 10, y: 20 };
+      const p2 = { x: 100, y: 200 };
+      const line = equationOfLineFromPoints(p1, p2);
+      const point: Point = { x: 100, y: 200 };
+
+      const ratio = getRatioOfPointAlongLine(line, point);
+
+      expect(ratio).toBe(1);
+    });
+
+    it("should return 0.5 if point is the midpoint on line", () => {
+      const p1 = { x: 10, y: 20 };
+      const p2 = { x: 100, y: 200 };
+      const line = equationOfLineFromPoints(p1, p2);
+      const point: Point = { x: 55, y: 110 };
+
+      const ratio = getRatioOfPointAlongLine(line, point);
+
+      expect(ratio).toBe(0.5);
+    });
+
+    it("should return 0.333 if point is third of the way on the line", () => {
+      const p1 = { x: 10, y: 20 };
+      const p2 = { x: 100, y: 200 };
+      const line = equationOfLineFromPoints(p1, p2);
+      const point: Point = { x: 40, y: 80 };
+
+      const ratio = getRatioOfPointAlongLine(line, point);
+
+      expect(ratio).toBeCloseTo(0.33333, 5);
+    });
+  });
+
+  describe("> clamp", () => {
+    it("should return number if it's between low and high", () => {
+      expect(clamp(3, 0, 10)).toBe(3);
+    });
+
+    it("should return lower bound if number is lower", () => {
+      expect(clamp(-3, 0, 10)).toBe(0);
+    });
+
+    it("should return higher bound if number is higher", () => {
+      expect(clamp(20, 0, 10)).toBe(10);
     });
   });
 });

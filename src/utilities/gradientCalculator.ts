@@ -15,6 +15,8 @@ export interface LineEquation {
     | "up-left"
     | "down-right"
     | "down-left";
+  start: Point;
+  end?: Point;
 }
 
 /**
@@ -47,7 +49,13 @@ export const equationOfLineFromPoints = (
   const isVertical = p1.x === p2.x;
 
   if (isHorizontal) {
-    return { m: 0, b: p1.y, direction: p2.x > p1.x ? "right" : "left" };
+    return {
+      m: 0,
+      b: p1.y,
+      direction: p2.x > p1.x ? "right" : "left",
+      start: p1,
+      end: p2,
+    };
   }
 
   if (isVertical) {
@@ -56,6 +64,8 @@ export const equationOfLineFromPoints = (
       b: 0,
       x: p1.x,
       direction: p2.y > p1.y ? "up" : "down",
+      start: p1,
+      end: p2,
     };
   }
 
@@ -66,7 +76,7 @@ export const equationOfLineFromPoints = (
     p2.y > p1.y ? "up" : "down"
   }-${p2.x > p1.x ? "right" : "left"}`;
 
-  return { m: slope, b: offset, direction };
+  return { m: slope, b: offset, direction, start: p1, end: p2 };
 };
 
 export const equationOfPerpendicularLine = (
@@ -82,6 +92,7 @@ export const equationOfPerpendicularLine = (
       b: 0,
       x: point.x,
       direction: "down",
+      start: point,
     } as VerticalLineEquation;
   }
 
@@ -90,6 +101,7 @@ export const equationOfPerpendicularLine = (
       m: 0,
       b: point.y,
       direction: "right",
+      start: point,
     } as HorizontalLineEquation;
   }
 
@@ -97,7 +109,7 @@ export const equationOfPerpendicularLine = (
   const offset = point.y - slope * point.x;
   const direction = slope > 0 ? "up-right" : "down-right";
 
-  return { m: slope, b: offset, direction };
+  return { m: slope, b: offset, direction, start: point };
 };
 
 export const solveEquation = (equation: LineEquation, x: number): number => {
@@ -141,4 +153,23 @@ export const intersectionOfTwoLines = (
   return { x, y };
 };
 
-// Calculate position along gradient (between 0 and 1)
+export const getRatioOfPointAlongLine = (
+  line: LineEquation | HorizontalLineEquation | VerticalLineEquation,
+  point: Point
+): number => {
+  if (!line.end) {
+    throw new Error("Line needs to have two points (start and end)");
+  }
+
+  return clamp((point.x - line.start.x) / (line.end.x - line.start.x), 0, 1);
+};
+
+/**
+ *
+ * @param num Number to clamp
+ * @param low Lowest allowed number. If 'num' is lower, this will be returned instead.
+ * @param high Highest allowed number. If 'num' is higher, this will be returned instead.
+ */
+export const clamp = (num: number, low: number, high: number): number => {
+  return Math.max(low, Math.min(high, num));
+};
