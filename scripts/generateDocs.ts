@@ -45,7 +45,8 @@ const run = async () => {
         alignment: { descriptor: "top left" },
         placement: "cover",
         scale: { x: 1, y: 1 },
-        opacity: 15,
+        opacity: 85,
+        blendingMode: "overlay",
       },
       {
         id: "layer-with-solid-color",

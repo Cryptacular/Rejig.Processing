@@ -3,7 +3,7 @@ import path from "path";
 import fs from "fs";
 import { processWorkflow } from "../src/processor";
 import { getDefaultWorkflow } from "../src/models/Workflow";
-import { getDefaultLayer } from "../src/models/Layer";
+import { getDefaultLayer, Layer } from "../src/models/Layer";
 import { getDefaultSolidLayerContent } from "../src/models/SolidLayerContent";
 import { getDefaultImageLayerContent } from "../src/models/ImageLayerContent";
 import {
@@ -522,6 +522,106 @@ describe("Processor", () => {
 
       expect(await diffPercentage(filename)).toBe(0);
     });
+  });
+
+  describe("[blendingMode]", () => {
+    it("should combine layers with no blending mode when not set", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 50, height: 50 },
+        layers: [
+          getDefaultLayer({
+            scale: { x: 0.75, y: 0.75 },
+            content: getDefaultImageLayerContent({
+              location: path.resolve("./test/images/50x50.jpeg"),
+            }),
+          }),
+          getDefaultLayer({
+            scale: { x: 0.75, y: 0.75 },
+            alignment: { descriptor: "bottom right" },
+            origin: { descriptor: "bottom right" },
+            content: getDefaultImageLayerContent({
+              location: path.resolve("./test/images/50x50.jpeg"),
+            }),
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow);
+      const filename = "blending-mode-not-set";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("should work with opacity", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 50, height: 50 },
+        layers: [
+          getDefaultLayer({
+            content: getDefaultImageLayerContent({
+              location: path.resolve("./test/images/50x50_alt.jpeg"),
+            }),
+            placement: "cover",
+            blendingMode: "multiply",
+            opacity: 20,
+          }),
+          getDefaultLayer({
+            content: getDefaultImageLayerContent({
+              location: path.resolve("./test/images/50x50.jpeg"),
+            }),
+            placement: "cover",
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow);
+      const filename = "blending-mode-opacity";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    const allBlendingModes: Layer["blendingMode"][] = [
+      "normal",
+      "multiply",
+      "add",
+      "screen",
+      "overlay",
+      "darken",
+      "lighten",
+      "hardlight",
+      "difference",
+      "exclusion",
+    ];
+
+    for (let blendingMode of allBlendingModes) {
+      it(`should combine layers with no blending mode when set to '${blendingMode}'`, async () => {
+        const workflow = getDefaultWorkflow({
+          size: { width: 50, height: 50 },
+          layers: [
+            getDefaultLayer({
+              content: getDefaultImageLayerContent({
+                location: path.resolve("./test/images/50x50_alt.jpeg"),
+              }),
+              placement: "cover",
+              blendingMode: blendingMode,
+            }),
+            getDefaultLayer({
+              content: getDefaultImageLayerContent({
+                location: path.resolve("./test/images/50x50.jpeg"),
+              }),
+              placement: "cover",
+            }),
+          ],
+        });
+
+        const image = await processWorkflow(workflow);
+        const filename = `blending-mode-${blendingMode}`;
+        await saveArtifact(image, filename);
+
+        expect(await diffPercentage(filename)).toBe(0);
+      });
+    }
   });
 });
 

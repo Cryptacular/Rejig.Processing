@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import { SolidLayerContent } from "./SolidLayerContent";
 import { layerContentSchema } from "./LayerContent";
 import { GradientLayerContent } from "./GradientLayerContent";
+import Jimp from "jimp/*";
 
 export interface Layer {
   id?: string;
@@ -18,6 +19,17 @@ export interface Layer {
   placement?: "custom" | "cover" | "fit" | "stretch";
   scale?: Scale;
   opacity?: number;
+  blendingMode?:
+    | "normal"
+    | "multiply"
+    | "add"
+    | "screen"
+    | "overlay"
+    | "darken"
+    | "lighten"
+    | "hardlight"
+    | "difference"
+    | "exclusion";
 }
 
 export const layerSchema: yup.ObjectSchema<Layer> = yup.object({
@@ -33,6 +45,21 @@ export const layerSchema: yup.ObjectSchema<Layer> = yup.object({
     .default("custom"),
   scale: scaleSchema,
   opacity: yup.number().min(0).max(100).default(100),
+  blendingMode: yup
+    .string()
+    .oneOf([
+      "normal",
+      "multiply",
+      "add",
+      "screen",
+      "overlay",
+      "darken",
+      "lighten",
+      "hardlight",
+      "difference",
+      "exclusion",
+    ])
+    .default("normal"),
 });
 
 export const getDefaultLayer = (properties?: Partial<Layer>): Layer =>

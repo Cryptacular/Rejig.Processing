@@ -138,7 +138,8 @@ layers:
         "x": 1,
         "y": 1
       },
-      "opacity": 15
+      "opacity": 85,
+      "blendingMode": "overlay"
     },
     {
       "id": "layer-with-solid-color",
@@ -319,7 +320,8 @@ layers:
     scale:
       x: 1
       'y': 1
-    opacity: 15
+    opacity: 85
+    blendingMode: overlay
   - id: layer-with-solid-color
     name: Overlay
     content:

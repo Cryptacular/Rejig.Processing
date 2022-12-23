@@ -1,7 +1,17 @@
 import * as yup from "yup";
 
 export interface Origin {
-  descriptor: string;
+  descriptor:
+    | "top left"
+    | "top center"
+    | "top right"
+    | "center left"
+    | "center center"
+    | "center right"
+    | "bottom left"
+    | "bottom center"
+    | "bottom right"
+    | string;
 }
 
 const validDescriptors = [

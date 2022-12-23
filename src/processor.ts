@@ -132,8 +132,27 @@ export const processWorkflow = async (workflow: Workflow): Promise<string> => {
 
     try {
       layerContent.resize(width, height);
-      layerContent.opacity(layer.opacity! / 100);
-      output.blit(layerContent, x, y);
+
+      let blendingMode = Jimp.BLEND_SOURCE_OVER;
+
+      if (layer.blendingMode === "multiply") blendingMode = Jimp.BLEND_MULTIPLY;
+      if (layer.blendingMode === "add") blendingMode = Jimp.BLEND_ADD;
+      if (layer.blendingMode === "screen") blendingMode = Jimp.BLEND_SCREEN;
+      if (layer.blendingMode === "overlay") blendingMode = Jimp.BLEND_OVERLAY;
+      if (layer.blendingMode === "darken") blendingMode = Jimp.BLEND_DARKEN;
+      if (layer.blendingMode === "lighten") blendingMode = Jimp.BLEND_LIGHTEN;
+      if (layer.blendingMode === "hardlight")
+        blendingMode = Jimp.BLEND_HARDLIGHT;
+      if (layer.blendingMode === "difference")
+        blendingMode = Jimp.BLEND_DIFFERENCE;
+      if (layer.blendingMode === "exclusion")
+        blendingMode = Jimp.BLEND_EXCLUSION;
+
+      output.composite(layerContent, x, y, {
+        mode: blendingMode,
+        opacitySource: layer.opacity! / 100,
+        opacityDest: 1,
+      });
     } catch (e) {
       throw new Error(`Could not perform operation: ${e}`);
     }
