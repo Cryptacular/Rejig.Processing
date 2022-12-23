@@ -104,8 +104,41 @@ export const solveEquation = (equation: LineEquation, x: number): number => {
   return equation.m * x + equation.b;
 };
 
-// Find equation of line of a given slope through a point
+export const intersectionOfTwoLines = (
+  line1: LineEquation | HorizontalLineEquation | VerticalLineEquation,
+  line2: LineEquation | HorizontalLineEquation | VerticalLineEquation
+): Point => {
+  const isLine1Vertical =
+    line1.direction === "up" || line1.direction === "down";
+  const isLine2Vertical =
+    line2.direction === "up" || line2.direction === "down";
+  const isLine1Horizontal =
+    line1.direction === "left" || line1.direction === "right";
+  const isLine2Horizontal =
+    line2.direction === "left" || line2.direction === "right";
 
-// Find intersection between two lines
+  const areLinesTheSame = line1.m === line2.m && line1.b === line2.b;
+
+  if (
+    (isLine1Vertical && isLine2Vertical) ||
+    (isLine1Horizontal && isLine2Horizontal) ||
+    areLinesTheSame
+  ) {
+    throw new Error("Lines do not intersect");
+  }
+
+  /** Working of below logic
+    y₁ = m₁x + b₁
+    y₂ = m₂x + b₂
+    m₁x + b₁ = m₂x + b₂
+    m₁x - m₂x = b₂ - b₁
+    (m₁ - m₂)x = b₂ - b₁
+    x = (b₂ - b₁) / (m₁ - m₂);
+  */
+  const x = (line2.b - line1.b) / (line1.m - line2.m);
+  const y = solveEquation(isLine1Vertical ? line2 : line1, x);
+
+  return { x, y };
+};
 
 // Calculate position along gradient (between 0 and 1)

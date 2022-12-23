@@ -2,7 +2,7 @@ import {
   equationOfLineFromPoints,
   equationOfPerpendicularLine,
   HorizontalLineEquation,
-  LineEquation,
+  intersectionOfTwoLines,
   Point,
   VerticalLineEquation,
 } from "../../src/utilities/gradientCalculator";
@@ -142,6 +142,84 @@ describe("gradientCalculator", () => {
         b: 140,
         direction: "up-right",
       });
+    });
+  });
+
+  describe("> intersectionOfTwoLines", () => {
+    it("throws an error if both lines are vertical", () => {
+      const l1p1 = { x: 0, y: 180 };
+      const l1p2 = { x: 0, y: 100 };
+      const line1 = equationOfLineFromPoints(l1p1, l1p2);
+
+      const l2p1 = { x: 10, y: 180 };
+      const l2p2 = { x: 10, y: 100 };
+      const line2 = equationOfLineFromPoints(l2p1, l2p2);
+
+      expect(() => intersectionOfTwoLines(line1, line2)).toThrow();
+    });
+
+    it("throws an error if both lines are horizontal", () => {
+      const l1p1 = { x: 0, y: 100 };
+      const l1p2 = { x: 100, y: 100 };
+      const line1 = equationOfLineFromPoints(l1p1, l1p2);
+
+      const l2p1 = { x: 0, y: 200 };
+      const l2p2 = { x: 100, y: 200 };
+      const line2 = equationOfLineFromPoints(l2p1, l2p2);
+
+      expect(() => intersectionOfTwoLines(line1, line2)).toThrow();
+    });
+
+    it("throws an error if both lines are the same", () => {
+      const p1 = { x: 0, y: 100 };
+      const p2 = { x: 100, y: 200 };
+      const line1 = equationOfLineFromPoints(p1, p2);
+      const line2 = equationOfLineFromPoints(p1, p2);
+
+      expect(() => intersectionOfTwoLines(line1, line2)).toThrow();
+    });
+
+    it("returns intersection point for two different lines", () => {
+      const l1p1 = { x: 0, y: 100 };
+      const l1p2 = { x: 100, y: 200 };
+      const line1 = equationOfLineFromPoints(l1p1, l1p2);
+
+      const l2p1 = { x: 20, y: 0 };
+      const l2p2 = { x: 100, y: 800 };
+      const line2 = equationOfLineFromPoints(l2p1, l2p2);
+
+      const intersection = intersectionOfTwoLines(line1, line2);
+
+      expect(intersection.x).toBeCloseTo(33.333333);
+      expect(intersection.y).toBeCloseTo(133.333333);
+    });
+
+    it("returns intersection point for two lines where one is horizontal", () => {
+      const l1p1 = { x: 0, y: 100 };
+      const l1p2 = { x: 100, y: 200 };
+      const line1 = equationOfLineFromPoints(l1p1, l1p2);
+
+      const l2p1 = { x: 0, y: 200 };
+      const l2p2 = { x: 100, y: 200 };
+      const line2 = equationOfLineFromPoints(l2p1, l2p2);
+
+      const intersection = intersectionOfTwoLines(line1, line2);
+
+      expect(intersection).toEqual({ x: 100, y: 200 });
+    });
+
+    it("returns intersection point for two lines where one is vertical", () => {
+      const l1p1 = { x: 0, y: 100 };
+      const l1p2 = { x: 100, y: 200 };
+      const line1 = equationOfLineFromPoints(l1p1, l1p2);
+
+      const l2p1 = { x: 0, y: 100 };
+      const l2p2 = { x: 0, y: 200 };
+      const line2 = equationOfLineFromPoints(l2p1, l2p2);
+
+      const intersection = intersectionOfTwoLines(line1, line2);
+
+      expect(intersection).toEqual({ x: 0, y: 100 });
     });
   });
 });
