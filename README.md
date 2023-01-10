@@ -326,7 +326,7 @@ layers:
         a: 1
     position:
       x: 0
-      'y': 0
+      "y": 0
     origin:
       descriptor: center center
     alignment:
@@ -354,7 +354,7 @@ layers:
         a: 1
     position:
       x: 0
-      'y': 0
+      "y": 0
     origin:
       descriptor: center center
     alignment:
@@ -362,7 +362,7 @@ layers:
     placement: cover
     scale:
       x: 1
-      'y': 1
+      "y": 1
     opacity: 15
   - id: layer-with-solid-color-2
     name: Overlay
@@ -375,7 +375,7 @@ layers:
         a: 1
     position:
       x: 0
-      'y': 0
+      "y": 0
     origin:
       descriptor: center center
     alignment:
@@ -383,7 +383,7 @@ layers:
     placement: cover
     scale:
       x: 1
-      'y': 1
+      "y": 1
     opacity: 85
     blendingMode: overlay
   - id: layer-with-solid-color-3
@@ -397,7 +397,7 @@ layers:
         a: 1
     position:
       x: 0
-      'y': 0
+      "y": 0
     origin:
       descriptor: center center
     alignment:
@@ -405,7 +405,7 @@ layers:
     placement: cover
     scale:
       x: 1
-      'y': 1
+      "y": 1
     opacity: 15
   - id: layer-with-solid-color-4
     name: Overlay
@@ -418,7 +418,7 @@ layers:
         a: 1
     position:
       x: 0
-      'y': 0
+      "y": 0
     origin:
       descriptor: center center
     alignment:
@@ -426,7 +426,7 @@ layers:
     placement: cover
     scale:
       x: 1
-      'y': 1
+      "y": 1
     opacity: 15
   - id: layer-with-image
     name: Background image
@@ -436,7 +436,7 @@ layers:
         https://images.unsplash.com/photo-1541513161836-e2049e89afaa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fHR3aXN0fGVufDB8MHwwfHw%3D&auto=format&fit=crop&w=800&q=60
     position:
       x: 0
-      'y': 0
+      "y": 0
     origin:
       descriptor: center center
     alignment:
@@ -444,7 +444,7 @@ layers:
     placement: fit
     scale:
       x: 1
-      'y': 1
+      "y": 1
     opacity: 100
   - id: layer-with-gradient
     name: Linear gradient
@@ -464,10 +464,10 @@ layers:
       pos:
         from:
           x: 150
-          'y': 150
+          "y": 150
         to:
           x: 0
-          'y': 0
+          "y": 0
 parameters:
   - id: background
     name: Background
@@ -479,3 +479,596 @@ modified: 2022-12-17T22:12:13.000Z
 ```
 
 <!-- end-complex-workflow -->
+
+## Workflow schema
+
+The following describes the `Workflow` schema in full detail. If you are using this library in a TypeScript project, your IDE should give you some helpful hints while editing. If the object is invalid when passed to the `processWorkflow` function, it will throw an error with details on what parts of your object are invalid.
+
+If you're working directly with JSON or YAML files, you can reference the Workflow JSON schema like this:
+
+```json
+{
+  "$schema": "https://github.com/Cryptacular/Rejig.Processing/blob/master/json-schema/workflow.json"
+}
+```
+
+...or in YAML:
+
+```yaml
+# yaml-language-server: $schema=https://github.com/Cryptacular/Rejig.Processing/blob/master/json-schema/workflow.json
+```
+
+Full schema:
+
+<!-- start-workflow-schema -->
+
+````json
+{
+  "optional": true,
+  "nullable": false,
+  "type": "object",
+  "oneOf": [],
+  "notOneOf": [],
+  "tests": [],
+  "fields": {
+    "id": {
+      "optional": true,
+      "nullable": false,
+      "type": "string",
+      "oneOf": [],
+      "notOneOf": [],
+      "tests": []
+    },
+    "authorId": {
+      "optional": true,
+      "nullable": false,
+      "type": "string",
+      "oneOf": [],
+      "notOneOf": [],
+      "tests": []
+    },
+    "size": {
+      "optional": false,
+      "nullable": false,
+      "type": "object",
+      "oneOf": [],
+      "notOneOf": [],
+      "tests": [],
+      "fields": {
+        "width": {
+          "optional": true,
+          "nullable": false,
+          "type": "number",
+          "oneOf": [],
+          "notOneOf": [],
+          "tests": [
+            {
+              "name": "min",
+              "params": {
+                "min": 0
+              }
+            }
+          ]
+        },
+        "height": {
+          "optional": true,
+          "nullable": false,
+          "type": "number",
+          "oneOf": [],
+          "notOneOf": [],
+          "tests": [
+            {
+              "name": "min",
+              "params": {
+                "min": 0
+              }
+            }
+          ]
+        }
+      }
+    },
+    "name": {
+      "optional": true,
+      "nullable": false,
+      "type": "string",
+      "oneOf": [],
+      "notOneOf": [],
+      "tests": [
+        {
+          "name": "min",
+          "params": {
+            "min": 1
+          }
+        }
+      ]
+    },
+    "layers": {
+      "optional": true,
+      "nullable": false,
+      "type": "array",
+      "oneOf": [],
+      "notOneOf": [],
+      "tests": [],
+      "innerType": {
+        "optional": true,
+        "nullable": false,
+        "type": "object",
+        "oneOf": [],
+        "notOneOf": [],
+        "tests": [],
+        "fields": {
+          "id": {
+            "optional": true,
+            "nullable": false,
+            "type": "string",
+            "oneOf": [],
+            "notOneOf": [],
+            "tests": []
+          },
+          "name": {
+            "optional": true,
+            "nullable": false,
+            "type": "string",
+            "oneOf": [],
+            "notOneOf": [],
+            "tests": []
+          },
+          "content": {
+            "optional": true,
+            "nullable": false,
+            "type": "object",
+            "oneOf": [],
+            "notOneOf": [],
+            "tests": [],
+            "fields": {
+              "type": {
+                "optional": false,
+                "nullable": false,
+                "type": "string",
+                "oneOf": [
+                  "image",
+                  "solid",
+                  "gradient"
+                ],
+                "notOneOf": [],
+                "tests": [
+                  {
+                    "name": "required"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "optional": true,
+            "nullable": false,
+            "type": "object",
+            "oneOf": [],
+            "notOneOf": [],
+            "tests": [],
+            "fields": {
+              "x": {
+                "optional": true,
+                "nullable": false,
+                "type": "number",
+                "oneOf": [],
+                "notOneOf": [],
+                "tests": []
+              },
+              "y": {
+                "optional": true,
+                "nullable": false,
+                "type": "number",
+                "oneOf": [],
+                "notOneOf": [],
+                "tests": []
+              }
+            }
+          },
+          "origin": {
+            "optional": true,
+            "nullable": false,
+            "type": "object",
+            "oneOf": [],
+            "notOneOf": [],
+            "tests": [],
+            "fields": {
+              "descriptor": {
+                "optional": false,
+                "nullable": false,
+                "type": "string",
+                "oneOf": [
+                  "top left",
+                  "top center",
+                  "top right",
+                  "center left",
+                  "center center",
+                  "center right",
+                  "bottom left",
+                  "bottom center",
+                  "bottom right"
+                ],
+                "notOneOf": [],
+                "tests": [
+                  {
+                    "name": "required"
+                  }
+                ]
+              }
+            }
+          },
+          "alignment": {
+            "optional": true,
+            "nullable": false,
+            "type": "object",
+            "oneOf": [],
+            "notOneOf": [],
+            "tests": [],
+            "fields": {
+              "descriptor": {
+                "optional": false,
+                "nullable": false,
+                "type": "string",
+                "oneOf": [
+                  "top left",
+                  "top center",
+                  "top right",
+                  "center left",
+                  "center center",
+                  "center right",
+                  "bottom left",
+                  "bottom center",
+                  "bottom right"
+                ],
+                "notOneOf": [],
+                "tests": [
+                  {
+                    "name": "required"
+                  }
+                ]
+              }
+            }
+          },
+          "placement": {
+            "optional": true,
+            "nullable": false,
+            "type": "string",
+            "oneOf": [
+              "custom",
+              "cover",
+              "fit",
+              "stretch"
+            ],
+            "notOneOf": [],
+            "tests": []
+          },
+          "scale": {
+            "optional": true,
+            "nullable": false,
+            "type": "object",
+            "oneOf": [],
+            "notOneOf": [],
+            "tests": [],
+            "fields": {
+              "x": {
+                "optional": true,
+                "nullable": false,
+                "type": "number",
+                "oneOf": [],
+                "notOneOf": [],
+                "tests": []
+              },
+              "y": {
+                "optional": true,
+                "nullable": false,
+                "type": "number",
+                "oneOf": [],
+                "notOneOf": [],
+                "tests": []
+              }
+            }
+          },
+          "opacity": {
+            "optional": true,
+            "nullable": false,
+            "type": "number",
+            "oneOf": [],
+            "notOneOf": [],
+            "tests": [
+              {
+                "name": "min",
+                "params": {
+                  "min": 0
+                }
+              },
+              {
+                "name": "max",
+                "params": {
+                  "max": 100
+                }
+              }
+            ]
+          },
+          "blendingMode": {
+            "optional": true,
+            "nullable": false,
+            "type": "string",
+            "oneOf": [
+              "normal",
+              "multiply",
+              "add",
+              "screen",
+              "overlay",
+              "darken",
+              "lighten",
+              "hardlight",
+              "difference",
+              "exclusion"
+            ],
+            "notOneOf": [],
+            "tests": []
+          },
+          "mask": {
+            "optional": true,
+            "nullable": false,
+            "type": "object",
+            "oneOf": [],
+            "notOneOf": [],
+            "tests": [],
+            "fields": {
+              "content": {
+                "optional": true,
+                "nullable": false,
+                "type": "object",
+                "oneOf": [],
+                "notOneOf": [],
+                "tests": [],
+                "fields": {
+                  "type": {
+                    "optional": false,
+                    "nullable": false,
+                    "type": "string",
+                    "oneOf": [
+                      "image",
+                      "solid",
+                      "gradient"
+                    ],
+                    "notOneOf": [],
+                    "tests": [
+                      {
+                        "name": "required"
+                      }
+                    ]
+                  }
+                }
+              },
+              "position": {
+                "optional": true,
+                "nullable": false,
+                "type": "object",
+                "oneOf": [],
+                "notOneOf": [],
+                "tests": [],
+                "fields": {
+                  "x": {
+                    "optional": true,
+                    "nullable": false,
+                    "type": "number",
+                    "oneOf": [],
+                    "notOneOf": [],
+                    "tests": []
+                  },
+                  "y": {
+                    "optional": true,
+                    "nullable": false,
+                    "type": "number",
+                    "oneOf": [],
+                    "notOneOf": [],
+                    "tests": []
+                  }
+                }
+              },
+              "origin": {
+                "optional": true,
+                "nullable": false,
+                "type": "object",
+                "oneOf": [],
+                "notOneOf": [],
+                "tests": [],
+                "fields": {
+                  "descriptor": {
+                    "optional": false,
+                    "nullable": false,
+                    "type": "string",
+                    "oneOf": [
+                      "top left",
+                      "top center",
+                      "top right",
+                      "center left",
+                      "center center",
+                      "center right",
+                      "bottom left",
+                      "bottom center",
+                      "bottom right"
+                    ],
+                    "notOneOf": [],
+                    "tests": [
+                      {
+                        "name": "required"
+                      }
+                    ]
+                  }
+                }
+              },
+              "alignment": {
+                "optional": true,
+                "nullable": false,
+                "type": "object",
+                "oneOf": [],
+                "notOneOf": [],
+                "tests": [],
+                "fields": {
+                  "descriptor": {
+                    "optional": false,
+                    "nullable": false,
+                    "type": "string",
+                    "oneOf": [
+                      "top left",
+                      "top center",
+                      "top right",
+                      "center left",
+                      "center center",
+                      "center right",
+                      "bottom left",
+                      "bottom center",
+                      "bottom right"
+                    ],
+                    "notOneOf": [],
+                    "tests": [
+                      {
+                        "name": "required"
+                      }
+                    ]
+                  }
+                }
+              },
+              "placement": {
+                "optional": true,
+                "nullable": false,
+                "type": "string",
+                "oneOf": [
+                  "custom",
+                  "cover",
+                  "fit",
+                  "stretch"
+                ],
+                "notOneOf": [],
+                "tests": []
+              },
+              "scale": {
+                "optional": true,
+                "nullable": false,
+                "type": "object",
+                "oneOf": [],
+                "notOneOf": [],
+                "tests": [],
+                "fields": {
+                  "x": {
+                    "optional": true,
+                    "nullable": false,
+                    "type": "number",
+                    "oneOf": [],
+                    "notOneOf": [],
+                    "tests": []
+                  },
+                  "y": {
+                    "optional": true,
+                    "nullable": false,
+                    "type": "number",
+                    "oneOf": [],
+                    "notOneOf": [],
+                    "tests": []
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "optional": true,
+      "nullable": false,
+      "type": "array",
+      "oneOf": [],
+      "notOneOf": [],
+      "tests": [],
+      "innerType": {
+        "optional": true,
+        "nullable": false,
+        "type": "object",
+        "oneOf": [],
+        "notOneOf": [],
+        "tests": [],
+        "fields": {
+          "id": {
+            "optional": true,
+            "nullable": false,
+            "type": "string",
+            "oneOf": [],
+            "notOneOf": [],
+            "tests": []
+          },
+          "name": {
+            "optional": true,
+            "nullable": false,
+            "type": "string",
+            "oneOf": [],
+            "notOneOf": [],
+            "tests": []
+          },
+          "targetLayer": {
+            "optional": true,
+            "nullable": false,
+            "type": "string",
+            "oneOf": [],
+            "notOneOf": [],
+            "tests": []
+          },
+          "targetProperty": {
+            "optional": true,
+            "nullable": false,
+            "type": "string",
+            "oneOf": [
+              "position",
+              "origin",
+              "alignment",
+              "placement",
+              "scale",
+              "opacity",
+              "content.location",
+              "content.color"
+            ],
+            "notOneOf": [],
+            "tests": []
+          },
+          "value": {
+            "optional": true,
+            "nullable": false,
+            "type": "string",
+            "oneOf": [],
+            "notOneOf": [],
+            "tests": []
+          }
+        }
+      }
+    },
+    "remixedFrom": {
+      "optional": true,
+      "nullable": true,
+      "type": "string",
+      "oneOf": [],
+      "notOneOf": [],
+      "tests": []
+    },
+    "created": {
+      "optional": true,
+      "nullable": false,
+      "type": "date",
+      "oneOf": [],
+      "notOneOf": [],
+      "tests": []
+    },
+    "modified": {
+      "optional": true,
+      "nullable": false,
+      "type": "date",
+      "oneOf": [],
+      "notOneOf": [],
+      "tests": []
+    }
+  }
+}```
+
+<!-- end-workflow-schema -->
+````

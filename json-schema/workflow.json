@@ -1,0 +1,319 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "authorId": {
+      "type": "string"
+    },
+    "size": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "number",
+          "minimum": 0
+        },
+        "height": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "layers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "content": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "image",
+                  "solid",
+                  "gradient"
+                ],
+                "default": "solid"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "position": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              }
+            },
+            "default": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "origin": {
+            "type": "object",
+            "properties": {
+              "descriptor": {
+                "type": "string",
+                "enum": [
+                  "top left",
+                  "top center",
+                  "top right",
+                  "center left",
+                  "center center",
+                  "center right",
+                  "bottom left",
+                  "bottom center",
+                  "bottom right"
+                ],
+                "default": "top left"
+              }
+            },
+            "required": [
+              "descriptor"
+            ]
+          },
+          "alignment": {
+            "type": "object",
+            "properties": {
+              "descriptor": {
+                "type": "string",
+                "enum": [
+                  "top left",
+                  "top center",
+                  "top right",
+                  "center left",
+                  "center center",
+                  "center right",
+                  "bottom left",
+                  "bottom center",
+                  "bottom right"
+                ],
+                "default": "top left"
+              }
+            },
+            "required": [
+              "descriptor"
+            ]
+          },
+          "placement": {
+            "type": "string",
+            "enum": [
+              "custom",
+              "cover",
+              "fit",
+              "stretch"
+            ],
+            "default": "custom"
+          },
+          "scale": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number",
+                "default": 1
+              },
+              "y": {
+                "type": "number",
+                "default": 1
+              }
+            }
+          },
+          "opacity": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "default": 100
+          },
+          "blendingMode": {
+            "type": "string",
+            "enum": [
+              "normal",
+              "multiply",
+              "add",
+              "screen",
+              "overlay",
+              "darken",
+              "lighten",
+              "hardlight",
+              "difference",
+              "exclusion"
+            ],
+            "default": "normal"
+          },
+          "mask": {
+            "type": "object",
+            "properties": {
+              "content": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "image",
+                      "solid",
+                      "gradient"
+                    ],
+                    "default": "solid"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              },
+              "position": {
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  }
+                },
+                "default": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "origin": {
+                "type": "object",
+                "properties": {
+                  "descriptor": {
+                    "type": "string",
+                    "enum": [
+                      "top left",
+                      "top center",
+                      "top right",
+                      "center left",
+                      "center center",
+                      "center right",
+                      "bottom left",
+                      "bottom center",
+                      "bottom right"
+                    ],
+                    "default": "top left"
+                  }
+                },
+                "required": [
+                  "descriptor"
+                ]
+              },
+              "alignment": {
+                "type": "object",
+                "properties": {
+                  "descriptor": {
+                    "type": "string",
+                    "enum": [
+                      "top left",
+                      "top center",
+                      "top right",
+                      "center left",
+                      "center center",
+                      "center right",
+                      "bottom left",
+                      "bottom center",
+                      "bottom right"
+                    ],
+                    "default": "top left"
+                  }
+                },
+                "required": [
+                  "descriptor"
+                ]
+              },
+              "placement": {
+                "type": "string",
+                "enum": [
+                  "custom",
+                  "cover",
+                  "fit",
+                  "stretch"
+                ],
+                "default": "custom"
+              },
+              "scale": {
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number",
+                    "default": 1
+                  },
+                  "y": {
+                    "type": "number",
+                    "default": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "default": []
+    },
+    "parameters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "targetLayer": {
+            "type": "string"
+          },
+          "targetProperty": {
+            "type": "string",
+            "enum": [
+              "position",
+              "origin",
+              "alignment",
+              "placement",
+              "scale",
+              "opacity",
+              "content.location",
+              "content.color"
+            ]
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "default": []
+    },
+    "remixedFrom": {
+      "type": "string"
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time",
+      "default": "2023-01-10T21:07:10.868Z"
+    },
+    "modified": {
+      "type": "string",
+      "format": "date-time",
+      "default": "2023-01-10T21:07:10.868Z"
+    }
+  }
+}

@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/Cryptacular/Rejig.Processing#readme",
   "devDependencies": {
+    "@sodaru/yup-to-json-schema": "^1.1.0",
     "@types/jest": "^27.5.0",
     "@types/js-yaml": "^4.0.5",
     "jest": "^28.1.0",

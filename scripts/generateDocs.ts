@@ -1,10 +1,18 @@
 import fs from "fs";
 import path from "path";
 import yaml from "js-yaml";
-import { getDefaultWorkflow, validate, Workflow } from "../src/models/Workflow";
+import yupToJsonSchema from "@sodaru/yup-to-json-schema";
+import {
+  getDefaultWorkflow,
+  validate,
+  Workflow,
+  workflowSchema,
+} from "../src/models/Workflow";
 import { processWorkflow } from "../src/processor";
 
 const run = async () => {
+  const schemaDescription = workflowSchema.describe();
+
   const minimalExample: Workflow = {
     name: "sample-workflow-minimal",
     size: {
@@ -161,9 +169,17 @@ const run = async () => {
         "\n```\n\n#### YAML\n\n```yaml\n" +
         yaml.dump(complexExample) +
         "```\n\n<!-- end-complex-workflow -->"
+    )
+    .replace(
+      /<!-- start-workflow-schema -->(.|\n|\r)+<!-- end-workflow-schema -->/,
+      "<!-- start-workflow-schema -->\n\n```json\n" +
+        JSON.stringify(schemaDescription, null, 2) +
+        "```\n\n<!-- end-workflow-schema -->"
     );
 
   fs.writeFileSync("./README.md", updatedReadme, "utf-8");
+
+  await generateJsonSchema();
 };
 
 async function createImage(workflow: Workflow) {
@@ -183,6 +199,15 @@ async function createImage(workflow: Workflow) {
       buffer
     );
   }
+}
+
+async function generateJsonSchema() {
+  const jsonSchema = yupToJsonSchema(workflowSchema);
+  fs.writeFileSync(
+    path.resolve("json-schema/workflow.json"),
+    JSON.stringify(jsonSchema, null, 2),
+    "utf-8"
+  );
 }
 
 run();
