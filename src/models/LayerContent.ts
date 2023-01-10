@@ -1,5 +1,9 @@
 import * as yup from "yup";
 import {
+  getDefaultGradientLayerContent,
+  GradientLayerContent,
+} from "./GradientLayerContent";
+import {
   getDefaultImageLayerContent,
   ImageLayerContent,
 } from "./ImageLayerContent";
@@ -32,6 +36,11 @@ export const getDefaultLayerContent = (
     case "solid":
       return getDefaultSolidLayerContent(
         properties as Partial<SolidLayerContent>
+      );
+
+    case "gradient":
+      return getDefaultGradientLayerContent(
+        properties as Partial<GradientLayerContent>
       );
 
     default:
