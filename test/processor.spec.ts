@@ -289,6 +289,19 @@ describe("Processor", () => {
   });
 
   describe("[gradient]", () => {
+    it("creates image with default gradient when only 'type' is specified", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 200, height: 100 },
+        layers: [{ content: { type: "gradient" } }],
+      });
+
+      const image = await processWorkflow(workflow);
+      const filename = "gradient-basic";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
     it("creates image with default gradient", async () => {
       const workflow = getDefaultWorkflow({
         size: { width: 200, height: 100 },

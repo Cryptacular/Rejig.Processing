@@ -2,7 +2,10 @@ import { Workflow, validate } from "./models/Workflow";
 import { getCache } from "./cache";
 import { ImageLayerContent } from "./models/ImageLayerContent";
 import { SolidLayerContent } from "./models/SolidLayerContent";
-import { GradientLayerContent } from "./models/GradientLayerContent";
+import {
+  getDefaultGradientLayerContent,
+  GradientLayerContent,
+} from "./models/GradientLayerContent";
 import Jimp from "jimp";
 import {
   equationOfLineFromPoints,
@@ -106,7 +109,10 @@ const renderLayer = async (
       break;
 
     case "gradient":
-      layerContent = await getGradientLayerContent(layer.content, workflow);
+      layerContent = await getGradientLayerContent(
+        getDefaultGradientLayerContent(layer.content),
+        workflow
+      );
   }
 
   if (!layerContent) {
