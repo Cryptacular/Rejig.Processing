@@ -68,49 +68,31 @@
             }
           },
           "origin": {
-            "type": "object",
-            "properties": {
-              "descriptor": {
-                "type": "string",
-                "enum": [
-                  "top left",
-                  "top center",
-                  "top right",
-                  "center left",
-                  "center center",
-                  "center right",
-                  "bottom left",
-                  "bottom center",
-                  "bottom right"
-                ],
-                "default": "top left"
-              }
-            },
-            "required": [
-              "descriptor"
+            "type": "string",
+            "enum": [
+              "top left",
+              "top center",
+              "top right",
+              "center left",
+              "center center",
+              "center right",
+              "bottom left",
+              "bottom center",
+              "bottom right"
             ]
           },
           "alignment": {
-            "type": "object",
-            "properties": {
-              "descriptor": {
-                "type": "string",
-                "enum": [
-                  "top left",
-                  "top center",
-                  "top right",
-                  "center left",
-                  "center center",
-                  "center right",
-                  "bottom left",
-                  "bottom center",
-                  "bottom right"
-                ],
-                "default": "top left"
-              }
-            },
-            "required": [
-              "descriptor"
+            "type": "string",
+            "enum": [
+              "top left",
+              "top center",
+              "top right",
+              "center left",
+              "center center",
+              "center right",
+              "bottom left",
+              "bottom center",
+              "bottom right"
             ]
           },
           "placement": {
@@ -194,49 +176,31 @@
                 }
               },
               "origin": {
-                "type": "object",
-                "properties": {
-                  "descriptor": {
-                    "type": "string",
-                    "enum": [
-                      "top left",
-                      "top center",
-                      "top right",
-                      "center left",
-                      "center center",
-                      "center right",
-                      "bottom left",
-                      "bottom center",
-                      "bottom right"
-                    ],
-                    "default": "top left"
-                  }
-                },
-                "required": [
-                  "descriptor"
+                "type": "string",
+                "enum": [
+                  "top left",
+                  "top center",
+                  "top right",
+                  "center left",
+                  "center center",
+                  "center right",
+                  "bottom left",
+                  "bottom center",
+                  "bottom right"
                 ]
               },
               "alignment": {
-                "type": "object",
-                "properties": {
-                  "descriptor": {
-                    "type": "string",
-                    "enum": [
-                      "top left",
-                      "top center",
-                      "top right",
-                      "center left",
-                      "center center",
-                      "center right",
-                      "bottom left",
-                      "bottom center",
-                      "bottom right"
-                    ],
-                    "default": "top left"
-                  }
-                },
-                "required": [
-                  "descriptor"
+                "type": "string",
+                "enum": [
+                  "top left",
+                  "top center",
+                  "top right",
+                  "center left",
+                  "center center",
+                  "center right",
+                  "bottom left",
+                  "bottom center",
+                  "bottom right"
                 ]
               },
               "placement": {
@@ -308,12 +272,12 @@
     "created": {
       "type": "string",
       "format": "date-time",
-      "default": "2023-01-10T21:07:10.868Z"
+      "default": "2023-01-10T23:14:27.854Z"
     },
     "modified": {
       "type": "string",
       "format": "date-time",
-      "default": "2023-01-10T21:07:10.868Z"
+      "default": "2023-01-10T23:14:27.854Z"
     }
   }
 }

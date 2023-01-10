@@ -97,12 +97,8 @@ layers:
         "x": 0,
         "y": 0
       },
-      "origin": {
-        "descriptor": "center center"
-      },
-      "alignment": {
-        "descriptor": "center center"
-      },
+      "origin": "center center",
+      "alignment": "center center",
       "placement": "cover",
       "mask": {
         "content": {
@@ -110,12 +106,8 @@ layers:
           "location": "https://images.unsplash.com/photo-1531979089097-fe46b4e4f235?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2658&q=80"
         },
         "placement": "cover",
-        "origin": {
-          "descriptor": "center center"
-        },
-        "alignment": {
-          "descriptor": "center center"
-        }
+        "origin": "center center",
+        "alignment": "center center"
       },
       "blendingMode": "hardlight"
     },
@@ -135,12 +127,8 @@ layers:
         "x": 0,
         "y": 0
       },
-      "origin": {
-        "descriptor": "center center"
-      },
-      "alignment": {
-        "descriptor": "bottom right"
-      },
+      "origin": "center center",
+      "alignment": "bottom right",
       "placement": "cover",
       "scale": {
         "x": 1,
@@ -164,12 +152,8 @@ layers:
         "x": 0,
         "y": 0
       },
-      "origin": {
-        "descriptor": "center center"
-      },
-      "alignment": {
-        "descriptor": "top left"
-      },
+      "origin": "center center",
+      "alignment": "top left",
       "placement": "cover",
       "scale": {
         "x": 1,
@@ -194,12 +178,8 @@ layers:
         "x": 0,
         "y": 0
       },
-      "origin": {
-        "descriptor": "center center"
-      },
-      "alignment": {
-        "descriptor": "top right"
-      },
+      "origin": "center center",
+      "alignment": "top right",
       "placement": "cover",
       "scale": {
         "x": 1,
@@ -223,12 +203,8 @@ layers:
         "x": 0,
         "y": 0
       },
-      "origin": {
-        "descriptor": "center center"
-      },
-      "alignment": {
-        "descriptor": "bottom left"
-      },
+      "origin": "center center",
+      "alignment": "bottom left",
       "placement": "cover",
       "scale": {
         "x": 1,
@@ -247,12 +223,8 @@ layers:
         "x": 0,
         "y": 0
       },
-      "origin": {
-        "descriptor": "center center"
-      },
-      "alignment": {
-        "descriptor": "center center"
-      },
+      "origin": "center center",
+      "alignment": "center center",
       "placement": "fit",
       "scale": {
         "x": 1,
@@ -326,11 +298,9 @@ layers:
         a: 1
     position:
       x: 0
-      "y": 0
-    origin:
-      descriptor: center center
-    alignment:
-      descriptor: center center
+      'y': 0
+    origin: center center
+    alignment: center center
     placement: cover
     mask:
       content:
@@ -338,10 +308,8 @@ layers:
         location: >-
           https://images.unsplash.com/photo-1531979089097-fe46b4e4f235?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2658&q=80
       placement: cover
-      origin:
-        descriptor: center center
-      alignment:
-        descriptor: center center
+      origin: center center
+      alignment: center center
     blendingMode: hardlight
   - id: layer-with-solid-color-1
     name: Overlay
@@ -354,15 +322,13 @@ layers:
         a: 1
     position:
       x: 0
-      "y": 0
-    origin:
-      descriptor: center center
-    alignment:
-      descriptor: bottom right
+      'y': 0
+    origin: center center
+    alignment: bottom right
     placement: cover
     scale:
       x: 1
-      "y": 1
+      'y': 1
     opacity: 15
   - id: layer-with-solid-color-2
     name: Overlay
@@ -375,15 +341,13 @@ layers:
         a: 1
     position:
       x: 0
-      "y": 0
-    origin:
-      descriptor: center center
-    alignment:
-      descriptor: top left
+      'y': 0
+    origin: center center
+    alignment: top left
     placement: cover
     scale:
       x: 1
-      "y": 1
+      'y': 1
     opacity: 85
     blendingMode: overlay
   - id: layer-with-solid-color-3
@@ -397,15 +361,13 @@ layers:
         a: 1
     position:
       x: 0
-      "y": 0
-    origin:
-      descriptor: center center
-    alignment:
-      descriptor: top right
+      'y': 0
+    origin: center center
+    alignment: top right
     placement: cover
     scale:
       x: 1
-      "y": 1
+      'y': 1
     opacity: 15
   - id: layer-with-solid-color-4
     name: Overlay
@@ -418,15 +380,13 @@ layers:
         a: 1
     position:
       x: 0
-      "y": 0
-    origin:
-      descriptor: center center
-    alignment:
-      descriptor: bottom left
+      'y': 0
+    origin: center center
+    alignment: bottom left
     placement: cover
     scale:
       x: 1
-      "y": 1
+      'y': 1
     opacity: 15
   - id: layer-with-image
     name: Background image
@@ -436,15 +396,13 @@ layers:
         https://images.unsplash.com/photo-1541513161836-e2049e89afaa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fHR3aXN0fGVufDB8MHwwfHw%3D&auto=format&fit=crop&w=800&q=60
     position:
       x: 0
-      "y": 0
-    origin:
-      descriptor: center center
-    alignment:
-      descriptor: center center
+      'y': 0
+    origin: center center
+    alignment: center center
     placement: fit
     scale:
       x: 1
-      "y": 1
+      'y': 1
     opacity: 100
   - id: layer-with-gradient
     name: Linear gradient
@@ -464,10 +422,10 @@ layers:
       pos:
         from:
           x: 150
-          "y": 150
+          'y': 150
         to:
           x: 0
-          "y": 0
+          'y': 0
 parameters:
   - id: background
     name: Background
@@ -502,7 +460,7 @@ Full schema:
 
 <!-- start-workflow-schema -->
 
-````json
+```json
 {
   "optional": true,
   "nullable": false,
@@ -668,66 +626,38 @@ Full schema:
           "origin": {
             "optional": true,
             "nullable": false,
-            "type": "object",
-            "oneOf": [],
+            "type": "string",
+            "oneOf": [
+              "top left",
+              "top center",
+              "top right",
+              "center left",
+              "center center",
+              "center right",
+              "bottom left",
+              "bottom center",
+              "bottom right"
+            ],
             "notOneOf": [],
-            "tests": [],
-            "fields": {
-              "descriptor": {
-                "optional": false,
-                "nullable": false,
-                "type": "string",
-                "oneOf": [
-                  "top left",
-                  "top center",
-                  "top right",
-                  "center left",
-                  "center center",
-                  "center right",
-                  "bottom left",
-                  "bottom center",
-                  "bottom right"
-                ],
-                "notOneOf": [],
-                "tests": [
-                  {
-                    "name": "required"
-                  }
-                ]
-              }
-            }
+            "tests": []
           },
           "alignment": {
             "optional": true,
             "nullable": false,
-            "type": "object",
-            "oneOf": [],
+            "type": "string",
+            "oneOf": [
+              "top left",
+              "top center",
+              "top right",
+              "center left",
+              "center center",
+              "center right",
+              "bottom left",
+              "bottom center",
+              "bottom right"
+            ],
             "notOneOf": [],
-            "tests": [],
-            "fields": {
-              "descriptor": {
-                "optional": false,
-                "nullable": false,
-                "type": "string",
-                "oneOf": [
-                  "top left",
-                  "top center",
-                  "top right",
-                  "center left",
-                  "center center",
-                  "center right",
-                  "bottom left",
-                  "bottom center",
-                  "bottom right"
-                ],
-                "notOneOf": [],
-                "tests": [
-                  {
-                    "name": "required"
-                  }
-                ]
-              }
-            }
+            "tests": []
           },
           "placement": {
             "optional": true,
@@ -871,66 +801,38 @@ Full schema:
               "origin": {
                 "optional": true,
                 "nullable": false,
-                "type": "object",
-                "oneOf": [],
+                "type": "string",
+                "oneOf": [
+                  "top left",
+                  "top center",
+                  "top right",
+                  "center left",
+                  "center center",
+                  "center right",
+                  "bottom left",
+                  "bottom center",
+                  "bottom right"
+                ],
                 "notOneOf": [],
-                "tests": [],
-                "fields": {
-                  "descriptor": {
-                    "optional": false,
-                    "nullable": false,
-                    "type": "string",
-                    "oneOf": [
-                      "top left",
-                      "top center",
-                      "top right",
-                      "center left",
-                      "center center",
-                      "center right",
-                      "bottom left",
-                      "bottom center",
-                      "bottom right"
-                    ],
-                    "notOneOf": [],
-                    "tests": [
-                      {
-                        "name": "required"
-                      }
-                    ]
-                  }
-                }
+                "tests": []
               },
               "alignment": {
                 "optional": true,
                 "nullable": false,
-                "type": "object",
-                "oneOf": [],
+                "type": "string",
+                "oneOf": [
+                  "top left",
+                  "top center",
+                  "top right",
+                  "center left",
+                  "center center",
+                  "center right",
+                  "bottom left",
+                  "bottom center",
+                  "bottom right"
+                ],
                 "notOneOf": [],
-                "tests": [],
-                "fields": {
-                  "descriptor": {
-                    "optional": false,
-                    "nullable": false,
-                    "type": "string",
-                    "oneOf": [
-                      "top left",
-                      "top center",
-                      "top right",
-                      "center left",
-                      "center center",
-                      "center right",
-                      "bottom left",
-                      "bottom center",
-                      "bottom right"
-                    ],
-                    "notOneOf": [],
-                    "tests": [
-                      {
-                        "name": "required"
-                      }
-                    ]
-                  }
-                }
+                "tests": []
               },
               "placement": {
                 "optional": true,

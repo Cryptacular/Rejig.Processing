@@ -12,6 +12,7 @@ import {
 } from "./utilities/gradientCalculator";
 import { Layer } from "./models/Layer";
 import { LayerMask } from "./models/LayerMask";
+import { getDefaultOrigin } from "./models/Origin";
 
 export const processWorkflow = async (workflow: Workflow): Promise<string> => {
   await validate(workflow);
@@ -120,10 +121,12 @@ const renderLayer = async (
   const imageWidth = layerContent.getWidth();
   const imageHeight = layerContent.getHeight();
 
-  const [originVertical, originHorizontal] =
-    layer.origin!.descriptor.split(" ");
-  const [alignmentVertical, alignmentHorizontal] =
-    layer.alignment!.descriptor.split(" ");
+  const [originVertical, originHorizontal] = getDefaultOrigin(
+    layer.origin
+  )!.split(" ");
+  const [alignmentVertical, alignmentHorizontal] = getDefaultOrigin(
+    layer.alignment
+  )!.split(" ");
 
   const imageRatio = imageWidth / imageHeight;
   const outputRatio = workflow.size.width / workflow.size.height;
@@ -160,9 +163,7 @@ const renderLayer = async (
   } else if (originHorizontal === "right") {
     x = layer.position!.x! - width;
   } else {
-    throw new Error(
-      `Layer origin descriptor is not valid: ${layer.origin!.descriptor}`
-    );
+    throw new Error(`Layer origin is not valid: ${layer.origin}`);
   }
 
   if (originVertical === "top") {
@@ -172,9 +173,7 @@ const renderLayer = async (
   } else if (originVertical === "bottom") {
     y = layer.position!.y! - height;
   } else {
-    throw new Error(
-      `Layer origin descriptor is not valid: ${layer.origin!.descriptor}`
-    );
+    throw new Error(`Layer origin is not valid: ${layer.origin}`);
   }
 
   if (alignmentHorizontal === "left") {
@@ -184,9 +183,7 @@ const renderLayer = async (
   } else if (alignmentHorizontal === "right") {
     x += workflow.size.width;
   } else {
-    throw new Error(
-      `Layer origin descriptor is not valid: ${layer.alignment!.descriptor}`
-    );
+    throw new Error(`Layer origin is not valid: ${layer.alignment}`);
   }
 
   if (alignmentVertical === "top") {
@@ -196,9 +193,7 @@ const renderLayer = async (
   } else if (alignmentVertical === "bottom") {
     y += workflow.size.height;
   } else {
-    throw new Error(
-      `Layer origin descriptor is not valid: ${layer.origin!.descriptor}`
-    );
+    throw new Error(`Layer origin is not valid: ${layer.origin}`);
   }
 
   layerContent.resize(width, height);

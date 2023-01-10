@@ -54,8 +54,8 @@ describe("Processor", () => {
         layers: [
           getDefaultLayer({
             placement: "cover",
-            origin: { descriptor: "center center" },
-            alignment: { descriptor: "center center" },
+            origin: "center center",
+            alignment: "center center",
             content: getDefaultImageLayerContent({
               location: path.resolve("./test/images/400x400.jpeg"),
             }),
@@ -76,8 +76,8 @@ describe("Processor", () => {
         layers: [
           getDefaultLayer({
             placement: "cover",
-            origin: { descriptor: "center center" },
-            alignment: { descriptor: "center center" },
+            origin: "center center",
+            alignment: "center center",
             content: getDefaultImageLayerContent({
               location: path.resolve("./test/images/400x400.jpeg"),
             }),
@@ -98,8 +98,8 @@ describe("Processor", () => {
         layers: [
           getDefaultLayer({
             placement: "fit",
-            origin: { descriptor: "center center" },
-            alignment: { descriptor: "center center" },
+            origin: "center center",
+            alignment: "center center",
             content: getDefaultImageLayerContent({
               location: path.resolve("./test/images/400x400.jpeg"),
             }),
@@ -120,8 +120,8 @@ describe("Processor", () => {
         layers: [
           getDefaultLayer({
             placement: "fit",
-            origin: { descriptor: "center center" },
-            alignment: { descriptor: "center center" },
+            origin: "center center",
+            alignment: "center center",
             content: getDefaultImageLayerContent({
               location: path.resolve("./test/images/400x400.jpeg"),
             }),
@@ -142,8 +142,8 @@ describe("Processor", () => {
         layers: [
           getDefaultLayer({
             placement: "stretch",
-            origin: { descriptor: "center center" },
-            alignment: { descriptor: "center center" },
+            origin: "center center",
+            alignment: "center center",
             content: getDefaultImageLayerContent({
               location: path.resolve("./test/images/400x400.jpeg"),
             }),
@@ -164,8 +164,8 @@ describe("Processor", () => {
         layers: [
           getDefaultLayer({
             placement: "stretch",
-            origin: { descriptor: "center center" },
-            alignment: { descriptor: "center center" },
+            origin: "center center",
+            alignment: "center center",
             content: getDefaultImageLayerContent({
               location: path.resolve("./test/images/400x400.jpeg"),
             }),
@@ -263,16 +263,16 @@ describe("Processor", () => {
         size: { width: 200, height: 100 },
         layers: [
           getDefaultLayer({
-            origin: { descriptor: "center center" },
-            alignment: { descriptor: "center center" },
+            origin: "center center",
+            alignment: "center center",
             content: getDefaultSolidLayerContent({
               color: { r: 255, g: 0, b: 0, a: 0.39 },
             }),
           }),
           getDefaultLayer({
             placement: "cover",
-            origin: { descriptor: "center center" },
-            alignment: { descriptor: "center center" },
+            origin: "center center",
+            alignment: "center center",
             content: getDefaultImageLayerContent({
               location: path.resolve("./test/images/400x400.jpeg"),
             }),
@@ -418,7 +418,7 @@ describe("Processor", () => {
   });
 
   describe("[origin] and [alignment]", () => {
-    const allDescriptors: Origin["descriptor"][] = [
+    const allDescriptors: Origin[] = [
       "top left",
       "top center",
       "top right",
@@ -437,8 +437,8 @@ describe("Processor", () => {
             size: { width: 100, height: 100 },
             layers: [
               getDefaultLayer({
-                origin: { descriptor: origin },
-                alignment: { descriptor: alignment },
+                origin: origin,
+                alignment: alignment,
                 content: getDefaultImageLayerContent({
                   location: path.resolve("./test/images/50x50.jpeg"),
                 }),
@@ -482,8 +482,8 @@ describe("Processor", () => {
         size: { width: 50, height: 50 },
         layers: [
           getDefaultLayer({
-            origin: { descriptor: "bottom right" },
-            alignment: { descriptor: "bottom right" },
+            origin: "bottom right",
+            alignment: "bottom right",
             scale: { x: 0.5, y: 0.5 },
             content: getDefaultImageLayerContent({
               location: path.resolve("./test/images/50x50.jpeg"),
@@ -534,8 +534,8 @@ describe("Processor", () => {
           }),
           getDefaultLayer({
             scale: { x: 0.75, y: 0.75 },
-            alignment: { descriptor: "bottom right" },
-            origin: { descriptor: "bottom right" },
+            alignment: "bottom right",
+            origin: "bottom right",
             content: getDefaultImageLayerContent({
               location: path.resolve("./test/images/50x50.jpeg"),
             }),

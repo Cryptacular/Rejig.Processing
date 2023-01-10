@@ -1,18 +1,17 @@
 import * as yup from "yup";
 
-export interface Origin {
-  descriptor:
-    | "top left"
-    | "top center"
-    | "top right"
-    | "center left"
-    | "center center"
-    | "center right"
-    | "bottom left"
-    | "bottom center"
-    | "bottom right"
-    | string;
-}
+export type Origin =
+  | "top left"
+  | "top center"
+  | "top right"
+  | "center left"
+  | "center center"
+  | "center right"
+  | "bottom left"
+  | "bottom center"
+  | "bottom right"
+  | string
+  | undefined;
 
 const validDescriptors = [
   "top left",
@@ -26,13 +25,9 @@ const validDescriptors = [
   "bottom right",
 ];
 
-export const originSchema: yup.ObjectSchema<Origin> = yup.object({
-  descriptor: yup
-    .string()
-    .oneOf(validDescriptors)
-    .default("top left")
-    .required(),
-});
+export const originSchema: yup.StringSchema<Origin> = yup
+  .string()
+  .oneOf(validDescriptors);
 
-export const getDefaultOrigin = (properties?: Partial<Origin>): Origin =>
-  originSchema.cast(properties);
+export const getDefaultOrigin = (property?: Origin): Origin =>
+  property ?? "top left";
