@@ -488,14 +488,14 @@ If you're working directly with JSON or YAML files, you can reference the Workfl
 
 ```json
 {
-  "$schema": "https://github.com/Cryptacular/Rejig.Processing/blob/master/json-schema/workflow.json"
+  "$schema": "https://raw.githubusercontent.com/Cryptacular/Rejig.Processing/master/json-schema/workflow.json"
 }
 ```
 
 ...or in YAML:
 
 ```yaml
-# yaml-language-server: $schema=https://github.com/Cryptacular/Rejig.Processing/blob/master/json-schema/workflow.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Cryptacular/Rejig.Processing/master/json-schema/workflow.json
 ```
 
 Full schema:
