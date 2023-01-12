@@ -8,6 +8,7 @@ import {
   clamp,
   LineEquation,
   getRatioOfPointAlongLine,
+  getDistanceBetweenPoints,
 } from "../../src/utilities/gradientCalculator";
 
 describe("gradientCalculator", () => {
@@ -318,6 +319,35 @@ describe("gradientCalculator", () => {
 
     it("should return higher bound if number is higher", () => {
       expect(clamp(20, 0, 10)).toBe(10);
+    });
+  });
+
+  describe("> getDistanceBetweenPoints", () => {
+    it("should return 0 if given identical points", () => {
+      const pointA: Point = { x: 3, y: 4 };
+      const pointB: Point = { x: 3, y: 4 };
+
+      const output = getDistanceBetweenPoints(pointA, pointB);
+
+      expect(output).toBe(0);
+    });
+
+    it("should return correct value of distance between two points", () => {
+      const pointA: Point = { x: 3, y: 4 };
+      const pointB: Point = { x: 8, y: 20 };
+
+      const output = getDistanceBetweenPoints(pointA, pointB);
+
+      expect(output).toBeCloseTo(16.7631);
+    });
+
+    it("should return correct value of distance between two points when specified in reverse order", () => {
+      const pointA: Point = { x: 3, y: 4 };
+      const pointB: Point = { x: 8, y: 20 };
+
+      const output = getDistanceBetweenPoints(pointB, pointA);
+
+      expect(output).toBeCloseTo(16.7631);
     });
   });
 });

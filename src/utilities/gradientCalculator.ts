@@ -168,6 +168,9 @@ export const getRatioOfPointAlongLine = (
   return clamp((point.x - line.start.x) / (line.end.x - line.start.x), 0, 1);
 };
 
+export const getDistanceBetweenPoints = (a: Point, b: Point): number =>
+  Math.sqrt((b.y - a.y) ** 2 + (b.x - a.x) ** 2);
+
 /**
  *
  * @param num Number to clamp

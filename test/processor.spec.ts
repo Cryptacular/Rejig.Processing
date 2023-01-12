@@ -428,6 +428,115 @@ describe("Processor", () => {
 
       expect(await diffPercentage(filename)).toBe(0);
     });
+
+    it("creates image with default gradient when only 'type' and 'direction' is specified", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 200, height: 100 },
+        layers: [
+          getDefaultLayer({
+            content: { type: "gradient", direction: "radial" },
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow);
+      const filename = "gradient-radial-default";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("creates image with default gradient", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 200, height: 100 },
+        layers: [
+          getDefaultLayer({
+            content: getDefaultGradientLayerContent({
+              direction: "radial",
+            }),
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow);
+      const filename = "gradient-radial-default-basic";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("creates image with gradient with specified position", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 200, height: 100 },
+        layers: [
+          getDefaultLayer({
+            content: getDefaultGradientLayerContent({
+              direction: "radial",
+              pos: {
+                from: { x: 0, y: 0 },
+                to: { x: 200, y: 100 },
+              },
+            }),
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow);
+      const filename = "gradient-radial-position";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("creates image with gradient with specified color", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 200, height: 100 },
+        layers: [
+          getDefaultLayer({
+            content: getDefaultGradientLayerContent({
+              direction: "radial",
+              color: {
+                from: { r: 255, g: 0, b: 122, a: 1 },
+                to: { r: 0, g: 122, b: 40, a: 0.2 },
+              },
+            }),
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow);
+      const filename = "gradient-radial-color";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("creates image with gradient with specified color and position", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 200, height: 100 },
+        layers: [
+          getDefaultLayer({
+            content: getDefaultGradientLayerContent({
+              direction: "radial",
+              color: {
+                from: { r: 255, g: 0, b: 122, a: 1 },
+                to: { r: 0, g: 122, b: 40, a: 0.2 },
+              },
+              pos: {
+                from: { x: 0, y: 0 },
+                to: { x: 200, y: 100 },
+              },
+            }),
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow);
+      const filename = "gradient-radial-color-position";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
   });
 
   describe("[origin] and [alignment]", () => {
