@@ -2,12 +2,14 @@ import Jimp from "jimp";
 import path from "path";
 import fs from "fs";
 import { processWorkflow } from "../src/processor";
-import { getDefaultWorkflow } from "../src/models/Workflow";
+import { getDefaultWorkflow, Workflow } from "../src/models/Workflow";
 import { getDefaultLayer, Layer } from "../src/models/Layer";
 import { getDefaultSolidLayerContent } from "../src/models/SolidLayerContent";
 import { getDefaultImageLayerContent } from "../src/models/ImageLayerContent";
 import { getDefaultGradientLayerContent } from "../src/models/GradientLayerContent";
 import { Origin } from "../src/models/Origin";
+import { saveImage } from "../src/utilities/saveImage";
+import { diffPercentage } from "./utilities/diffPercentage";
 
 describe("Processor", () => {
   beforeAll(() => {
@@ -27,24 +29,13 @@ describe("Processor", () => {
     expect(error).not.toBeNull();
   });
 
-  it("returns a BASE64 string of type PNG when given a default workflow", async () => {
-    const workflow = getDefaultWorkflow();
-
-    const image = await processWorkflow(workflow);
-
-    expect(image).not.toBeNull();
-    expect(image).toContain("data:image/png;base64");
-  });
-
   it("returns an image of the right size when given a valid workflow", async () => {
     const workflow = getDefaultWorkflow({ size: { width: 10, height: 20 } });
 
     const image = await processWorkflow(workflow);
 
-    const buffer = Buffer.from(image.split(",")[1], "base64");
-    const imageAsJimp = await Jimp.read(buffer);
-    expect(imageAsJimp.getWidth()).toBe(10);
-    expect(imageAsJimp.getHeight()).toBe(20);
+    expect(image.getWidth()).toBe(10);
+    expect(image.getHeight()).toBe(20);
   });
 
   describe("[placement]", () => {
@@ -814,14 +805,10 @@ const deleteArtifacts = () => {
   fs.rmSync(path.resolve("./test/artifacts"), { recursive: true });
 };
 
-const saveArtifact = async (image: any, name: string) => {
-  const buffer = Buffer.from(image.split(",")[1], "base64");
-  const imageAsJimp = await Jimp.read(buffer);
-  await imageAsJimp.writeAsync(path.resolve(`./test/artifacts/${name}.png`));
-};
-
-const diffPercentage = async (name: string) => {
-  const expected = await Jimp.read(path.resolve(`./test/expected/${name}.png`));
-  const actual = await Jimp.read(path.resolve(`./test/artifacts/${name}.png`));
-  return Jimp.diff(expected, actual).percent;
+const saveArtifact = async (
+  image: Jimp,
+  name: string,
+  format: Workflow["format"] = "png"
+) => {
+  await saveImage(image, path.resolve(`./test/artifacts/${name}.${format}`));
 };

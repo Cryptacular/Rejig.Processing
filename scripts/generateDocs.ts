@@ -9,6 +9,7 @@ import {
   workflowSchema,
 } from "../src/models/Workflow";
 import { processWorkflow } from "../src/processor";
+import { saveImage } from "../src/utilities/saveImage";
 
 const run = async () => {
   const schemaDescription = workflowSchema.describe();
@@ -32,6 +33,7 @@ const run = async () => {
       width: 150,
       height: 150,
     },
+    format: "jpeg",
     layers: [
       {
         id: "layer-with-mask",
@@ -186,19 +188,15 @@ async function createImage(workflow: Workflow) {
   const image = await processWorkflow(getDefaultWorkflow(workflow));
 
   const outputFolder = path.resolve("./images");
+
   if (!fs.existsSync(outputFolder)) {
     fs.mkdirSync(outputFolder);
   }
 
-  const base64Matches = image.match(/^data:([+/A-Za-z-]+);base64,(.+)$/);
-
-  if (base64Matches) {
-    const buffer = Buffer.from(base64Matches[2], "base64");
-    fs.writeFileSync(
-      path.resolve(outputFolder, workflow.name + ".png"),
-      buffer
-    );
-  }
+  await saveImage(
+    image,
+    path.resolve(outputFolder, `${workflow.name}.${workflow.format ?? "png"}`)
+  );
 }
 
 async function generateJsonSchema() {

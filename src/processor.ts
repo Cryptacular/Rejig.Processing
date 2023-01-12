@@ -1,9 +1,9 @@
-import { Workflow, validate } from "./models/Workflow";
 import Jimp from "jimp";
+import { Workflow, validate } from "./models/Workflow";
 import { getJimpBlendingMode } from "./utilities/getJimpBlendingMode";
 import { renderLayer } from "./layerContent";
 
-export const processWorkflow = async (workflow: Workflow): Promise<string> => {
+export const processWorkflow = async (workflow: Workflow): Promise<Jimp> => {
   await validate(workflow);
 
   const output = await Jimp.create(workflow.size.width, workflow.size.height);
@@ -40,5 +40,5 @@ export const processWorkflow = async (workflow: Workflow): Promise<string> => {
     }
   }
 
-  return await output.getBase64Async(output.getMIME());
+  return output;
 };

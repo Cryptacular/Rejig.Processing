@@ -9,6 +9,7 @@ export interface Workflow {
   authorId?: string;
   size: Dimensions;
   name?: string;
+  format?: "png" | "jpg" | "jpeg" | "tiff" | "bmp";
   layers?: Layer[];
   parameters?: Parameter[];
   remixedFrom?: string | null;
@@ -21,6 +22,10 @@ export const workflowSchema: yup.ObjectSchema<Workflow> = yup.object({
   authorId: yup.string(),
   size: dimensionsSchema.required(),
   name: yup.string().min(1),
+  format: yup
+    .string()
+    .oneOf(["png", "jpg", "jpeg", "tiff", "bmp"])
+    .default("png"),
   layers: yup.array().of(layerSchema).default([]),
   parameters: yup.array().of(parameterSchema).default([]),
   remixedFrom: yup.string().nullable(),

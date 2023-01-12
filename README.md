@@ -4,7 +4,7 @@ A Node.js package for processing workflows in browser and Lambda.
 
 ## Examples
 
-Rejig takes workflows of type `Workflow` and processes them to generate an image, which is returned as a `string` in Base64 format.
+Rejig takes workflows of type `Workflow` and processes them to generate an image, which is returned as `Jimp` object. This can be written to disk by passing it to the `saveImage` function.
 
 Some examples of valid workflows:
 
@@ -81,6 +81,7 @@ layers:
     "width": 150,
     "height": 150
   },
+  "format": "jpeg",
   "layers": [
     {
       "id": "layer-with-mask",
@@ -287,6 +288,7 @@ authorId: user123
 size:
   width: 150
   height: 150
+format: jpeg
 layers:
   - id: layer-with-mask
     content:
@@ -539,6 +541,20 @@ Full schema:
           }
         }
       ]
+    },
+    "format": {
+      "optional": true,
+      "nullable": false,
+      "type": "string",
+      "oneOf": [
+        "png",
+        "jpg",
+        "jpeg",
+        "tiff",
+        "bmp"
+      ],
+      "notOneOf": [],
+      "tests": []
     },
     "layers": {
       "optional": true,

@@ -24,6 +24,17 @@
       "type": "string",
       "minLength": 1
     },
+    "format": {
+      "type": "string",
+      "enum": [
+        "png",
+        "jpg",
+        "jpeg",
+        "tiff",
+        "bmp"
+      ],
+      "default": "png"
+    },
     "layers": {
       "type": "array",
       "items": {
@@ -272,12 +283,12 @@
     "created": {
       "type": "string",
       "format": "date-time",
-      "default": "2023-01-12T21:29:05.135Z"
+      "default": "2023-01-12T22:59:16.348Z"
     },
     "modified": {
       "type": "string",
       "format": "date-time",
-      "default": "2023-01-12T21:29:05.135Z"
+      "default": "2023-01-12T22:59:16.348Z"
     }
   }
 }
