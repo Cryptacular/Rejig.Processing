@@ -8,10 +8,15 @@ import { getGradientLayerContent } from "./getGradientLayerContent";
 import { getImageLayerContent } from "./getImageLayerContent";
 import { getSolidLayerContent } from "./getSolidLayerContent";
 
+export interface RenderedLayer {
+  image: Jimp;
+  pos: { x: number; y: number };
+}
+
 export const renderLayer = async (
   workflow: Workflow,
   layer: Layer | LayerMask
-): Promise<{ image: Jimp; pos: { x: number; y: number } } | null> => {
+): Promise<RenderedLayer | null> => {
   let layerContent: Jimp | null = null;
 
   switch (layer.content?.type) {
