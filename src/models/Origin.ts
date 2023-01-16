@@ -10,24 +10,22 @@ export type Origin =
   | "bottom left"
   | "bottom center"
   | "bottom right"
-  | string
   | undefined;
 
-const validDescriptors = [
-  "top left",
-  "top center",
-  "top right",
-  "center left",
-  "center center",
-  "center right",
-  "bottom left",
-  "bottom center",
-  "bottom right",
-];
-
-export const originSchema: yup.StringSchema<Origin> = yup
+export const originSchema = yup
   .string()
-  .oneOf(validDescriptors);
+  .oneOf([
+    "top left",
+    "top center",
+    "top right",
+    "center left",
+    "center center",
+    "center right",
+    "bottom left",
+    "bottom center",
+    "bottom right",
+  ])
+  .default("top left");
 
 export const getDefaultOrigin = (property?: Origin): Origin =>
   property ?? "top left";

@@ -38,6 +38,191 @@ describe("Processor", () => {
     expect(image.getHeight()).toBe(20);
   });
 
+  describe("[clippingMask]", () => {
+    it("does nothing if clippingMask is not set", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 512, height: 512 },
+        layers: [
+          getDefaultLayer({
+            content: { type: "solid", color: { r: 255, g: 0, b: 0, a: 1 } },
+          }),
+          getDefaultLayer({
+            content: {
+              type: "image",
+              location: path.resolve(
+                "./test/images/white-square-on-transparent-bg.png"
+              ),
+            },
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow);
+      const filename = "clipping-mask-not-set";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("does nothing if clippingMask is set to false", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 512, height: 512 },
+        layers: [
+          getDefaultLayer({
+            content: { type: "solid", color: { r: 255, g: 0, b: 0, a: 1 } },
+            clippingMask: false,
+          }),
+          getDefaultLayer({
+            content: {
+              type: "image",
+              location: path.resolve(
+                "./test/images/white-square-on-transparent-bg.png"
+              ),
+            },
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow);
+      const filename = "clipping-mask-false";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("renders layer normally if there is no layer underneath", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 512, height: 512 },
+        layers: [
+          getDefaultLayer({
+            content: { type: "solid", color: { r: 255, g: 0, b: 0, a: 1 } },
+            clippingMask: true,
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow);
+      const filename = "clipping-mask-solid-with-no-layer-underneath";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("sets layer opacity to be the same as the layer underneath when set to true", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 512, height: 512 },
+        layers: [
+          getDefaultLayer({
+            content: { type: "solid", color: { r: 255, g: 0, b: 0, a: 1 } },
+            clippingMask: true,
+          }),
+          getDefaultLayer({
+            content: {
+              type: "image",
+              location: path.resolve(
+                "./test/images/white-square-on-transparent-bg.png"
+              ),
+            },
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow);
+      const filename = "clipping-mask-solid-on-square-with-alpha";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("clips layer correctly without artifacts around aliased edges from layer underneath", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 512, height: 512 },
+        layers: [
+          getDefaultLayer({
+            content: { type: "solid", color: { r: 255, g: 0, b: 0, a: 1 } },
+            clippingMask: true,
+          }),
+          getDefaultLayer({
+            content: {
+              type: "image",
+              location: path.resolve("./test/images/circle-512x512.png"),
+            },
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow);
+      const filename = "clipping-mask-solid-on-circle-with-alpha";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("clips layer correctly when layer underneath is dark", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 512, height: 512 },
+        layers: [
+          getDefaultLayer({
+            content: { type: "solid", color: { r: 255, g: 0, b: 0, a: 1 } },
+            clippingMask: true,
+          }),
+          getDefaultLayer({
+            content: {
+              type: "image",
+              location: path.resolve("./test/images/circle-blue-512x512.png"),
+            },
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow);
+      const filename = "clipping-mask-solid-on-dark-circle-with-alpha";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("clips all layers that have clippingMask set to true to the layer underneath them all", async () => {
+      const workflow = getDefaultWorkflow({
+        size: { width: 512, height: 512 },
+        layers: [
+          getDefaultLayer({
+            content: {
+              type: "image",
+              location: path.resolve("./test/images/circle-blue-512x512.png"),
+            },
+            scale: { x: 0.5, y: 0.5 },
+            origin: "bottom right",
+            alignment: "bottom right",
+            clippingMask: true,
+          }),
+          getDefaultLayer({
+            content: {
+              type: "image",
+              location: path.resolve("./test/images/circle-pink-512x512.png"),
+            },
+            scale: { x: 0.5, y: 0.5 },
+            origin: "top left",
+            alignment: "top left",
+            clippingMask: true,
+          }),
+          getDefaultLayer({
+            content: {
+              type: "image",
+              location: path.resolve("./test/images/circle-512x512.png"),
+            },
+          }),
+        ],
+      });
+
+      const image = await processWorkflow(workflow);
+      const filename = "clipping-mask-multiple-layers-on-circle-with-alpha";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+  });
+
   describe("[placement]", () => {
     it("correctly places image when using 'cover' with landscape output", async () => {
       const workflow = getDefaultWorkflow({

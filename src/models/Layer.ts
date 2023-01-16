@@ -31,6 +31,7 @@ export interface Layer {
     | "difference"
     | "exclusion";
   mask?: LayerMask;
+  clippingMask?: boolean;
 }
 
 export const layerSchema: yup.ObjectSchema<Layer> = yup.object({
@@ -62,6 +63,7 @@ export const layerSchema: yup.ObjectSchema<Layer> = yup.object({
     ])
     .default("normal"),
   mask: layerMaskSchema,
+  clippingMask: yup.bool().default(false),
 });
 
 export const getDefaultLayer = (properties?: Partial<Layer>): Layer =>
