@@ -890,6 +890,14 @@ Full schema:
                 }
               }
             }
+          },
+          "clippingMask": {
+            "optional": true,
+            "nullable": false,
+            "type": "boolean",
+            "oneOf": [],
+            "notOneOf": [],
+            "tests": []
           }
         }
       }
