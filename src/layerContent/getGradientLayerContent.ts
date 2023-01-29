@@ -13,9 +13,9 @@ import {
 export const getGradientLayerContent = async (
   layerContent: GradientLayerContent,
   workflow: Workflow
-): Promise<any> => {
+): Promise<Jimp | null> => {
   if (!layerContent.color?.from || !layerContent.color?.to) {
-    return;
+    return null;
   }
 
   const isLinear = layerContent.direction === "linear";
