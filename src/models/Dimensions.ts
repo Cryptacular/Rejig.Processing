@@ -6,8 +6,8 @@ export interface Dimensions {
 }
 
 export const dimensionsSchema: yup.ObjectSchema<Dimensions> = yup.object({
-  width: yup.number().min(0).default(0),
-  height: yup.number().min(0).default(0),
+  width: yup.number().min(0).default(512),
+  height: yup.number().min(0).default(512),
 });
 
 export const getDefaultDimensions = (
