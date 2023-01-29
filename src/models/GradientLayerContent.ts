@@ -13,7 +13,7 @@ export interface GradientLayerContent extends LayerContent {
   direction?: "linear" | "radial";
 }
 
-export const GradientLayerContentSchema: yup.ObjectSchema<GradientLayerContent> =
+export const gradientLayerContentSchema: yup.ObjectSchema<GradientLayerContent> =
   yup.object({
     type: yup.string().oneOf(["gradient"]).default("gradient").required(),
     color: yup.object({
@@ -29,4 +29,4 @@ export const GradientLayerContentSchema: yup.ObjectSchema<GradientLayerContent> 
 
 export const getDefaultGradientLayerContent = (
   properties?: Partial<GradientLayerContent>
-): GradientLayerContent => GradientLayerContentSchema.cast(properties);
+): GradientLayerContent => gradientLayerContentSchema.cast(properties);

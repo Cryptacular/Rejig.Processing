@@ -7,6 +7,7 @@ import { Workflow } from "../models/Workflow";
 import { getGradientLayerContent } from "./getGradientLayerContent";
 import { getImageLayerContent } from "./getImageLayerContent";
 import { getSolidLayerContent } from "./getSolidLayerContent";
+import { getWorkflowLayerContent } from "./getWorkflowLayerContent";
 
 export interface RenderedLayer {
   image: Jimp;
@@ -33,6 +34,11 @@ export const renderLayer = async (
         getDefaultGradientLayerContent(layer.content),
         workflow
       );
+      break;
+
+    case "workflow":
+      layerContent = await getWorkflowLayerContent(layer.content);
+      break;
   }
 
   if (!layerContent) {

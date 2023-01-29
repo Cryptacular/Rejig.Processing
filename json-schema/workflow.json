@@ -12,11 +12,13 @@
       "properties": {
         "width": {
           "type": "number",
-          "minimum": 0
+          "minimum": 0,
+          "default": 512
         },
         "height": {
           "type": "number",
-          "minimum": 0
+          "minimum": 0,
+          "default": 512
         }
       }
     },
@@ -54,7 +56,8 @@
                 "enum": [
                   "image",
                   "solid",
-                  "gradient"
+                  "gradient",
+                  "workflow"
                 ],
                 "default": "solid"
               }
@@ -164,7 +167,8 @@
                     "enum": [
                       "image",
                       "solid",
-                      "gradient"
+                      "gradient",
+                      "workflow"
                     ],
                     "default": "solid"
                   }
@@ -290,12 +294,12 @@
     "created": {
       "type": "string",
       "format": "date-time",
-      "default": "2023-01-16T03:17:33.876Z"
+      "default": "2023-01-29T23:11:07.174Z"
     },
     "modified": {
       "type": "string",
       "format": "date-time",
-      "default": "2023-01-16T03:17:33.876Z"
+      "default": "2023-01-29T23:11:07.174Z"
     }
   }
 }

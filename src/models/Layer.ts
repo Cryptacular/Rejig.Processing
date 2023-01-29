@@ -8,11 +8,16 @@ import { SolidLayerContent } from "./SolidLayerContent";
 import { layerContentSchema } from "./LayerContent";
 import { GradientLayerContent } from "./GradientLayerContent";
 import { LayerMask, layerMaskSchema } from "./LayerMask";
+import { WorkflowLayerContent } from "./WorkflowLayerContent";
 
 export interface Layer {
   id?: string;
   name?: string;
-  content?: ImageLayerContent | SolidLayerContent | GradientLayerContent;
+  content?:
+    | ImageLayerContent
+    | SolidLayerContent
+    | GradientLayerContent
+    | WorkflowLayerContent;
   position?: Position;
   origin?: Origin;
   alignment?: Origin;

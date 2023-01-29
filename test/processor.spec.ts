@@ -10,6 +10,9 @@ import { getDefaultGradientLayerContent } from "../src/models/GradientLayerConte
 import { Origin } from "../src/models/Origin";
 import { saveImage } from "../src/utilities/saveImage";
 import { diffPercentage } from "./utilities/diffPercentage";
+import { get } from "../src/utilities/httpClient";
+
+jest.mock("../src/utilities/httpClient");
 
 describe("Processor", () => {
   beforeAll(() => {
@@ -36,6 +39,67 @@ describe("Processor", () => {
 
     expect(image.getWidth()).toBe(10);
     expect(image.getHeight()).toBe(20);
+  });
+
+  describe("[workflow]", () => {
+    it("does nothing if 'workflow' is not set", async () => {
+      const workflow = getDefaultWorkflow({
+        layers: [{ content: { type: "workflow" } }],
+      });
+
+      const image = await processWorkflow(workflow);
+      const filename = "workflow-content-workflow-not-set";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
+
+    it("throws an error if workflow name is not valid", async () => {
+      const workflow = getDefaultWorkflow({
+        layers: [
+          {
+            content: {
+              type: "workflow",
+              workflow: "NOT_A_VALID_WORKFLOW_NAME",
+            },
+          },
+        ],
+      });
+
+      let error = null;
+      try {
+        await processWorkflow(workflow);
+      } catch (e) {
+        error = e;
+      }
+
+      expect(error).not.toBeNull();
+    });
+
+    it("pulls and processes workflow as a layer when workflow name is valid and exists", async () => {
+      (get as any).mockResolvedValue({
+        size: { width: 50, height: 50 },
+        layers: [{ content: getDefaultGradientLayerContent() }],
+      });
+      const workflow = getDefaultWorkflow({
+        layers: [
+          {
+            content: { type: "workflow", workflow: "user/workflow:1" },
+          },
+          {
+            content: { type: "workflow", workflow: "user/workflow" },
+            origin: "bottom right",
+            alignment: "bottom right",
+          },
+        ],
+      });
+
+      const image = await processWorkflow(workflow);
+      const filename = "workflow-content-valid-workflow-name";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
   });
 
   describe("[clippingMask]", () => {
@@ -996,4 +1060,8 @@ const saveArtifact = async (
   format: Workflow["format"] = "png"
 ) => {
   await saveImage(image, path.resolve(`./test/artifacts/${name}.${format}`));
+};
+
+const mockHttpGet = (returnValue: any): void => {
+  (get as any).mockResolvedValue(returnValue);
 };

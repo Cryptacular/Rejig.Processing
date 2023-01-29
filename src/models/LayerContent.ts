@@ -11,15 +11,19 @@ import {
   getDefaultSolidLayerContent,
   SolidLayerContent,
 } from "./SolidLayerContent";
+import {
+  getDefaultWorkflowLayerContent,
+  WorkflowLayerContent,
+} from "./WorkflowLayerContent";
 
 export interface LayerContent {
-  type: "image" | "solid" | "gradient";
+  type: "image" | "solid" | "gradient" | "workflow";
 }
 
 export const layerContentSchema = yup.object({
   type: yup
     .string()
-    .oneOf(["image", "solid", "gradient"])
+    .oneOf(["image", "solid", "gradient", "workflow"])
     .default("solid")
     .required(),
 });
@@ -41,6 +45,11 @@ export const getDefaultLayerContent = (
     case "gradient":
       return getDefaultGradientLayerContent(
         properties as Partial<GradientLayerContent>
+      );
+
+    case "workflow":
+      return getDefaultWorkflowLayerContent(
+        properties as Partial<WorkflowLayerContent>
       );
 
     default:

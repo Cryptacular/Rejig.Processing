@@ -602,7 +602,8 @@ Full schema:
                 "oneOf": [
                   "image",
                   "solid",
-                  "gradient"
+                  "gradient",
+                  "workflow"
                 ],
                 "notOneOf": [],
                 "tests": [
@@ -777,7 +778,8 @@ Full schema:
                     "oneOf": [
                       "image",
                       "solid",
-                      "gradient"
+                      "gradient",
+                      "workflow"
                     ],
                     "notOneOf": [],
                     "tests": [
