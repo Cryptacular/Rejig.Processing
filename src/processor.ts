@@ -4,7 +4,14 @@ import { getJimpBlendingMode } from "./utilities/getJimpBlendingMode";
 import { renderLayer } from "./layerContent";
 import { Layer } from "./models/Layer";
 
-export const processWorkflow = async (workflow: Workflow): Promise<Jimp> => {
+export interface IProcessWorkflowOptions {
+  cacheDir?: string;
+}
+
+export const processWorkflow = async (
+  workflow: Workflow,
+  options?: IProcessWorkflowOptions
+): Promise<Jimp> => {
   await validate(workflow);
 
   const output = await Jimp.create(workflow.size.width, workflow.size.height);
@@ -14,7 +21,7 @@ export const processWorkflow = async (workflow: Workflow): Promise<Jimp> => {
   const layersToComposite: LayerToComposite[] = [];
 
   for (let layer of layers) {
-    const renderedLayer = await renderLayer(workflow, layer);
+    const renderedLayer = await renderLayer(workflow, layer, options);
 
     if (!renderedLayer) {
       continue;

@@ -4,6 +4,7 @@ import { Layer } from "../models/Layer";
 import { LayerMask } from "../models/LayerMask";
 import { getDefaultOrigin } from "../models/Origin";
 import { Workflow } from "../models/Workflow";
+import { IProcessWorkflowOptions } from "../processor";
 import { getGradientLayerContent } from "./getGradientLayerContent";
 import { getImageLayerContent } from "./getImageLayerContent";
 import { getSolidLayerContent } from "./getSolidLayerContent";
@@ -16,7 +17,8 @@ export interface RenderedLayer {
 
 export const renderLayer = async (
   workflow: Workflow,
-  layer: Layer | LayerMask
+  layer: Layer | LayerMask,
+  options?: IProcessWorkflowOptions
 ): Promise<RenderedLayer | null> => {
   let layerContent: Jimp | null = null;
 
@@ -37,7 +39,7 @@ export const renderLayer = async (
       break;
 
     case "workflow":
-      layerContent = await getWorkflowLayerContent(layer.content);
+      layerContent = await getWorkflowLayerContent(layer.content, options);
       break;
   }
 

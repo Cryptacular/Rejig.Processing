@@ -294,12 +294,12 @@
     "created": {
       "type": "string",
       "format": "date-time",
-      "default": "2023-01-29T23:11:07.174Z"
+      "default": "2023-01-30T00:00:48.954Z"
     },
     "modified": {
       "type": "string",
       "format": "date-time",
-      "default": "2023-01-29T23:11:07.174Z"
+      "default": "2023-01-30T00:00:48.954Z"
     }
   }
 }

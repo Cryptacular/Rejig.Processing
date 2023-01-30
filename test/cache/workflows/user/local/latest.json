@@ -1,0 +1,28 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Cryptacular/Rejig.Processing/master/json-schema/workflow.json",
+  "size": {
+    "width": 512,
+    "height": 512
+  },
+  "layers": [
+    {
+      "content": {
+        "type": "gradient",
+        "color": {
+          "from": {
+            "r": 255,
+            "g": 122,
+            "b": 0,
+            "a": 1
+          },
+          "to": {
+            "r": 0,
+            "g": 122,
+            "b": 122,
+            "a": 1
+          }
+        }
+      }
+    }
+  ]
+}

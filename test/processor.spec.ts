@@ -100,6 +100,24 @@ describe("Processor", () => {
 
       expect(await diffPercentage(filename)).toBe(0);
     });
+
+    it("pulls workflow from local folder if it exists and cache directory is provided", async () => {
+      const workflow = getDefaultWorkflow({
+        layers: [
+          {
+            content: { type: "workflow", workflow: "user/local" },
+          },
+        ],
+      });
+
+      const image = await processWorkflow(workflow, {
+        cacheDir: "./test/cache",
+      });
+      const filename = "workflow-content-local-cache";
+      await saveArtifact(image, filename);
+
+      expect(await diffPercentage(filename)).toBe(0);
+    });
   });
 
   describe("[clippingMask]", () => {
