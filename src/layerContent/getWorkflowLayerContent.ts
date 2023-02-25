@@ -37,9 +37,7 @@ export const getWorkflowLayerContent = async (
 
   if (!workflow) {
     workflow = await get(
-      `${REJIG_BASE_URL}/api/workflow/${encodeURIComponent(
-        layerContent.workflow
-      )}`
+      `${REJIG_BASE_URL}/api/user/${layerContent.workflow}/manifest`
     );
   }
 
