@@ -38,6 +38,7 @@
   "dependencies": {
     "@types/node-fetch": "^2.6.2",
     "@types/uuid": "^8.3.4",
+    "canvas": "^2.11.0",
     "jimp": "^0.16.1",
     "node-fetch": "^2.6.8",
     "uuid": "^8.3.2",

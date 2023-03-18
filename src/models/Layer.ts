@@ -9,6 +9,7 @@ import { layerContentSchema } from "./LayerContent";
 import { GradientLayerContent } from "./GradientLayerContent";
 import { LayerMask, layerMaskSchema } from "./LayerMask";
 import { WorkflowLayerContent } from "./WorkflowLayerContent";
+import { TextLayerContent } from "./TextLayerContent";
 
 export interface Layer {
   id?: string;
@@ -17,7 +18,8 @@ export interface Layer {
     | ImageLayerContent
     | SolidLayerContent
     | GradientLayerContent
-    | WorkflowLayerContent;
+    | WorkflowLayerContent
+    | TextLayerContent;
   position?: Position;
   origin?: Origin;
   alignment?: Origin;

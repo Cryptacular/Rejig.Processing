@@ -8,6 +8,7 @@ import { IProcessWorkflowOptions } from "../processor";
 import { getGradientLayerContent } from "./getGradientLayerContent";
 import { getImageLayerContent } from "./getImageLayerContent";
 import { getSolidLayerContent } from "./getSolidLayerContent";
+import { getTextLayerContent } from "./getTextLayerContent";
 import { getWorkflowLayerContent } from "./getWorkflowLayerContent";
 
 export interface RenderedLayer {
@@ -41,6 +42,9 @@ export const renderLayer = async (
     case "workflow":
       layerContent = await getWorkflowLayerContent(layer.content, options);
       break;
+
+    case "text":
+      layerContent = await getTextLayerContent(layer.content, workflow);
   }
 
   if (!layerContent) {
